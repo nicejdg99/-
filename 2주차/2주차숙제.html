@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .all {
+            margin: 50px auto;
+            width: 600px;
+        }
+
+        .picture {
+
+            width: 600px;
+            height: 400px;
+            background-image: url('https://editorial.fxstreet.com/images/Markets/Commodities/Metals/Gold/stack-of-golden-bars-in-the-bank-vault-60756080_16x9.jpg');
+            background-position: center;
+            background-size: cover;
+            border-radius: 10px;
+            text-align: center;
+            padding-top: 40px;
+
+        }
+
+        .discription {
+            width: 100%;
+            height: 100%;
+            color: goldenrod;
+
+        }
+
+        .button123 {
+            width: 100%;
+            height: 100%;
+            color: goldenrod;
+
+        }
+
+        .input-group-prepend {
+            color: goldenrod;
+        }
+
+        .input-group-text {
+            color: white;
+            background-color: gold;
+        }
+
+        .btn-warning {
+            color: white;
+            margin: auto auto;
+
+        }
+
+        .custom-select {
+            color: gray;
+        }
+    </style>
+
+    <script>
+        function myalert() {
+            let custom_name = $('#custom_name').val();
+            let product_number = $('#product_number').val();
+            let address = $('#address').val();
+            let phone_number = $('#phone_number').val();
+
+            if (custom_name == '') {
+                alert('성함을 입력하세요')
+            }
+            else if (product_number == '- 수량 -') {
+                alert('수량을 입력하세요')
+            } else if (address == '') {
+                alert('주소를 입력하세요')
+            } else if (phone_number == '') {
+                alert('번호를 입력하세요')
+            } else { alert('감사합니다') }
+
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "https://api.manana.kr/exchange/rate.json",
+            data: {},
+            success: function (response) {
+                let rate = response["rate"];
+                for (let i = 0; i < rate.length; i++) {
+                    let Usrate = rate[i];
+                    console.log(Usrate);
+                }
+            },
+        });
+
+    </script>
+
+
+    <title>숙제</title>
+</head>
+
+<body>
+    <div class="all">
+
+        <div class="picture">
+        </div>
+
+        <div class="discription">
+            <span style="font-size: 30px">마법의 골드바</span>
+            <span>$10000/개당</span>
+            <p> 요즘같은 불경기에 밥을 먹지 않아도 여러분을 배부르게 만들어줄 골드바입니다.</p>
+
+        </div>
+
+        <div class="button123">
+            <h3>주문하기</h3>
+            <p></p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">주문자 성함</span>
+                </div>
+                <input type="text" class="form-control" id="custom_name" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">수량</span>
+                </div>
+                <select class="custom-select" id="product_number">
+                    <option selected>- 수량 -</option>
+                    <option value="1">1개</option>
+                    <option value="2">2개</option>
+                    <option value="3">3개</option>
+                </select>
+            </div>
+            <p></p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">주소</span>
+                </div>
+                <input type="text" class="form-control" id="address" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">전화번호</span>
+                </div>
+                <input type="text" class="form-control" id="phone_number" aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default">
+            </div>
+        </div>
+        <p></p>
+        <button type="button" class="btn btn-warning" onclick="myalert()">주문하기</button>
+    </div>
+
+
+
+</body>
+
+</html>
