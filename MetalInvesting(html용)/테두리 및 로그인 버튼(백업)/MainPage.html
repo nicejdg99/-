@@ -42,7 +42,7 @@
         .mytitle {
             color: whitesmoke;
             width: 90%;
-            height: 100px;
+            height: 90px;
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Black.png/330px-Black.png');
             background-position: center;
             background-size: cover;
@@ -55,7 +55,7 @@
             background-image: url(https://www.logolynx.com/images/logolynx/86/8646e3a53f7bdd693338ec1297a1c964.png);
             background-size: cover;
             width: 222px;
-            height: 70px;
+            height: 40px;
             vertical-align: top;
             background-position: center;
 
@@ -72,36 +72,8 @@
             margin: -50px 150px;
             width: 250px;
         }
-
-        .blank {
-            margin: auto;
-            width: 100%;
-        }
-
-        #insert_table {
-            margin: 30px auto;
-        }
     </style>
-    <script>
-        $(document).ready(function () {
-            $("input:text[numberOnly]").on("focus", function () {
-                var x = $(this).val();
-                x = removeCommas(x);
-                $(this).val(x);
-            }).on("focusout", function () {
-                var x = $(this).val();
-                if (x && x.length > 0) {
-                    if (!$.isNumeric(x)) {
-                        x = x.replace(/[^0-9]/g, "");
-                    }
-                    x = addCommas(x);
-                    $(this).val(x);
-                }
-            }).on("keyup", function () {
-                $(this).val($(this).val().replace(/[^0-9]/g, ""));
-            });
-        })
-    </script>
+    </style>
 </head>
 
 <body>
@@ -118,20 +90,19 @@
                                 aria-label="Recipient's username with two button addons"
                                 aria-describedby="button-addon4">
                             <div class="input-group-append" id="button-addon4">
-                                <button
-                                    type="submithttps://images.pexels.com/photos/376723/pexels-photo-376723.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                    class="btn btn-outline-secondary">입력</button>
-                                <button type="submit" class=" btn btn-outline-secondary">등록</button>
+                                <button class="btn btn-outline-secondary" type="button">입력</button>
+                                <button class="btn btn-outline-secondary" type="button">등록</button>
                             </div>
                         </div>
                 </div>
 
             </div>
+
             <!-- ##테이블은 여기로 -->
             <!-- 입력 테이블 -->
             <div>
-                <h1></h1>
-                <table class="table table-striped table-dark" id="insert_table">
+                <h1 class="table1">★입력</h1>
+                <table class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th scope="col">날짜</th>
@@ -142,110 +113,90 @@
                             <th scope="col">금액</th>
                             <th scope="col">g당 단가</th>
                             <th scope="col">수익률</th>
-                            <th scope="col">추가</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <!-- 날짜 -->
-                            <th scope="row">
-                                <div>
-                                    <label></label>
-                                    <p><input type="date"></p>
-                                </div>
-
-                            </th>
+                            <!-- 1대신 날짜 -->
+                            <th scope="row">ex 6.21.</th>
                             <!-- 브랜드 -->
                             <td>
                                 <div class="form-group">
-                                    <label></label>
+                                    <label for="exampleFormControlSelect1"></label>
                                     <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>한국금거래소</option>
-                                        <option>기타</option>
+                                      <option>한국금거래소</option>
+                                      <option>기타</option>
                                     </select>
-                                </div>
+                                  </div>
                             </td>
                             <!-- 종류 -->
                             <td>
                                 <div class="form-group">
-                                    <label></label>
+                                    <label for="exampleFormControlSelect1"></label>
                                     <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>금</option>
-                                        <option>은</option>
-                                        <option>백금</option>
+                                      <option>금</option>
+                                      <option>은</option>
+                                      <option>백금</option>
                                     </select>
-                                </div>
+                                  </div>
                             </td>
                             <!-- 중량 -->
                             <td>
                                 <div class="form-group">
-                                    <label></label>
+                                    <label for="exampleFormControlSelect1"></label>
                                     <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>3.75g</option>
-                                        <option>37.5g</option>
-                                        <option>100g</option>
-                                        <option>500g</option>
-                                        <option>1000g</option>
+                                      <option>3.75g</option>
+                                      <option>37.5g</option>
+                                      <option>100g</option>
+                                      <option>500g</option>
+                                      <option>1000g</option>
                                     </select>
-                                </div>
+                                  </div>
                             </td>
                             <!-- 개수 -->
                             <td>
                                 <div class="form-group">
-                                    <label></label>
+                                    <label for="exampleFormControlSelect1"></label>
                                     <select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>...</option>
+                                      <option>1</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                      <option>6</option>
+                                      <option>7</option>
+                                      <option>8</option>
+                                      <option>9</option>
+                                      <option>10</option>
+                                      <option>기타</option>
                                     </select>
-                                </div>
+                                  </div>
                             </td>
                             <!-- 금액 -->
-                            <td>
-                                <form>
-                                    <div class="form-group">
-                                        <label></label>
-                                        <input type="text" class="form-control" placeholder="금액을 입력하세요" numberOnly>
-                                        <small id="emailHelp" class="form-text text-muted">숫자만 입력하세요</small>
-                                    </div>
-                            </td>
+                            <td>ex 800000</td>
                             <!-- g당 단가 -->
-                            <td>
-                                <label></label>
-                                <input class="form-control" type="text" placeholder="계산된 금액" readonly></td>
+                            <td>ex 800</td>
                             <!-- 수익률 -->
-                            <td>
-                                <label></label>
-                                <input class="form-control" type="text" placeholder="계산된 수익률" readonly></td>
-                            <td>
-                                <label></label>
-                                <button type="button" class="btn btn-secondary">등록</button></td>
+                            <td>ex 5%</td>
                         </tr>
             </div>
 
-            <!-- 보유현황 테이블 -->
             <div>
                 </tbody>
-                <table class="table table-striped table-dark" id="result_table">
+                <!-- 보유현황 테이블 -->
+                <h1 class="table2">★보유현황</h1>
+                <table class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th scope="col">날짜</th>
                             <th scope="col">브랜드</th>
                             <th scope="col">종류</th>
-                            <th scope="col">중량</th>
+                            <th scope="col">중량/th>
                             <th scope="col">개수</th>
                             <th scope="col">금액</th>
                             <th scope="col">g당 단가</th>
                             <th scope="col">수익률</th>
-                            <th scope="col">삭제</th>
+                            <th scope="col">수정</th>
                         </tr>
                     </thead>
                     <tbody>

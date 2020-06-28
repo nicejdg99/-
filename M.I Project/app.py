@@ -1,5 +1,6 @@
 ## 건드리지 않는 부분
 from flask import Flask, render_template, jsonify, request
+from bson.objectid import ObjectId
 app = Flask(__name__)
 
 from pymongo import MongoClient           # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
@@ -14,15 +15,15 @@ def home():
 ## API 역할을 하는 부분
 # 입력시 내가 입력한 값들이 DB와 밑에 입력되는 API
 @app.route('/postmetal', methods=['POST'])
-def post_metal():
+def post_metal_post():
+    # {"user": "lopun", "date_give": }
     date_receive = request.form['date_give']
     brand_receive = request.form['brand_give']
     kinds_receive = request.form['kinds_give']
     weights_receive = request.form['weights_give']
     count_receive = request.form['count_give']
     money_receive = request.form['money_give']
-    grams_receive = request.form['grams_give']
-    profit_receive = request.form['profit_give']
+
 
     doc = {
         'date':date_receive,
@@ -31,8 +32,6 @@ def post_metal():
         'weights':weights_receive,
         'count':count_receive,
         'money':money_receive,
-        'grams':grams_receive,
-        'profit':profit_receive,
     }
     db.postmetal.insert_one(doc)
     
@@ -40,11 +39,28 @@ def post_metal():
 
 # 로그인시 자료를 내려오는 API
 @app.route('/postmetal', methods=['GET'])
-def post_metal():
+def post_metal_get():
+    postings = list(db.postmetal.find({}))
+    posting_to_return = []
+    for post in postings:
+        print(post)
+        posting_to_return.append({
+            'id': str(post['_id']),
+                    'date':post['date'],
+        'brand':post['brand'],
+        'kinds':post['kinds'],
+        'weights':post['weights'],
+        'count':post['count'],
+        'money':post['money'],
+        })
     
-    postings = list(db.postmetal.find({},{'_id:0'}))
+    return jsonify({'result':'success', 'all_posting' : posting_to_return})
 
-    return jsonify({'result':'success', 'all_posting' : postings})
+@app.route('/api/delete', methods=['POST'])
+def delete_list():
+    id_receive = request.form['id_give']
+    db.postmetal.delete_one({'_id':ObjectId(id_receive)})
+    return jsonify({'result': 'success'})
 
 ## 건드리지 않는 부분
 if __name__ == '__main__':
