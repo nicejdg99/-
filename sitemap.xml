@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://fuego.kr/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://fuego.kr/tools.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://fuego.kr/guides.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/about.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://fuego.kr/carousel.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/jpg-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/pdf-editor.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/image-convert.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/pdf-compress.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/image-compress.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://fuego.kr/guide-conference-slide.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://fuego.kr/guide-image-compress.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fuego.kr/guide-photos-to-pdf.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://fuego.kr/guide-webp-to-jpg.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>

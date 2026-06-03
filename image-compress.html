@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이미지 압축 — 사진 용량·크기 줄이기 | 푸에고</title>
+<meta name="description" content="사진 용량을 줄이고 크기(픽셀)를 조절합니다. 여러 장 한 번에. 광고 없이, 무료, 파일 서버 전송 없음.">
+<meta name="keywords" content="이미지 압축, 사진 용량 줄이기, 사진 크기 줄이기, 이미지 리사이즈, 무료 이미지 압축, 사진 최적화">
+<meta property="og:title" content="이미지 압축 — 푸에고">
+<meta property="og:description" content="사진 용량·크기 줄이기. 여러 장 한 번에. 무료, 서버 전송 없음.">
+<meta property="og:image" content="https://fuego.kr/og-imgcompress.png">
+<meta property="og:url" content="https://fuego.kr/image-compress.html">
+<link rel="canonical" href="https://fuego.kr/image-compress.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"이미지 압축","url":"https://fuego.kr/image-compress.html","applicationCategory":"UtilitiesApplication","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"description":"사진 용량과 크기를 줄여 주는 무료 온라인 도구. 광고 없이, 서버 전송 없음.","publisher":{"@type":"Organization","name":"With Fuego"}}
+</script>
+<style>
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--sf3:#242424;--bd:#262626;--bd2:#3a3a3a;--tx:#f0f0f0;--tm:#777;--ac:#e23b3b;--ach:#e85a5a;--dg:#e05555;--sc:#4caf80;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+.site-nav{position:sticky;top:0;z-index:200;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,59,59,.1)}
+
+.nav-right{display:flex;align-items:center;gap:14px}
+.nlink{color:var(--tm);font-size:12px;font-weight:500;text-decoration:none;transition:color .2s}.nlink:hover{color:var(--ac)}
+.site-nav .dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:2px}.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}.dd-panel a:hover{background:var(--sf2);color:var(--ac)}.dd-panel a.cur{color:var(--ac);background:rgba(226,59,59,.08)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}.dd-soon .bdg{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}.dd-all:hover{color:#fff!important}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr;gap:6px;padding:12px;max-height:72vh;overflow-y:auto}.dd-panel a{padding:7px 8px}}
+.site-nav .logo{font-size:18px;font-weight:800;color:var(--tx);text-decoration:none;letter-spacing:-1px;display:flex;align-items:center}
+.site-nav a.back{color:var(--tm);font-size:12px;text-decoration:none;transition:color .2s}
+.site-nav a.back:hover{color:var(--ac)}
+.app{max-width:880px;margin:0 auto;padding:24px 24px 80px}
+.ad-slot{max-width:728px;margin:16px auto;padding:8px;text-align:center;min-height:90px;display:flex;align-items:center;justify-content:center}
+.header{text-align:center;margin-bottom:20px}
+.header h1{font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.header h1 em{font-style:normal;color:var(--ac)}
+.header p{font-size:13px;color:var(--tm);font-weight:300}
+.help-row{text-align:center;margin-bottom:24px}
+.section{margin-bottom:28px}
+.section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--tm);margin-bottom:10px}
+.upload-zone{border:2px dashed var(--bd);border-radius:var(--r);padding:44px 24px;text-align:center;cursor:pointer;transition:all .25s;background:var(--sf)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--ac);background:rgba(226,59,59,.04)}
+.upload-zone .icon{font-size:32px;margin-bottom:10px;opacity:.5}
+.upload-zone .label{font-size:15px;font-weight:500;margin-bottom:6px}
+.upload-zone .sub{font-size:12px;color:var(--tm);line-height:1.6}
+.settings-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:600;color:var(--tx)}
+.field .desc{font-size:11px;color:var(--tm);font-weight:400}
+.cr{display:flex;align-items:center;gap:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:9px 12px}
+.cr input[type="range"]{flex:1;accent-color:var(--ac);cursor:pointer}
+.cr .val{font-size:12px;color:var(--ac);font-weight:600;min-width:42px;text-align:right}
+.wrow{display:flex;gap:8px;align-items:center}
+.wrow input[type="number"]{flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;font-size:14px;color:var(--tx);font-family:inherit;outline:none}
+.wrow input[type="number"]:focus{border-color:var(--ac)}
+.wrow .unit{font-size:12px;color:var(--tm)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:var(--sf2);border:1px solid var(--bd);border-radius:14px;padding:5px 12px;font-size:11px;color:var(--tm);cursor:pointer;font-family:inherit;transition:all .15s}
+.chip:hover,.chip.active{border-color:var(--ac);color:var(--ac)}
+.image-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.image-card{position:relative;border-radius:8px;overflow:hidden;background:var(--sf2);border:1px solid var(--bd)}
+.image-card .thumb{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.image-card .ca{position:absolute;top:5px;right:5px}
+.image-card .del{width:24px;height:24px;border-radius:50%;border:none;background:rgba(224,85,85,.9);color:#fff;font-size:12px;cursor:pointer}
+.image-card .meta{padding:7px 9px;font-size:10px;color:var(--tm);line-height:1.5}
+.image-card .meta .nm{color:var(--tx);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
+.image-card .meta .res{display:flex;justify-content:space-between;margin-top:3px}
+.image-card .meta .res .new{color:var(--sc);font-weight:600}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.info-line{font-size:11px;color:var(--tm);margin-bottom:10px;padding:8px 12px;background:var(--sf);border:1px solid var(--bd);border-radius:6px}
+.btn{padding:11px 20px;border-radius:8px;border:none;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--ac);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--ach)}
+.btn-secondary{background:var(--sf3);color:var(--tx);border:1px solid var(--bd)}
+.btn-secondary:hover:not(:disabled){background:var(--bd)}
+.btn-danger{background:transparent;color:var(--dg);border:1px solid var(--dg)}
+.btn-danger:hover:not(:disabled){background:rgba(224,85,85,.1)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;backdrop-filter:blur(4px)}
+.mo.active{display:flex;align-items:center;justify-content:center}
+.modal{background:var(--sf);border-radius:12px;width:90vw;max-width:620px;max-height:85vh;overflow:hidden;border:1px solid var(--bd)}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--bd)}
+.mh h3{font-size:14px;font-weight:600}
+.mc{width:30px;height:30px;border-radius:50%;border:none;background:var(--sf3);color:var(--tx);font-size:14px;cursor:pointer}
+.mb{padding:18px;overflow-y:auto;max-height:calc(85vh - 56px)}
+.help-step{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--bd)}
+.help-step:last-of-type{border-bottom:none}
+.help-step .hs-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.help-step .hs-body h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.help-step .hs-body p{font-size:12.5px;color:var(--tm);line-height:1.65}
+.help-step .hs-body .tip{color:var(--ac);font-size:11.5px;margin-top:4px}
+.faq-section{margin-top:24px}
+.faq-section .faq-title{font-size:13px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.faq-item{border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.faq-q{padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--sf2)}
+.faq-q:hover{background:var(--sf3)}
+.faq-q .ar{color:var(--ac);transition:transform .2s;font-size:11px}
+.faq-item.open .faq-q .ar{transform:rotate(90deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;font-size:12.5px;color:var(--tm);line-height:1.7}
+.faq-item.open .faq-a{max-height:340px;padding:12px 14px}
+.help-cta{display:block;text-align:center;background:var(--ac);color:#fff;padding:12px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px;cursor:pointer}
+.lo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.lo.active{display:flex}
+.spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lt{color:var(--tm);font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sc);color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:2000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#c0392b}
+footer{border-top:1px solid var(--bd);padding:24px;text-align:center;margin-top:40px}
+footer p{font-size:11px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}
+footer a:hover{color:var(--ac)}
+.seo-box{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:22px 20px}
+.seo-box h2{font-size:17px;font-weight:700;margin-bottom:12px;color:var(--tx)}
+.seo-box p{font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:12px}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<div class="site-nav"><a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="fuego" style="height:26px;width:auto;vertical-align:middle"><span style="margin-left:6px;vertical-align:middle">fuego</span></a><div><div class="nav-right"><div class="dropdown" id="toolsDd"><button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button><div class="dd-panel"><div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF</span></div><a href="jpg-to-pdf.html"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a><a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a><a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a></div><div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image</span></div><a href="carousel.html"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a><a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a><a href="image-compress.html" class="cur"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a></div><div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트</span><span class="i18n-en">AI prompt</span></div><div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="bdg"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div></div><a href="tools.html" class="dd-all"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a></div></div><div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div><button class="lang-btn" onclick="toggleLang()"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button></div></div></div>
+<div class="app">
+  <div class="header"><h1><span class="i18n-ko">이미지 <em>압축</em></span><span class="i18n-en">Image <em>Compress</em></span></h1><p><span class="i18n-ko">사진 용량을 줄이고 크기를 조절합니다</span><span class="i18n-en">Reduce photo file size and dimensions</span></p></div>
+  <div class="help-row"><button class="btn btn-secondary btn-sm" onclick="openM('helpM')">❓ <span class="i18n-ko">사용법 보기</span><span class="i18n-en">How to use</span></button></div>
+  <div class="ad-slot"></div>
+  <div class="section">
+    <div class="section-title"><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></div>
+    <div class="upload-zone" id="uz" role="button" tabindex="0" aria-label="Upload images"><div class="icon">🖼️</div><div class="label"><span class="i18n-ko">클릭하거나 이미지를 끌어다 놓으세요</span><span class="i18n-en">Click or drag your images here</span></div><div class="sub"><span class="i18n-ko">JPG · PNG · WEBP · 여러 장 한 번에</span><span class="i18n-en">JPG · PNG · WEBP · many at once</span></div></div>
+    <input type="file" id="fi" multiple accept="image/*" style="display:none">
+  </div>
+  <div class="section" id="setSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">2. 설정</span><span class="i18n-en">2. Settings</span></div>
+    <div class="settings-grid">
+      <div class="field">
+        <label><span class="i18n-ko">품질 (압축 강도)</span><span class="i18n-en">Quality (compression)</span> <span class="desc">— <span class="i18n-ko">낮출수록 용량이 작아져요</span><span class="i18n-en">lower = smaller file</span></span></label>
+        <div class="cr"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">작게</span><span class="i18n-en">Small</span></span><input type="range" id="qs" min="30" max="100" value="75"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">고화질</span><span class="i18n-en">High</span></span><span class="val" id="qv">75%</span></div>
+      </div>
+      <div class="field">
+        <label><span class="i18n-ko">가로 크기 (선택)</span><span class="i18n-en">Width (optional)</span> <span class="desc">— <span class="i18n-ko">비우면 원본 크기 유지</span><span class="i18n-en">leave empty to keep original</span></span></label>
+        <div class="wrow"><input type="number" id="maxw" min="50" max="10000" placeholder="예: 1000"><span class="unit">px</span></div>
+        <div class="chips" id="wchips">
+          <button class="chip" data-w="">원본</button>
+          <button class="chip" data-w="2000">2000px</button>
+          <button class="chip" data-w="1280">1280px</button>
+          <button class="chip" data-w="1000">1000px</button>
+          <button class="chip" data-w="800">800px</button>
+          <button class="chip" data-w="500">500px</button>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="i18n-ko">저장 형식</span><span class="i18n-en">Output format</span></label>
+        <div class="wrow"><select id="fmt" style="flex:1;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;font-size:14px;color:var(--tx);font-family:inherit;outline:none">
+          <option value="keep" data-ko="원본 형식 유지" data-en="Keep original">원본 형식 유지</option>
+          <option value="jpeg" data-ko="JPG (작은 용량)" data-en="JPG (small)">JPG (작은 용량)</option>
+          <option value="webp" data-ko="WEBP (가장 작음)" data-en="WEBP (smallest)">WEBP (가장 작음)</option>
+          <option value="png" data-ko="PNG (투명 유지)" data-en="PNG (keeps transparency)">PNG (투명 유지)</option>
+        </select></div>
+      </div>
+    </div>
+  </div>
+  <div class="section" id="imgSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">미리보기</span><span class="i18n-en">Preview</span> <span id="cnt" style="color:var(--ac)"></span></div>
+    <div class="info-line" id="infoLine"></div>
+    <div class="image-grid" id="ig"></div>
+  </div>
+  <div class="ad-slot"></div>
+  <div class="section" id="actSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">3. 압축 &amp; 다운로드</span><span class="i18n-en">3. Compress &amp; download</span></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="processAll('zip')">⬇ <span class="i18n-ko">전체 압축 다운로드 (ZIP)</span><span class="i18n-en">Compress all &amp; download (ZIP)</span></button>
+      <button class="btn btn-secondary" onclick="processAll('each')"><span class="i18n-ko">개별 다운로드</span><span class="i18n-en">Download individually</span></button>
+      <button class="btn btn-danger" onclick="clearAll()"><span class="i18n-ko">전체 초기화</span><span class="i18n-en">Reset all</span></button>
+    </div>
+    <p style="font-size:11px;color:var(--tm);margin-top:8px;line-height:1.6"><span class="i18n-ko">미리보기의 예상 용량은 현재 설정 기준이에요. 설정을 바꾸면 자동으로 다시 계산됩니다.</span><span class="i18n-en">The estimated sizes above reflect your current settings and update automatically when you change them.</span></p>
+  </div>
+  <div class="section" id="privSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">파일은 안전합니다</span><span class="i18n-en">Your files are safe</span></div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:18px;font-size:13px;color:var(--tm);line-height:1.7"><span class="i18n-ko">🔒 업로드한 이미지는 서버로 전송되지 않습니다. 모든 처리는 브라우저 안에서만 이루어지며, 페이지를 닫으면 즉시 사라집니다.</span><span class="i18n-en">🔒 Your images are never sent to a server. All processing happens in your browser and disappears the moment you close the page.</span></div>
+  </div>
+  <div class="section" style="margin-top:8px">
+    <div class="seo-box">
+      <h2><span class="i18n-ko">사진 용량·크기를 줄이는 방법</span><span class="i18n-en">How to reduce photo size and dimensions</span></h2>
+      <p><span class="i18n-ko">이미지 압축 도구는 사진의 용량을 줄이고, 필요하면 가로 크기(픽셀)까지 한 번에 조절해 주는 무료 온라인 도구입니다. 품질 슬라이더로 용량을 줄이고, 가로 크기를 지정하면 큰 사진을 적당한 크기로 줄일 수 있습니다. 블로그·SNS 업로드, 이메일 첨부, 웹사이트용으로 사진을 가볍게 만들 때 좋습니다.</span><span class="i18n-en">This free online tool reduces a photo's file size and, if you want, its width in pixels at the same time. Use the quality slider to shrink the file, and set a width to scale down large photos. Great for making images lighter for blogs, social media, email, or websites.</span></p>
+      <p><span class="i18n-ko">여러 장을 한 번에 처리해 ZIP으로 받을 수 있고, 모든 작업은 브라우저 안에서만 이루어져 사진이 외부로 전송되지 않습니다.</span><span class="i18n-en">Process many images at once and download them as a ZIP. Everything runs in your browser, so your photos are never uploaded.</span></p>
+      <p style="font-size:12px;padding-top:12px;border-top:1px solid var(--bd)"><span class="i18n-ko">다른 도구: </span><span class="i18n-en">Other tools: </span><a href="image-convert.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a> · <a href="jpg-to-pdf.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">JPG→PDF 변환</span><span class="i18n-en">JPG→PDF</span></a></p>
+    </div>
+  </div>
+</div>
+<footer><p style="margin-bottom:6px;color:var(--tm);font-size:12px">a <strong style="color:var(--ac)">With Fuego</strong> product</p><p>© 2026 <a href="index.html">푸에고</a> (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html"><span class="i18n-ko">개인정보처리방침</span><span class="i18n-en">Privacy</span></a> · <a href="terms.html"><span class="i18n-ko">이용약관</span><span class="i18n-en">Terms</span></a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a> · <span class="i18n-ko">모든 파일은 브라우저에서만 처리됩니다.</span><span class="i18n-en">All files are processed in your browser only.</span></p></footer>
+<div class="mo" id="helpM"><div class="modal"><div class="mh"><h3>🖼️ <span class="i18n-ko">이미지 압축 사용법</span><span class="i18n-en">How to use Image Compress</span></h3><button class="mc" onclick="closeM('helpM')" aria-label="Close">✕</button></div><div class="mb">
+<p style="font-size:13px;color:var(--tm);line-height:1.7;margin-bottom:8px"><span class="i18n-ko">사진을 가볍게 만들어요. 용량을 줄이고, 원하면 크기(가로 픽셀)도 함께 조절할 수 있어요.</span><span class="i18n-en">Make photos lighter. Reduce the file size, and optionally scale down the width too.</span></p>
+<div class="help-step"><div class="hs-num">1</div><div class="hs-body"><h4><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></h4><p><span class="i18n-ko">사진을 끌어다 놓거나 클릭해서 올리세요. 여러 장도 한 번에 돼요.</span><span class="i18n-en">Drag your photos in or click to upload. Many at once is fine.</span></p></div></div>
+<div class="help-step"><div class="hs-num">2</div><div class="hs-body"><h4><span class="i18n-ko">2. 설정</span><span class="i18n-en">2. Settings</span></h4><p><span class="i18n-ko">품질을 낮추면 용량이 줄어요. 가로 크기를 정하면 큰 사진이 그 크기로 줄어듭니다(비우면 원본 크기 유지). 미리보기에서 줄어든 용량이 바로 보여요.</span><span class="i18n-en">Lower quality shrinks the file. Set a width to scale large photos down (leave empty to keep the original size). The preview shows the new size instantly.</span></p><p class="tip">💡 <span class="i18n-ko">블로그·웹은 보통 가로 1000~1280px이면 충분해요.</span><span class="i18n-en">For blogs/web, 1000–1280px wide is usually enough.</span></p></div></div>
+<div class="help-step"><div class="hs-num">3</div><div class="hs-body"><h4><span class="i18n-ko">3. 압축 &amp; 다운로드</span><span class="i18n-en">3. Compress &amp; download</span></h4><p><span class="i18n-ko">여러 장이면 ZIP 하나로, 한 장이면 바로 받을 수 있어요.</span><span class="i18n-en">Multiple images come as one ZIP; a single image downloads directly.</span></p></div></div>
+<div class="faq-section">
+<div class="faq-title"><span class="i18n-ko">자주 묻는 질문</span><span class="i18n-en">FAQ</span></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">'압축'과 '크기 조절'은 뭐가 다른가요?</span><span class="i18n-en">What's the difference between quality and width?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">품질(압축)은 사진의 픽셀 크기는 그대로 두고 용량만 줄여요. 가로 크기(리사이즈)는 사진의 실제 픽셀 크기를 줄이는 거예요. 둘을 같이 쓰면 용량이 가장 효과적으로 줄어요.</span><span class="i18n-en">Quality (compression) keeps the pixel dimensions but lowers file size. Width (resize) actually shrinks the pixel dimensions. Using both together reduces size most effectively.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">크기를 키울 수도 있나요?</span><span class="i18n-en">Can I enlarge an image?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">이 도구는 줄이는 용도예요. 원본보다 큰 가로 크기를 입력해도 화질이 좋아지지 않아요(원본보다 크게는 만들지 않습니다).</span><span class="i18n-en">This tool is for shrinking. Entering a width larger than the original won't improve quality (it won't upscale beyond the original).</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">투명 배경이 사라졌어요.</span><span class="i18n-en">My transparent background disappeared.</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">JPG는 투명도를 지원하지 않아 투명 부분이 흰색이 돼요. 투명 배경을 유지하려면 저장 형식을 PNG나 WEBP로 고르세요.</span><span class="i18n-en">JPG doesn't support transparency, so transparent areas turn white. To keep transparency, choose PNG or WEBP as the output format.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">제 사진이 서버에 올라가나요?</span><span class="i18n-en">Are my photos uploaded to a server?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">아니요. 모든 처리는 브라우저 안에서만 이루어집니다. 사진이 인터넷 어디로도 전송되지 않으며, 페이지를 닫으면 즉시 사라져요.</span><span class="i18n-en">No. Everything happens in your browser. Your photos are never sent anywhere and disappear the moment you close the page.</span></div></div>
+</div>
+<a class="help-cta" onclick="closeM('helpM')"><span class="i18n-ko">시작하기 →</span><span class="i18n-en">Get started →</span></a>
+</div></div></div>
+<div class="lo" id="loO"><div class="spinner"></div><div class="lt" id="loT">...</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+function trLang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'ko';}
+function tr(ko,en){return trLang()==='en'?en:ko;}
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l==='en'?'en':'ko');try{localStorage.setItem('fuego-lang',l)}catch(e){}; syncSelectLang();}
+function syncSelectLang(){document.querySelectorAll('#fmt option').forEach(function(o){o.textContent=trLang()==='en'?o.getAttribute('data-en'):o.getAttribute('data-ko');});var c=document.querySelector('#wchips .chip[data-w=""]');if(c)c.textContent=tr('원본','Original');}
+function toggleLang(){setLang(trLang()==='ko'?'en':'ko');render();updInfo();}
+(function(){var s=null;try{s=localStorage.getItem('fuego-lang')}catch(e){}; if(s==='ko'||s==='en'){setLang(s)} else {var nv=(navigator.language||'').toLowerCase(); if(nv&&!nv.startsWith('ko'))setLang('en');}})();
+
+let imgs=[],idc=0;
+const qs=document.getElementById('qs'),maxw=document.getElementById('maxw'),fmt=document.getElementById('fmt');
+qs.addEventListener('input',()=>{document.getElementById('qv').textContent=qs.value+'%';scheduleEstimate();});
+maxw.addEventListener('input',()=>{markChip();scheduleEstimate();});
+fmt.addEventListener('change',scheduleEstimate);
+document.querySelectorAll('#wchips .chip').forEach(c=>{c.onclick=()=>{maxw.value=c.dataset.w;markChip();scheduleEstimate();};});
+function markChip(){document.querySelectorAll('#wchips .chip').forEach(c=>c.classList.toggle('active',c.dataset.w===(maxw.value||'')));}
+
+const uz=document.getElementById('uz'),fi=document.getElementById('fi');
+uz.addEventListener('click',()=>fi.click());
+uz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fi.click()}});
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('dragover'));
+uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('dragover');handleFiles(e.dataTransfer.files)});
+fi.addEventListener('change',e=>{handleFiles(e.target.files);fi.value=''});
+
+function readFile(f){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f)});}
+function loadImg(du){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('load'));i.src=du});}
+
+async function handleFiles(files){
+  const a=Array.from(files).filter(f=>f.type.startsWith('image/')||/\.(png|jpe?g|webp|gif|bmp)$/i.test(f.name));
+  if(!a.length){toast(tr('이미지 파일만 올릴 수 있습니다','Only image files are allowed'),true);return}
+  a.sort((x,y)=>x.name.localeCompare(y.name,undefined,{numeric:true}));
+  showLd(tr('이미지 불러오는 중...','Loading images...'));
+  let failed=0;
+  for(let i=0;i<a.length;i++){
+    document.getElementById('loT').textContent=tr('이미지 불러오는 중... ','Loading images... ')+(i+1)+'/'+a.length;
+    try{
+      const du=await readFile(a[i]);
+      const im=await loadImg(du);
+      imgs.push({id:idc++,name:a[i].name,dataUrl:du,w:im.naturalWidth,h:im.naturalHeight,origSize:a[i].size,type:a[i].type,estSize:null,estW:im.naturalWidth,estH:im.naturalHeight});
+    }catch(e){failed++}
+  }
+  hideLd();
+  document.getElementById('setSec').style.display='';
+  document.getElementById('imgSec').style.display='';
+  document.getElementById('actSec').style.display='';
+  document.getElementById('privSec').style.display='';
+  markChip();render();updInfo();estimateAll();
+  if(failed)toast(tr(failed+'개 이미지를 불러오지 못했습니다',failed+' image(s) could not be loaded'),true);
+}
+
+function outType(srcType){
+  const f=fmt.value;
+  if(f==='jpeg')return 'image/jpeg';
+  if(f==='webp')return 'image/webp';
+  if(f==='png')return 'image/png';
+  // keep original (but gif/bmp -> png for canvas output)
+  if(srcType==='image/jpeg')return 'image/jpeg';
+  if(srcType==='image/webp')return 'image/webp';
+  if(srcType==='image/png')return 'image/png';
+  return 'image/png';
+}
+function extOf(mime){return mime==='image/jpeg'?'jpg':(mime==='image/webp'?'webp':'png');}
+
+// Render one image to a blob/dataURL with current settings
+async function processOne(img){
+  const i=await loadImg(img.dataUrl);
+  let w=i.naturalWidth,h=i.naturalHeight;
+  const target=parseInt(maxw.value);
+  if(target && target>0 && target<w){ const r=target/w; w=Math.round(w*r); h=Math.round(h*r); }
+  const c=document.createElement('canvas');c.width=w;c.height=h;
+  const ctx=c.getContext('2d');
+  const mime=outType(img.type);
+  if(mime==='image/jpeg'){ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);}
+  ctx.drawImage(i,0,0,w,h);
+  const q=parseInt(qs.value)/100;
+  const durl=(mime==='image/png')?c.toDataURL('image/png'):c.toDataURL(mime,q);
+  c.width=c.height=0;
+  return {dataUrl:durl,w:w,h:h,mime:mime};
+}
+function dataUrlBytes(durl){const i=durl.indexOf(',');const b64=durl.slice(i+1);return Math.floor(b64.length*3/4);}
+
+// Debounced estimate
+let estTimer=null;
+function scheduleEstimate(){clearTimeout(estTimer);estTimer=setTimeout(estimateAll,250);}
+async function estimateAll(){
+  for(const img of imgs){
+    try{const r=await processOne(img);img.estSize=dataUrlBytes(r.dataUrl);img.estW=r.w;img.estH=r.h;}catch(e){img.estSize=null;}
+  }
+  render();updInfo();
+}
+
+function fmtSize(b){ if(b==null)return '—'; if(b<1024)return b+' B'; if(b<1024*1024)return (b/1024).toFixed(0)+' KB'; return (b/1024/1024).toFixed(2)+' MB'; }
+
+function render(){
+  const g=document.getElementById('ig');g.innerHTML='';
+  document.getElementById('cnt').textContent=imgs.length?('('+imgs.length+')'):'';
+  if(!imgs.length){g.innerHTML='<div style="color:var(--tm);font-size:12px;padding:20px;text-align:center">'+tr('이미지가 없습니다','No images')+'</div>';return}
+  imgs.forEach(img=>{
+    const c=document.createElement('div');c.className='image-card';
+    const saved=(img.origSize&&img.estSize)?Math.round((img.origSize-img.estSize)/img.origSize*100):null;
+    c.innerHTML='<img class="thumb" src="'+img.dataUrl+'" alt="'+esc(img.name)+'"><div class="ca"><button class="del" onclick="delOne('+img.id+')" title="'+tr('제거','Remove')+'">✕</button></div>'
+      +'<div class="meta"><div class="nm">'+esc(img.name)+'</div>'
+      +'<div class="res"><span>'+img.w+'×'+img.h+(img.estW!==img.w||img.estH!==img.h?(' → '+img.estW+'×'+img.estH):'')+'</span></div>'
+      +'<div class="res"><span>'+fmtSize(img.origSize)+'</span><span class="new">→ '+fmtSize(img.estSize)+(saved!=null&&saved>0?(' ('+saved+'%↓)'):'')+'</span></div></div>';
+    g.appendChild(c);
+  });
+}
+function delOne(id){imgs=imgs.filter(i=>i.id!==id);render();updInfo();if(!imgs.length)clearAll();}
+function clearAll(){imgs=[];render();updInfo();['setSec','imgSec','actSec','privSec'].forEach(id=>document.getElementById(id).style.display='none');}
+
+function updInfo(){
+  const el=document.getElementById('infoLine');if(!imgs.length){el.innerHTML='';return}
+  let o=0,n=0,known=true;
+  imgs.forEach(i=>{o+=i.origSize||0; if(i.estSize==null)known=false; else n+=i.estSize;});
+  const pct=(known&&o>0)?Math.round((o-n)/o*100):null;
+  if(known){
+    el.innerHTML=trLang()==='en'
+      ?('📦 Total <strong>'+fmtSize(o)+'</strong> → <strong style="color:var(--sc)">'+fmtSize(n)+'</strong>'+(pct>0?(' ('+pct+'% smaller)'):''))
+      :('📦 전체 <strong>'+fmtSize(o)+'</strong> → <strong style="color:var(--sc)">'+fmtSize(n)+'</strong>'+(pct>0?(' ('+pct+'% 감소)'):''));
+  } else { el.innerHTML=tr('예상 용량 계산 중...','Estimating size...'); }
+}
+
+async function processAll(mode){
+  if(!imgs.length){toast(tr('이미지를 먼저 올려주세요','Upload images first'));return}
+  showLd(tr('압축 중...','Compressing...'));
+  let failed=0;
+  try{
+    if(mode==='zip'&&imgs.length>1){
+      const zip=new JSZip();const used={};
+      for(let i=0;i<imgs.length;i++){
+        document.getElementById('loT').textContent=tr('압축 중 ','Compressing ')+(i+1)+'/'+imgs.length;
+        await new Promise(r=>setTimeout(r,0));
+        try{const r=await processOne(imgs[i]);let nm=imgs[i].name.replace(/\.[a-z0-9]+$/i,'')+'.'+extOf(r.mime);if(used[nm]){used[nm]++;nm=nm.replace(/(\.[a-z0-9]+)$/i,'_'+used[nm]+'$1')}else used[nm]=1;zip.file(nm,blobFromDataUrl(r.dataUrl));}catch(e){failed++}
+      }
+      document.getElementById('loT').textContent=tr('ZIP 생성 중...','Creating ZIP...');
+      const blob=await zip.generateAsync({type:'blob'});hideLd();
+      await saveBlob(blob,'fuego_compressed.zip','application/zip');
+      toast(tr('✓ '+(imgs.length-failed)+'장 압축 완료','✓ Compressed '+(imgs.length-failed)+' image(s)')+(failed?tr(' ('+failed+'장 실패)',' ('+failed+' failed)'):''),failed>0);
+    } else {
+      let ok=0;
+      for(let i=0;i<imgs.length;i++){
+        document.getElementById('loT').textContent=tr('압축 중 ','Compressing ')+(i+1)+'/'+imgs.length;
+        await new Promise(r=>setTimeout(r,0));
+        try{const r=await processOne(imgs[i]);const nm=imgs[i].name.replace(/\.[a-z0-9]+$/i,'')+'.'+extOf(r.mime);const u=URL.createObjectURL(blobFromDataUrl(r.dataUrl)),a=document.createElement('a');a.href=u;a.download=nm;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);ok++;await new Promise(r=>setTimeout(r,150));}catch(e){failed++}
+      }
+      hideLd();
+      toast(tr('✓ '+ok+'장 압축 완료','✓ Compressed '+ok+' image(s)')+(failed?tr(' ('+failed+'장 실패)',' ('+failed+' failed)'):''),failed>0);
+    }
+  }catch(e){hideLd();console.error(e);toast(tr('압축 중 오류가 발생했습니다','An error occurred during compression'),true);}
+}
+function blobFromDataUrl(durl){const arr=durl.split(',');const mime=arr[0].match(/:(.*?);/)[1];const bstr=atob(arr[1]);let n=bstr.length;const u8=new Uint8Array(n);while(n--)u8[n]=bstr.charCodeAt(n);return new Blob([u8],{type:mime});}
+async function saveBlob(blob,filename,mtype){if(window.showSaveFilePicker){try{const ext=filename.split('.').pop();const h=await window.showSaveFilePicker({suggestedName:filename,types:[{description:ext.toUpperCase(),accept:{[mtype]:['.'+ext]}}]});const w=await h.createWritable();await w.write(blob);await w.close();return true}catch(e){if(e.name==='AbortError')return false}}const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);return true}
+
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function openM(id){document.getElementById(id).classList.add('active')}
+function closeM(id){document.getElementById(id).classList.remove('active')}
+function toast(m,err){const t=document.getElementById('toast');t.textContent=m;t.className='toast show'+(err?' err':'');setTimeout(()=>t.className='toast'+(err?' err':''),3200)}
+function showLd(m){document.getElementById('loT').textContent=m;document.getElementById('loO').classList.add('active')}
+function hideLd(){document.getElementById('loO').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM('helpM')});
+document.getElementById('helpM').addEventListener('click',function(e){if(e.target===this)closeM('helpM')});
+syncSelectLang();
+</script>
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+</script>
+</body>
+</html>

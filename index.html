@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>푸에고 — 파일을 불처럼 빠르게</title>
+<meta name="description" content="푸에고는 이미지 슬라이드 제작, PDF 변환·편집·압축, 이미지 변환·압축 등 파일 작업을 브라우저에서 무료로 처리하는 온라인 도구 모음입니다. 설치 없이, 회원가입 없이.">
+<meta name="keywords" content="무료 온라인 도구, 캐러셀 만들기, 이미지 슬라이드, PDF 변환, PDF 합치기, PDF 압축, 이미지 압축, 이미지 변환, 푸에고">
+<meta property="og:title" content="푸에고 — 파일을 불처럼 빠르게">
+<meta property="og:description" content="브라우저에서 바로 쓰는 무료 파일 도구 모음. 설치 없이, 회원가입 없이.">
+<meta property="og:image" content="https://fuego.kr/og-image.png">
+<meta property="og:url" content="https://fuego.kr/">
+<link rel="canonical" href="https://fuego.kr/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"푸에고","alternateName":"fuego","url":"https://fuego.kr/","description":"이미지·PDF 작업과 AI 프롬프트를 브라우저에서 무료로 처리하는 온라인 도구 모음","publisher":{"@type":"Organization","name":"With Fuego","url":"https://fuego.kr/"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#0a0a0a;color:#f0f0f0;font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--bd:#262626;--tx:#f0f0f0;--tm:#777;--ac:#e23b3b;--ac2:#c9a84c}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,59,59,.1)}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--tx);display:flex;align-items:center;gap:6px;text-decoration:none}
+.logo img{height:26px}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nlink{color:var(--tm);font-size:13px;font-weight:500;text-decoration:none;transition:color .2s}
+.nlink:hover{color:var(--ac)}
+.dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px;padding:2px}
+.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}
+.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}
+.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}
+.dd-panel a:hover{background:var(--sf2);color:var(--ac)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}
+.dd-soon .bdg{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}
+.dd-all:hover{color:#fff!important}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr;gap:6px;padding:12px;max-height:72vh;overflow-y:auto}.dd-panel a{padding:7px 8px}}
+/* hero (브랜드 유지 — 적당한 크기) */
+.hero{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(226,59,59,.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ac);background:rgba(226,59,59,.08);border:1px solid rgba(226,59,59,.18);padding:6px 16px;border-radius:20px;margin-bottom:26px}
+.hero h1{font-size:clamp(38px,6.5vw,62px);font-weight:800;line-height:1.08;letter-spacing:-1.5px;margin-bottom:18px}
+.hero h1 em{font-style:normal;background:linear-gradient(120deg,#e23b3b,#f06a6a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(15px,2.4vw,18px);color:var(--tm);max-width:500px;line-height:1.7;margin-bottom:32px;font-weight:300}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,#e23b3b,#c92a2a);color:#fff;padding:15px 36px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 24px rgba(226,59,59,.28)}
+.hero-cta:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(226,59,59,.4)}
+.hero-sub{margin-top:16px;font-size:12px;color:var(--tm)}
+#installBtn{margin-top:14px;align-items:center;gap:6px;background:transparent;color:var(--ac);border:1px solid rgba(226,59,59,.4);padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+/* featured slider */
+.featured{max-width:1000px;margin:0 auto;padding:24px 24px 20px}
+.feat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.feat-head h2{font-size:18px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.feat-nav{display:flex;gap:6px}
+.feat-nav button{width:34px;height:34px;border-radius:50%;border:1px solid var(--bd);background:var(--sf);color:var(--tx);font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.feat-nav button:hover{border-color:var(--ac);color:var(--ac)}
+.feat-track{display:flex;gap:14px;overflow-x:auto;scroll-behavior:auto;padding-bottom:8px;-ms-overflow-style:none;scrollbar-width:none}
+.feat-track::-webkit-scrollbar{display:none}
+.feat-card{flex:0 0 auto;width:min(330px,82%);border-radius:16px;padding:26px;text-decoration:none;position:relative;overflow:hidden;border:1px solid var(--bd);background:linear-gradient(135deg,var(--sf) 0%,#1a1212 100%);transition:transform .2s,border-color .2s}
+.feat-card:hover{transform:translateY(-2px);border-color:rgba(226,59,59,.4)}
+.feat-card .fbadge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.5px;padding:3px 9px;border-radius:12px;background:var(--ac);color:#fff;margin-bottom:14px}
+.feat-card .fbadge.gold{background:var(--ac2);color:#000}
+.feat-card .fbadge.soon{background:var(--sf2);color:var(--tm)}
+.feat-card .ficon{font-size:32px;margin-bottom:12px}
+.feat-card h3{font-size:19px;font-weight:700;margin-bottom:6px;color:var(--tx)}
+.feat-card p{font-size:13px;color:var(--tm);line-height:1.6;margin-bottom:14px}
+.feat-card .fgo{font-size:13px;font-weight:600;color:var(--ac)}
+.feat-card.soon{cursor:default;opacity:.85}
+.feat-card.soon .fgo{color:var(--tm)}
+/* browse all */
+.browse{max-width:1000px;margin:0 auto;padding:30px 24px 10px;text-align:center}
+.browse a{display:inline-flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);padding:18px 40px;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s}
+.browse a:hover{border-color:var(--ac);background:var(--sf2);gap:14px}
+.browse a .cnt{font-size:12px;color:var(--tm);font-weight:400}
+/* features */
+.features{padding:50px 24px 20px;max-width:1000px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.feature{text-align:center;padding:18px}
+.feature .f-icon{font-size:26px;margin-bottom:10px}
+.feature h4{font-size:14px;font-weight:700;margin-bottom:5px}
+.feature p{font-size:12px;color:var(--tm);line-height:1.55}
+/* guide strip */
+.guide-strip{max-width:1000px;margin:30px auto 0;padding:18px 22px;border:1px solid var(--bd);border-radius:12px;display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tm);font-size:13px;transition:all .2s;background:var(--sf)}
+.guide-strip:hover{border-color:var(--ac);color:var(--tx)}
+.guide-strip .pin{color:var(--ac)}
+footer{border-top:1px solid var(--bd);padding:32px 24px;text-align:center;margin-top:50px}
+footer .fbrand{font-size:13px;color:var(--tm);margin-bottom:6px}
+footer .fbrand strong{color:var(--ac)}
+footer p{font-size:12px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}
+footer a:hover{color:var(--ac)}
+.mo-hint{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.mo-hint.on{display:flex}
+.mo-hint .box{background:var(--sf);border:1px solid var(--bd);border-radius:12px;max-width:340px;margin:24px;padding:24px;text-align:center}
+.mo-hint .box button{background:var(--ac);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px}
+@media(max-width:680px){
+  .features-grid{grid-template-columns:1fr 1fr}
+  .hero{min-height:80vh;padding:110px 20px 50px}
+  nav{padding:13px 18px}
+}
+.more-guides-btn{display:block;margin:4px auto 0;background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .2s}.more-guides-btn:hover{border-color:var(--ac);color:var(--ac)}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo"><img src="data:image/png;base64,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">fuego</a>
+  <div class="nav-r">
+    <div class="dropdown" id="toolsDd">
+      <button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button>
+      <div class="dd-panel">
+        <div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF</span></div>
+          <a href="jpg-to-pdf.html"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a>
+          <a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a>
+          <a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a>
+        </div>
+        <div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image</span></div>
+          <a href="carousel.html"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a>
+          <a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a>
+          <a href="image-compress.html"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a>
+        </div>
+        <div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트</span><span class="i18n-en">AI prompt</span></div>
+          <div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="bdg"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div>
+        </div>
+        <a href="tools.html" class="dd-all"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a>
+      </div>
+    </div>
+    <div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div>
+    <button class="lang-btn" onclick="toggleLang()"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="i18n-ko">무료 · 설치 없음 · 회원가입 없음</span><span class="i18n-en">Free · No install · No sign-up</span></div>
+  <h1><span class="i18n-ko">파일 작업,<br><em>불처럼 빠르게</em></span><span class="i18n-en">File tasks,<br><em>fast as fire</em></span></h1>
+  <p><span class="i18n-ko">이미지 슬라이드 제작, PDF 변환·편집·압축, 이미지 변환·압축까지.<br>푸에고는 당신의 파일을 어디에도 업로드하지 않습니다.</span><span class="i18n-en">Image slideshows, PDF convert/edit/compress, image convert/compress.<br>fuego never uploads your files anywhere.</span></p>
+  <a href="tools.html" class="hero-cta"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a>
+  <button id="installBtn" onclick="doInstall()" style="display:none"><span class="i18n-ko">📱 앱으로 설치하기</span><span class="i18n-en">📱 Install as app</span></button>
+  <div class="hero-sub"><span class="i18n-ko">모든 처리는 브라우저에서. 서버 전송 없음.</span><span class="i18n-en">Everything runs in your browser. Nothing sent to a server.</span></div>
+</section>
+
+<section class="featured">
+  <div class="feat-head">
+    <h2>✨ <span class="i18n-ko">주목</span><span class="i18n-en">Featured</span></h2>
+    <div class="feat-nav"><button onclick="featScroll(-1)" aria-label="prev">‹</button><button onclick="featScroll(1)" aria-label="next">›</button></div>
+  </div>
+  <div class="feat-track" id="featTrack"></div>
+</section>
+
+
+<section class="features">
+  <div class="features-grid">
+    <div class="feature"><div class="f-icon">🔒</div><h4><span class="i18n-ko">100% 프라이버시</span><span class="i18n-en">100% Private</span></h4><p><span class="i18n-ko">파일이 서버로 전송되지 않고, 모든 처리는 브라우저 안에서 이루어집니다.</span><span class="i18n-en">Files never leave your browser — everything is processed locally.</span></p></div>
+    <div class="feature"><div class="f-icon">⚡</div><h4><span class="i18n-ko">즉시 사용</span><span class="i18n-en">Instant</span></h4><p><span class="i18n-ko">설치·회원가입·로그인 없이 바로 사용하세요.</span><span class="i18n-en">No install, sign-up, or login.</span></p></div>
+    <div class="feature"><div class="f-icon">🐋</div><h4><span class="i18n-ko">우리만의 도구</span><span class="i18n-en">Unique tools</span></h4><p><span class="i18n-ko">캐러셀처럼 다른 곳에 없는 도구가 있어요.</span><span class="i18n-en">Tools you won't find elsewhere.</span></p></div>
+    <div class="feature"><div class="f-icon">📱</div><h4><span class="i18n-ko">어디서나</span><span class="i18n-en">Anywhere</span></h4><p><span class="i18n-ko">PC·태블릿·폰 어디서든 동일하게.</span><span class="i18n-en">Same on desktop, tablet, phone.</span></p></div>
+  </div>
+  <div style="max-width:1000px;margin:30px auto 0;padding:0 0"><div style="font-size:13px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a class="guide-strip" href="guide-image-compress.html" style="margin:0 0 8px"><span class="pin">📷</span> <span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">How to reduce photo size</span> <span style="margin-left:auto;color:var(--ac)">→</span></a>
+  <a class="guide-strip" href="guide-photos-to-pdf.html" style="margin:0 0 8px"><span class="pin">📄</span> <span class="i18n-ko">사진을 PDF 하나로 합치는 법</span><span class="i18n-en">How to combine photos into one PDF</span> <span style="margin-left:auto;color:var(--ac)">→</span></a>
+  <a class="guide-strip" href="guide-webp-to-jpg.html" style="margin:0 0 8px"><span class="pin">🔄</span> <span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">How to convert WEBP to JPG</span> <span style="margin-left:auto;color:var(--ac)">→</span></a>
+  <div id="moreGuides" style="display:none"><a class="guide-strip" href="guide-conference-slide.html" style="margin:0 0 8px"><span class="pin">📖</span> <span class="i18n-ko">학회·행사 프로그램을 모바일 슬라이드로</span><span class="i18n-en">Turn event programs into mobile slideshows</span> <span style="margin-left:auto;color:var(--ac)">→</span></a></div><button class="more-guides-btn" onclick="toggleGuides()"><span class="i18n-ko">가이드 더 보기 ▾</span><span class="i18n-en">More guides ▾</span></button></div>
+</section>
+
+<footer>
+  <div class="fbrand">a <strong>With Fuego</strong> product</div>
+  <p>© 2026 푸에고 (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html"><span class="i18n-ko">개인정보처리방침</span><span class="i18n-en">Privacy</span></a> · <a href="terms.html"><span class="i18n-ko">이용약관</span><span class="i18n-en">Terms</span></a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a> · <a href="#" id="contactLink" onclick="copyEmail(event)" style="cursor:pointer">📧 contact@fuego.kr</a></p>
+</footer>
+
+<div class="mo-hint" id="iosHint" onclick="if(event.target===this)this.classList.remove('on')"><div class="box"><div style="font-size:40px;margin-bottom:12px">📱</div><h3 style="font-size:16px;font-weight:700;margin-bottom:10px"><span class="i18n-ko">홈 화면에 추가하기</span><span class="i18n-en">Add to Home Screen</span></h3><p id="iosHintText" style="font-size:13px;color:var(--tm);line-height:1.7;margin-bottom:4px"></p><button onclick="document.getElementById('iosHint').classList.remove('on')"><span class="i18n-ko">알겠어요</span><span class="i18n-en">Got it</span></button></div></div>
+
+<script>
+// ====== 주목 슬라이더: 아래 목록만 고치면 됩니다 ======
+const FEATURED=[
+  {icon:'🐋', badgeClass:'gold', href:'carousel.html',
+   badge:{ko:'fuego 시그니처',en:'fuego signature'},
+   title:{ko:'캐러셀 메이커',en:'Carousel Maker'},
+   desc:{ko:'이미지를 좌우로 넘기는 슬라이드로. 다른 곳엔 거의 없는 우리만의 도구예요.',en:"Turn images into a swipeable slideshow — a tool you won't easily find elsewhere."},
+   cta:{ko:'만들어 보기',en:'Try it'}},
+  {icon:'🗜️', badgeClass:'', href:'pdf-compress.html',
+   badge:{ko:'자주 쓰는',en:'Popular'},
+   title:{ko:'PDF 압축',en:'PDF Compress'},
+   desc:{ko:'무거운 PDF를 가볍게. 광고 없이, 강도만 고르면 끝.',en:'Make heavy PDFs light. No ads — just pick a level.'},
+   cta:{ko:'압축하기',en:'Compress'}},
+  {icon:'🖼️', badgeClass:'', href:'image-compress.html',
+   badge:{ko:'자주 쓰는',en:'Popular'},
+   title:{ko:'이미지 압축',en:'Image Compress'},
+   desc:{ko:'사진 용량·크기를 한 번에. 블로그·메일 첨부용으로 딱.',en:'Shrink photo size and dimensions at once. Perfect for blogs and email.'},
+   cta:{ko:'줄여 보기',en:'Shrink'}},
+  {icon:'🤖', badgeClass:'soon', href:null,
+   badge:{ko:'준비 중',en:'Coming soon'},
+   title:{ko:'검토 프롬프트 생성기',en:'Review Prompt Generator'},
+   desc:{ko:'보고서·논문 검토를 AI에게 제대로 시키는 프롬프트를 만들어 드려요.',en:'Generate prompts that make AI properly review your reports and papers.'},
+   cta:{ko:'곧 공개',en:'Coming soon'}}
+];
+function bi(o){return '<span class="i18n-ko">'+o.ko+'</span><span class="i18n-en">'+o.en+'</span>';}
+function renderFeatured(){
+  var t=document.getElementById('featTrack');if(!t)return;
+  function one(c){var inner='<span class="fbadge '+(c.badgeClass||'')+'">'+bi(c.badge)+'</span><div class="ficon">'+c.icon+'</div><h3>'+bi(c.title)+'</h3><p>'+bi(c.desc)+'</p><span class="fgo">'+bi(c.cta)+'</span>';return c.href?('<a class="feat-card" href="'+c.href+'">'+inner+'</a>'):('<div class="feat-card soon">'+inner+'</div>');}
+  // 두 벌 이어붙여 끊김 없는 회전목마
+  var html=FEATURED.map(one).join('')+FEATURED.map(one).join('');
+  t.innerHTML=html;
+}
+renderFeatured();
+function featScroll(dir){var t=document.getElementById('featTrack');if(!t)return;var card=t.querySelector('.feat-card');var w=card?card.offsetWidth+14:300;autoPaused=true;t.scrollBy({left:dir*w,behavior:'smooth'});setTimeout(function(){featPos=t.scrollLeft;autoPaused=false;},1000);}
+// 회전목마: float 누적으로 끊김 없이 연속 흐름 (반올림 버그 방지)
+var autoPaused=false, featPos=0;
+(function(){var t=document.getElementById('featTrack');if(!t)return;
+  t.addEventListener('mouseenter',function(){autoPaused=true;});
+  t.addEventListener('mouseleave',function(){featPos=t.scrollLeft;autoPaused=false;});
+  t.addEventListener('touchstart',function(){autoPaused=true;},{passive:true});
+  t.addEventListener('touchend',function(){setTimeout(function(){featPos=t.scrollLeft;autoPaused=false;},2000);},{passive:true});
+  t.addEventListener('scroll',function(){if(autoPaused)featPos=t.scrollLeft;},{passive:true});
+  var last=null;
+  function tick(ts){
+    if(last==null)last=ts;var dt=ts-last;last=ts;
+    if(!autoPaused){var half=t.scrollWidth/2; if(half>2){featPos+=dt*0.05; if(featPos>=half)featPos-=half; t.scrollLeft=featPos;}}
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// language
+function trLang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'ko';}
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l==='en'?'en':'ko');try{localStorage.setItem('fuego-lang',l)}catch(e){}}
+function toggleLang(){setLang(trLang()==='ko'?'en':'ko');renderFeatured();}
+function copyEmail(e){e.preventDefault();var a='contact@fuego.kr';function done(){var l=document.getElementById('contactLink');if(!l)return;l.textContent=(trLang()==='en'?'✓ Copied!':'✓ 복사됨!');setTimeout(function(){l.textContent='📧 contact@fuego.kr';},1800);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(a).then(done).catch(function(){copyFb(a,done);});}else{copyFb(a,done);}}
+function copyFb(a,cb){try{var t=document.createElement('input');t.value=a;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);cb();}catch(err){prompt('contact@fuego.kr',a);}}
+(function(){var s=null;try{s=localStorage.getItem('fuego-lang')}catch(e){}; if(s==='ko'||s==='en'){setLang(s)} else {var nv=(navigator.language||'').toLowerCase(); if(nv&&!nv.startsWith('ko'))setLang('en');}})();
+// dropdown
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+function toggleGuides(){var m=document.getElementById('moreGuides');var b=document.querySelector('.more-guides-btn');if(m){m.style.display='';}if(b){b.style.display='none';}}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+// install (PWA)
+let deferredPrompt=null;
+const fuegoIsIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const fuegoStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+function showInstallBtn(){var b=document.getElementById('installBtn');if(b)b.style.display='inline-flex'}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;showInstallBtn()});
+if(fuegoIsIOS&&!fuegoStandalone){showInstallBtn()}
+function showHint(){var lang=trLang();var msg;if(lang==='en'){msg=fuegoIsIOS?'Tap the <strong style="color:var(--ac)">Share button</strong> (↑) at the bottom of Safari, then choose <strong style="color:var(--ac)">"Add to Home Screen".</strong>':'Open your browser menu (⋮) and choose <strong style="color:var(--ac)">"Install app"</strong> or <strong style="color:var(--ac)">"Create shortcut".</strong>';}else{msg=fuegoIsIOS?'사파리 아래쪽 <strong style="color:var(--ac)">공유 버튼</strong>(↑)을 누른 뒤,<br><strong style="color:var(--ac)">"홈 화면에 추가"</strong>를 선택하세요.':'브라우저 메뉴(⋮)에서 <strong style="color:var(--ac)">"앱 설치"</strong> 또는 <strong style="color:var(--ac)">"바로가기 만들기"</strong>를 선택하세요.';}document.getElementById('iosHintText').innerHTML=msg;document.getElementById('iosHint').classList.add('on');}
+async function doInstall(){if(deferredPrompt){deferredPrompt.prompt();try{await deferredPrompt.userChoice}catch(e){}deferredPrompt=null;var b=document.getElementById('installBtn');if(b)b.style.display='none';}else{showHint();}}
+window.addEventListener('appinstalled',function(){var b=document.getElementById('installBtn');if(b)b.style.display='none';deferredPrompt=null});
+</script>
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

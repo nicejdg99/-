@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전체 도구 — 푸에고</title>
+<meta name="description" content="푸에고의 전체 도구 모음. 이미지 슬라이드 제작(캐러셀), JPG→PDF 변환, PDF 편집·압축, 이미지 포맷 변환·압축. 모두 브라우저에서 무료로.">
+<meta property="og:title" content="전체 도구 — 푸에고">
+<meta property="og:description" content="이미지·PDF 도구를 한곳에서. 무료, 설치 없음, 서버 전송 없음.">
+<meta property="og:image" content="https://fuego.kr/og-image.png">
+<meta property="og:url" content="https://fuego.kr/tools.html">
+<link rel="canonical" href="https://fuego.kr/tools.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"전체 도구 — 푸에고","url":"https://fuego.kr/tools.html","isPartOf":{"@type":"WebSite","name":"푸에고","url":"https://fuego.kr/"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#0a0a0a;color:#f0f0f0;font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--bd:#262626;--tx:#f0f0f0;--tm:#777;--ac:#e23b3b;--ac2:#c9a84c}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+nav{position:sticky;top:0;z-index:200;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,59,59,.1)}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--tx);display:flex;align-items:center;gap:6px;text-decoration:none}
+.logo img{height:26px}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nlink{color:var(--tm);font-size:13px;font-weight:500;text-decoration:none;transition:color .2s}
+.nlink:hover{color:var(--ac)}.nlink.on{color:var(--tx)}
+.dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px;padding:2px}
+.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}
+.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}
+.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}
+.dd-panel a:hover{background:var(--sf2);color:var(--ac)}.dd-panel a.cur{color:var(--ac);background:rgba(226,59,59,.08)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}
+.dd-soon .bdg{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}
+.dd-all:hover{color:#fff!important}.dd-all.cur{background:rgba(226,59,59,.08)!important}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr;gap:6px;padding:12px;max-height:72vh;overflow-y:auto}.dd-panel a{padding:7px 8px}}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.page-head{padding:60px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.page-head::before{content:'';position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(circle,rgba(226,59,59,.07),transparent 70%);pointer-events:none}
+.page-head h1{font-size:clamp(30px,5vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+.page-head p{font-size:15px;color:var(--tm);font-weight:300}
+.cat-sec{margin-bottom:46px}
+.cat-title{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;letter-spacing:.5px;color:var(--tx);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.cat-title .ct-ic{font-size:18px}
+.cat-title .ct-cnt{margin-left:auto;font-size:11px;color:var(--tm);font-weight:400;letter-spacing:1px;text-transform:uppercase}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tcard{display:flex;flex-direction:column;align-items:flex-start;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:26px;text-decoration:none;color:inherit;transition:all .22s}
+.tcard:hover{border-color:rgba(226,59,59,.4);transform:translateY(-3px);background:#171717}
+.tcard .ic{flex-shrink:0;width:60px;height:60px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px}
+.tcard .tc-body h3{font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+.tcard .tc-body p{font-size:13px;color:var(--tm);line-height:1.6;margin-bottom:14px}
+.tcard .go{font-size:13px;font-weight:600;color:var(--ac)}
+/* 와이드 카드 (AI 프롬프트 등 1개짜리 카테고리) */
+.tcard.wide{flex-direction:row;align-items:center;gap:22px;grid-column:1/-1}
+.tcard.wide .ic{margin-bottom:0}
+.tcard.wide .tc-body p{max-width:560px}
+.tcard.soon{opacity:.65;cursor:default}
+.tcard.soon .go{color:var(--tm)}
+.tcard.soon .sbadge{display:inline-block;font-size:10px;font-weight:600;background:var(--sf2);color:var(--tm);padding:2px 8px;border-radius:4px;margin-left:8px;vertical-align:middle}
+.back-home{display:inline-flex;align-items:center;gap:6px;color:var(--tm);font-size:13px;text-decoration:none;margin:10px 0 0}
+.back-home:hover{color:var(--ac)}
+footer{border-top:1px solid var(--bd);padding:32px 24px;text-align:center;margin-top:30px}
+footer .fbrand{font-size:13px;color:var(--tm);margin-bottom:6px}
+footer .fbrand strong{color:var(--ac)}
+footer p{font-size:12px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}footer a:hover{color:var(--ac)}
+@media(max-width:760px){
+  .tgrid{grid-template-columns:1fr}
+  .tcard{padding:22px}
+  .tcard.wide{flex-direction:column;align-items:flex-start}
+  .tcard.wide .ic{margin-bottom:14px}
+  nav{padding:13px 18px}
+  .page-head{padding:44px 20px 28px}
+}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo"><img src="data:image/png;base64,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">fuego</a>
+  <div class="nav-r">
+    <div class="dropdown" id="toolsDd">
+      <button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button>
+      <div class="dd-panel">
+        <div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF</span></div>
+          <a href="jpg-to-pdf.html"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a>
+          <a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a>
+          <a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a>
+        </div>
+        <div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image</span></div>
+          <a href="carousel.html"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a>
+          <a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a>
+          <a href="image-compress.html"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a>
+        </div>
+        <div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트</span><span class="i18n-en">AI prompt</span></div>
+          <div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="bdg"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div>
+        </div>
+        <a href="tools.html" class="dd-all cur"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a>
+      </div>
+    </div>
+    <div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div>
+    <button class="lang-btn" onclick="toggleLang()"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button>
+  </div>
+</nav>
+
+<div class="page-head">
+  <h1><span class="i18n-ko">전체 도구</span><span class="i18n-en">All tools</span></h1>
+  <p><span class="i18n-ko">필요한 도구를 골라 바로 사용하세요. 모두 무료이고, 파일은 서버로 전송되지 않습니다.</span><span class="i18n-en">Pick a tool and start right away. All free — your files never leave your browser.</span></p>
+</div>
+
+<div class="wrap">
+  <div class="cat-sec">
+    <div class="cat-title"><span class="ct-ic">📄</span> <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF tools</span> </div>
+    <div class="tgrid">
+      <a class="tcard" href="jpg-to-pdf.html">
+      <div class="ic" style="background:rgba(226,59,59,.12)">📄</div>
+      <div class="tc-body"><h3><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></h3><p><span class="i18n-ko">사진 여러 장을 한 번에 올려 하나의 PDF로 묶습니다. 순서 변경과 페이지 크기·방향 설정까지 가능합니다.</span><span class="i18n-en">Upload many photos at once and merge them into a single PDF. Reorder pages and set size and orientation.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+      <a class="tcard" href="pdf-editor.html">
+      <div class="ic" style="background:rgba(226,59,59,.12)">✂️</div>
+      <div class="tc-body"><h3><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></h3><p><span class="i18n-ko">여러 PDF를 하나로 합치고, 필요 없는 페이지를 빼거나 순서를 바꾸고, 회전·분할까지 한 곳에서 처리합니다.</span><span class="i18n-en">Merge several PDFs into one, then remove, reorder, rotate, and split pages — all in one place.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+      <a class="tcard" href="pdf-compress.html">
+      <div class="ic" style="background:rgba(226,59,59,.12)">🗜️</div>
+      <div class="tc-body"><h3><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></h3><p><span class="i18n-ko">용량이 큰 PDF를 가볍게 줄입니다. 압축 강도만 고르면 되고, 이메일 첨부나 업로드가 쉬워집니다.</span><span class="i18n-en">Shrink large PDFs to a lighter size — just pick a level. Makes email and uploads easier.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+    </div>
+  </div>
+
+  <div class="cat-sec">
+    <div class="cat-title"><span class="ct-ic">🖼️</span> <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image tools</span> </div>
+    <div class="tgrid">
+      <a class="tcard" href="carousel.html">
+      <div class="ic" style="background:rgba(201,168,76,.14)">🐋</div>
+      <div class="tc-body"><h3><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></h3><p><span class="i18n-ko">사진을 좌우로 넘겨보는 슬라이드(HTML)로 만듭니다. 학회·포트폴리오·메뉴판에 좋고, 링크 하나로 공유할 수 있습니다.</span><span class="i18n-en">Turn photos into a swipeable HTML slideshow. Great for events, portfolios, and menus — shareable with one link.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+      <a class="tcard" href="image-convert.html">
+      <div class="ic" style="background:rgba(201,168,76,.14)">🔄</div>
+      <div class="tc-body"><h3><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></h3><p><span class="i18n-ko">사진을 PNG · JPG · WEBP 형식으로 서로 바꿉니다. 여러 장을 한 번에 변환하고 품질도 조절할 수 있습니다.</span><span class="i18n-en">Convert photos between PNG, JPG, and WEBP. Convert many at once and adjust quality.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+      <a class="tcard" href="image-compress.html">
+      <div class="ic" style="background:rgba(201,168,76,.14)">🖼️</div>
+      <div class="tc-body"><h3><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></h3><p><span class="i18n-ko">사진 용량을 줄이고 가로 크기까지 조절합니다. 여러 장을 한 번에, 블로그·메일 첨부용으로 가볍게 만듭니다.</span><span class="i18n-en">Reduce photo file size and adjust width. Many at once — perfect for blogs and email.</span></p><span class="go"><span class="i18n-ko">사용하기</span><span class="i18n-en">Open</span></span></div>
+    </a>
+    </div>
+  </div>
+
+  <div class="cat-sec">
+    <div class="cat-title"><span class="ct-ic">🤖</span> <span class="i18n-ko">AI 프롬프트 도구</span><span class="i18n-en">AI prompt tools</span> </div>
+    <div class="tgrid">
+      <div class="tcard soon wide">
+        <div class="ic" style="background:#1c1c1c">📝</div>
+        <div class="tc-body"><h3><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="sbadge"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></h3><p><span class="i18n-ko">조건을 선택하면 보고서·논문·자료 검토에 딱 맞는 AI 프롬프트가 만들어집니다. 복사해서 쓰던 AI(ChatGPT·Claude·Gemini 등)에 붙여넣기만 하면, 전문가처럼 꼼꼼한 검토를 받을 수 있어요.</span><span class="i18n-en">Pick options to generate an AI prompt tailored for reviewing reports, papers, and documents. Copy it into your AI (ChatGPT, Claude, Gemini) for a thorough, expert-level review.</span></p><span class="go"><span class="i18n-ko">곧 공개</span><span class="i18n-en">Coming soon</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="display:block;text-align:center;margin:10px 0 4px;padding:16px;border:1px dashed var(--bd);border-radius:12px;color:var(--tm);font-size:13px;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--tx)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--tm)'">💬 <span class="i18n-ko">써보시고 의견을 들려주세요 — 더 나은 도구를 만드는 데 큰 도움이 됩니다</span><span class="i18n-en">Tried it? Share your feedback — it really helps us improve</span></a>
+  <a href="index.html" class="back-home">← <span class="i18n-ko">홈으로</span><span class="i18n-en">Home</span></a>
+</div>
+
+<footer>
+  <div class="fbrand">a <strong>With Fuego</strong> product</div>
+  <p>© 2026 푸에고 (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html"><span class="i18n-ko">개인정보처리방침</span><span class="i18n-en">Privacy</span></a> · <a href="terms.html"><span class="i18n-ko">이용약관</span><span class="i18n-en">Terms</span></a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a></p>
+</footer>
+
+<script>
+function trLang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'ko';}
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l==='en'?'en':'ko');try{localStorage.setItem('fuego-lang',l)}catch(e){}}
+function toggleLang(){setLang(trLang()==='ko'?'en':'ko');}
+(function(){var s=null;try{s=localStorage.getItem('fuego-lang')}catch(e){}; if(s==='ko'||s==='en'){setLang(s)} else {var nv=(navigator.language||'').toLowerCase(); if(nv&&!nv.startsWith('ko'))setLang('en');}})();
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+</script>
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

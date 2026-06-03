@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JPG → PDF 변환 — 이미지를 PDF로 합치기 | 푸에고</title>
+<meta name="description" content="여러 장의 JPG·PNG 이미지를 하나의 PDF 파일로 합칩니다. 순서 변경, 페이지 설정 가능. 무료, 설치 없음, 파일 서버 전송 없음.">
+<meta name="keywords" content="JPG PDF 변환, 이미지 PDF 합치기, 사진 PDF 만들기, 무료 PDF 변환, 온라인 PDF">
+<meta property="og:title" content="JPG → PDF 변환 — 푸에고">
+<meta property="og:description" content="여러 이미지를 하나의 PDF로. 무료, 설치 없음, 서버 전송 없음.">
+<meta property="og:image" content="https://fuego.kr/og-pdf.png">
+<meta property="og:url" content="https://fuego.kr/jpg-to-pdf.html">
+<link rel="canonical" href="https://fuego.kr/jpg-to-pdf.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<style>
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--sf3:#242424;--bd:#262626;--bd2:#3a3a3a;--tx:#f0f0f0;--tm:#777;--ac:#e23b3b;--ach:#e85a5a;--dg:#e05555;--sc:#4caf80;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.site-nav{position:sticky;top:0;z-index:200;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,59,59,.1)}
+
+.nav-right{display:flex;align-items:center;gap:14px}
+.nlink{color:var(--tm);font-size:12px;font-weight:500;text-decoration:none;transition:color .2s}.nlink:hover{color:var(--ac)}
+.site-nav .dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:2px}.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}.dd-panel a:hover{background:var(--sf2);color:var(--ac)}.dd-panel a.cur{color:var(--ac);background:rgba(226,59,59,.08)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}.dd-soon .bdg{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}.dd-all:hover{color:#fff!important}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr;gap:6px;padding:12px;max-height:72vh;overflow-y:auto}.dd-panel a{padding:7px 8px}}
+.site-nav .logo{font-size:18px;font-weight:800;color:var(--tx);text-decoration:none;letter-spacing:-1px;display:flex;align-items:center}
+.site-nav a.back{color:var(--tm);font-size:12px;text-decoration:none;transition:color .2s}
+.site-nav a.back:hover{color:var(--ac)}
+.app{max-width:960px;margin:0 auto;padding:24px 24px 80px}
+.ad-slot{max-width:728px;margin:16px auto;padding:8px;text-align:center;min-height:90px;display:flex;align-items:center;justify-content:center}
+.header{text-align:center;margin-bottom:28px}
+.header h1{font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.header h1 em{font-style:normal;color:var(--ac)}
+.header p{font-size:13px;color:var(--tm);font-weight:300}
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.step-pill{font-size:11px;color:var(--tm);background:var(--sf);border:1px solid var(--bd);padding:5px 12px;border-radius:16px;transition:all .3s}
+.step-pill.done{color:var(--ac);border-color:rgba(226,59,59,.3)}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+.help-row{text-align:center;margin-bottom:24px}
+.help-step{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--bd)}
+.help-step:last-of-type{border-bottom:none}
+.help-step .hs-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.help-step .hs-ill{flex-shrink:0;width:96px;height:72px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.help-step .hs-body h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.help-step .hs-body p{font-size:12.5px;color:var(--tm);line-height:1.65}
+.help-step .hs-body .tip{color:var(--ac);font-size:11.5px;margin-top:4px}
+@media(max-width:520px){.help-step .hs-ill{display:none}}
+.faq-section{margin-top:24px}
+.faq-section .faq-title{font-size:13px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.faq-item{border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.faq-q{padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--sf2);transition:background .15s}
+.faq-q:hover{background:var(--sf3)}
+.faq-q .ar{color:var(--ac);transition:transform .2s;font-size:11px}
+.faq-item.open .faq-q .ar{transform:rotate(90deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;font-size:12.5px;color:var(--tm);line-height:1.7}
+.faq-item.open .faq-a{max-height:320px;padding:12px 14px}
+.help-cta{display:block;text-align:center;background:var(--ac);color:#fff;padding:12px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px;cursor:pointer}
+.section{margin-bottom:28px}
+.section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.badge{background:var(--ac);color:#fff;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:700}
+.upload-zone{border:2px dashed var(--bd);border-radius:var(--r);padding:44px 24px;text-align:center;cursor:pointer;transition:all .25s;background:var(--sf)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--ac);background:rgba(226,59,59,.04)}
+.upload-zone .icon{font-size:32px;margin-bottom:10px;opacity:.5}
+.upload-zone .label{font-size:15px;font-weight:500;margin-bottom:6px}
+.upload-zone .sub{font-size:12px;color:var(--tm);line-height:1.6}
+.hint-bar{font-size:10px;color:var(--tm);text-align:center;padding:6px;opacity:.6}
+.sel-bar{display:none;align-items:center;gap:8px;padding:8px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;margin-bottom:10px;flex-wrap:wrap}
+.sel-bar.active{display:flex}
+.sel-bar .sel-info{font-size:11px;color:var(--ac);font-weight:600;margin-right:4px}
+.image-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.image-card{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--sf2);border:2px solid transparent;cursor:grab;transition:border-color .2s,box-shadow .2s}
+.image-card:active{cursor:grabbing}
+.image-card:hover{border-color:var(--bd2)}
+.image-card img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.image-card .ob{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.image-card .ca{position:absolute;top:5px;right:5px;display:flex;gap:3px;opacity:0;transition:opacity .15s}
+.image-card:hover .ca{opacity:1}
+.cab{width:24px;height:24px;border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.cab.del{background:rgba(224,85,85,.85)}
+.cab.rot{background:rgba(90,120,200,.85)}
+.cab.cfg{background:rgba(120,120,120,.85)}
+.touch-device .image-card .ca{display:flex!important;top:auto;bottom:24px;right:5px;opacity:1}
+.touch-device .image-card .ca .cab{width:30px;height:30px;font-size:13px}
+.card-badges{position:absolute;top:5px;left:31px;display:flex;gap:3px;z-index:2}
+.cbadge{font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;color:#fff;backdrop-filter:blur(4px)}
+.cbadge.rot{background:rgba(90,120,200,.9)}
+.cbadge.cfg{background:rgba(226,59,59,.9)}
+.image-card .fn{position:absolute;bottom:0;left:0;right:0;padding:3px 6px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:9px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.image-card.selected{border-color:var(--ac);box-shadow:0 0 0 2px rgba(226,59,59,.2)}
+.image-card .cm{position:absolute;top:5px;left:5px;width:22px;height:22px;border-radius:50%;background:var(--ac);color:#fff;font-size:12px;display:none;align-items:center;justify-content:center;font-weight:700;z-index:2}
+.image-card.selected .cm{display:flex}
+.image-card.selected .ob{display:none}
+.image-card .mob-cb{position:absolute;top:5px;right:5px;width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:12px;color:transparent;backdrop-filter:blur(4px)}
+.image-card.selected .mob-cb{color:#fff;background:var(--ac);border-color:var(--ac)}
+.touch-device .image-card .mob-cb{display:flex}
+.touch-device .image-card{cursor:pointer}
+.sortable-ghost{opacity:.35}
+.sortable-chosen{box-shadow:0 0 0 2px var(--ac)}
+.size-est{font-size:11px;color:var(--tm);margin-bottom:10px;padding:8px 12px;background:var(--sf);border:1px solid var(--bd);border-radius:6px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.settings-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;font-weight:500;color:var(--tm)}
+.field select,.field input[type="text"]{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:9px 11px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;transition:border-color .2s;cursor:pointer}
+.field select:focus,.field input:focus{border-color:var(--ac)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:70px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:9px 8px;font-size:12px;color:var(--tm);font-family:inherit;cursor:pointer;transition:all .15s}
+.seg button.active{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+.seg button:hover:not(.active){border-color:var(--ac);color:var(--ac)}
+.cr{display:flex;align-items:center;gap:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:8px 12px}
+.cr input[type="range"]{flex:1;accent-color:var(--ac);cursor:pointer}
+.cr .val{font-size:12px;color:var(--ac);font-weight:600;min-width:32px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:8px;border:none;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--ac);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--ach)}
+.btn-secondary{background:var(--sf3);color:var(--tx);border:1px solid var(--bd)}
+.btn-secondary:hover:not(:disabled){background:var(--bd)}
+.btn-danger{background:transparent;color:var(--dg);border:1px solid var(--dg)}
+.btn-danger:hover:not(:disabled){background:rgba(224,85,85,.1)}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;backdrop-filter:blur(4px)}
+.mo.active{display:flex;align-items:center;justify-content:center}
+.modal{background:var(--sf);border-radius:12px;width:90vw;max-width:800px;max-height:85vh;overflow:hidden;border:1px solid var(--bd)}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--bd)}
+.mh h3{font-size:14px;font-weight:600}
+.mc{width:30px;height:30px;border-radius:50%;border:none;background:var(--sf3);color:var(--tx);font-size:14px;cursor:pointer}
+.mb{padding:18px;overflow-y:auto;max-height:calc(85vh - 56px)}
+.pf{width:100%;height:65vh;border:1px solid var(--bd);border-radius:8px;background:#525659}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sc);color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:2000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:28px;color:var(--tm);font-size:12px}
+.lo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:3000;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.lo.active{display:flex}
+.spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lt{color:var(--tm);font-size:13px}
+footer{border-top:1px solid var(--bd);padding:24px;text-align:center;margin-top:40px}
+footer p{font-size:11px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}
+footer a:hover{color:var(--ac)}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"JPG → PDF 변환","url":"https://fuego.kr/jpg-to-pdf.html","applicationCategory":"UtilitiesApplication","operatingSystem":"All","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"description":"여러 장의 JPG·PNG 이미지를 하나의 PDF로 합칩니다. 순서 변경·회전·페이지 설정 가능. 무료, 서버 전송 없음.","publisher":{"@type":"Organization","name":"With Fuego"}}
+</script>
+</head>
+<body>
+<div class="site-nav"><a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="fuego" style="height:26px;width:auto;vertical-align:middle"><span style="margin-left:6px;vertical-align:middle">fuego</span></a><div class="nav-right"><div class="dropdown" id="toolsDd"><button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button><div class="dd-panel"><div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF</span></div><a href="jpg-to-pdf.html" class="cur"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a><a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a><a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a></div><div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image</span></div><a href="carousel.html"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a><a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a><a href="image-compress.html"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a></div><div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트</span><span class="i18n-en">AI prompt</span></div><div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="bdg"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div></div><a href="tools.html" class="dd-all"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a></div></div><div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div><button class="lang-btn" onclick="toggleLang()"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button></div></div>
+<div class="app">
+  <div class="header"><h1>JPG → <em>PDF</em> <span class="i18n-ko">변환</span><span class="i18n-en"></span></h1><p><span class="i18n-ko">JPG·PNG·WEBP 이미지를 하나의 PDF로 합칩니다</span><span class="i18n-en">Combine JPG, PNG, and WEBP images into one PDF</span></p></div>
+  <div class="steps" id="steps"><span class="step-pill" id="step1"><span class="i18n-ko">1. 업로드</span><span class="i18n-en">1. Upload</span></span><span class="step-pill" id="step2"><span class="i18n-ko">2. 순서</span><span class="i18n-en">2. Order</span></span><span class="step-pill" id="step3"><span class="i18n-ko">3. 설정</span><span class="i18n-en">3. Settings</span></span><span class="step-pill" id="step4"><span class="i18n-ko">4. 변환</span><span class="i18n-en">4. Convert</span></span></div>
+  <div class="help-row"><button class="btn btn-secondary btn-sm" onclick="openM('helpM')" aria-label="Help">❓ <span class="i18n-ko">사용법 보기</span><span class="i18n-en">How to use</span></button></div>
+  <div class="ad-slot"></div>
+  <div class="section">
+    <div class="section-title"><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></div>
+    <div class="upload-zone" id="uz" role="button" tabindex="0" aria-label="이미지 업로드"><div class="icon">📂</div><div class="label"><span class="i18n-ko">클릭하거나 파일을 여기에 끌어다 놓으세요</span><span class="i18n-en">Click or drag your files here</span></div><div class="sub"><span class="i18n-ko">JPG · PNG · WEBP 형식 지원 · 여러 장 동시 업로드 가능<br>파일 이름순으로 자동 정렬됩니다</span><span class="i18n-en">JPG · PNG · WEBP · upload many at once<br>Auto-sorted by file name</span></div></div>
+    <input type="file" id="fi" multiple accept="image/*" style="display:none">
+  </div>
+  <div class="section" id="imgSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">2. 순서 정리</span><span class="i18n-en">2. Arrange pages</span> <span class="badge" id="ic">0</span></div>
+    <div class="hint-bar" id="hintBar">💡 드래그로 순서 변경 · Ctrl+클릭 개별 선택 · Shift+클릭 범위 선택 · Ctrl+Z 실행 취소</div>
+    <div id="resetAllRow" style="display:none;text-align:right;margin-bottom:8px"><button class="btn btn-secondary btn-sm" onclick="clearAllSettings()" style="padding:5px 12px;font-size:11px">⚙ <span class="i18n-ko">모든 개별설정 초기화</span><span class="i18n-en">Reset all custom settings</span></button></div>
+    <div class="sel-bar" id="selBar"><span class="sel-info" id="selInfo">0개 선택</span><button class="btn btn-secondary btn-sm" onclick="openPageSettingsForSelected()" style="padding:5px 12px;font-size:11px">⚙ <span class="i18n-ko">개별 설정</span><span class="i18n-en">Custom settings</span></button><button class="btn btn-secondary btn-sm" onclick="clearSettingsSel()" style="padding:5px 12px;font-size:11px"><span class="i18n-ko">설정 해제</span><span class="i18n-en">Clear settings</span></button><button class="btn btn-danger btn-sm" onclick="delSel()" style="padding:5px 12px;font-size:11px">🗑 <span class="i18n-ko">삭제</span><span class="i18n-en">Delete</span></button><button class="btn btn-secondary btn-sm" onclick="clearSel()" style="padding:5px 12px;font-size:11px"><span class="i18n-ko">선택 해제</span><span class="i18n-en">Clear selection</span></button></div>
+    <div class="image-grid" id="ig"></div>
+  </div>
+  <div class="section" id="setSec" style="display:none">
+    <div class="section-title">3. PDF 설정</div>
+    <div class="settings-grid">
+      <div class="field full"><label><span class="i18n-ko">페이지 크기</span><span class="i18n-en">Page size</span></label><div class="seg" id="segSize"><button data-v="fit" class="active"><span class="i18n-ko">이미지 크기에 맞춤</span><span class="i18n-en">Fit to image</span></button><button data-v="a4">A4</button><button data-v="letter">Letter</button></div></div>
+      <div class="field full"><label><span class="i18n-ko">방향</span><span class="i18n-en">Orientation</span></label><div class="seg" id="segOrient"><button data-v="auto" class="active"><span class="i18n-ko">자동</span><span class="i18n-en">Auto</span></button><button data-v="portrait"><span class="i18n-ko">세로</span><span class="i18n-en">Portrait</span></button><button data-v="landscape"><span class="i18n-ko">가로</span><span class="i18n-en">Landscape</span></button></div></div>
+      <div class="field full"><label><span class="i18n-ko">여백</span><span class="i18n-en">Margins</span></label><div class="seg" id="segMargin"><button data-v="0" class="active"><span class="i18n-ko">없음</span><span class="i18n-en">None</span></button><button data-v="10"><span class="i18n-ko">좁게</span><span class="i18n-en">Small</span></button><button data-v="20"><span class="i18n-ko">보통</span><span class="i18n-en">Medium</span></button><button data-v="35"><span class="i18n-ko">넓게</span><span class="i18n-en">Large</span></button></div></div>
+      <div class="field full"><label for="qs"><span class="i18n-ko">이미지 품질 (파일 크기 조절)</span><span class="i18n-en">Image quality (controls file size)</span></label><div class="cr"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">낮음</span><span class="i18n-en">Low</span></span><input type="range" id="qs" min="40" max="100" value="85"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">높음</span><span class="i18n-en">High</span></span><span class="val" id="qv">85%</span></div></div>
+      <div class="field full"><label for="fname"><span class="i18n-ko">파일 이름</span><span class="i18n-en">File name</span></label><input type="text" id="fname" value="" placeholder="File name (e.g. scan)"></div>
+    </div>
+    <p style="font-size:11px;color:var(--tm);margin-top:10px;line-height:1.6"><span class="i18n-ko">※ "이미지 크기에 맞춤"은 각 페이지가 이미지 비율 그대로 만들어집니다. A4·Letter는 해당 규격 용지에 이미지를 배치합니다.</span><span class="i18n-en">※ "Fit to image" makes each page match the image's aspect ratio. A4 / Letter place the image on a standard-size page.</span></p>
+  </div>
+  <div class="ad-slot"></div>
+  <div class="section" id="actSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">4. 변환 &amp; 다운로드</span><span class="i18n-en">4. Convert &amp; download</span></div>
+    <div class="size-est" id="sizeEst"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="makePDF('save')">⬇ <span class="i18n-ko">PDF 다운로드</span><span class="i18n-en">Download PDF</span></button>
+      <button class="btn btn-secondary" onclick="makePDF('preview')">👁 <span class="i18n-ko">미리보기</span><span class="i18n-en">Preview</span></button>
+      <button class="btn btn-danger" onclick="clearAll()"><span class="i18n-ko">전체 초기화</span><span class="i18n-en">Reset all</span></button>
+    </div>
+  </div>
+  <div class="section" id="deploySec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">파일은 안전합니다</span><span class="i18n-en">Your files are safe</span></div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:18px;font-size:13px;color:var(--tm);line-height:1.7"><span class="i18n-ko">🔒 업로드한 이미지는 서버로 전송되지 않습니다. 모든 변환은 사용자의 브라우저 안에서만 이루어지며, 페이지를 닫으면 즉시 사라집니다.</span><span class="i18n-en">🔒 Your images are never sent to a server. All conversion happens in your browser and disappears the moment you close the page.</span></div>
+  </div>
+</div>
+  <div class="section" style="margin-top:8px">
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:22px 20px">
+      <h2 style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--tx)"><span class="i18n-ko">여러 장의 사진(JPG)을 하나의 PDF로 합치는 방법</span><span class="i18n-en">How to combine multiple photos (JPG) into one PDF</span></h2>
+      <p style="font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:12px"><span class="i18n-ko">JPG→PDF 변환 도구는 여러 장의 JPG·PNG 이미지를 하나의 PDF 문서로 합쳐 주는 무료 온라인 도구입니다. 사진을 업로드하고 순서를 정한 뒤 변환 버튼만 누르면, 한 개의 PDF 파일이 만들어집니다. 페이지 크기(A4·Letter), 방향, 여백을 자유롭게 설정할 수 있고, 거꾸로 찍힌 사진은 회전해서 바로잡을 수 있습니다.</span><span class="i18n-en">This free online tool combines multiple JPG and PNG images into a single PDF document. Upload your photos, set the order, hit convert, and you get one PDF file. You can freely set page size (A4 / Letter), orientation, and margins, and rotate any photos that came out sideways.</span></p><p style="font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:12px"><span class="i18n-ko">스캔한 서류, 촬영한 문서, 영수증, 사진 모음을 한 파일로 정리할 때 유용합니다. 업로드한 이미지는 서버로 전송되지 않고 브라우저에서만 처리되어, 민감한 문서도 안심하고 변환할 수 있습니다.</span><span class="i18n-en">It is handy for organizing scanned papers, photographed documents, receipts, or photo collections into one file. Your images are processed only in your browser and never uploaded, so even sensitive documents stay private.</span></p>
+      <p style="font-size:12px;font-weight:600;color:var(--tm);margin:14px 0 6px"><span class="i18n-ko">이럴 때 좋아요</span><span class="i18n-en">Great for</span></p>
+      <ul style="font-size:13px;color:var(--tm);line-height:1.7;padding-left:18px;margin-bottom:14px"><li style="margin-bottom:4px"><span class="i18n-ko">여러 장 촬영한 서류를 한 PDF로 제출할 때</span><span class="i18n-en">Submitting multi-page documents as one PDF</span></li><li style="margin-bottom:4px"><span class="i18n-ko">영수증·명세서를 한 파일로 모을 때</span><span class="i18n-en">Collecting receipts or statements into one file</span></li><li style="margin-bottom:4px"><span class="i18n-ko">사진을 PDF 앨범처럼 묶을 때</span><span class="i18n-en">Bundling photos like a PDF album</span></li><li style="margin-bottom:4px"><span class="i18n-ko">스캔 앱 없이 문서를 PDF로 만들 때</span><span class="i18n-en">Making a PDF without a scanner app</span></li></ul>
+      <p style="font-size:12px;color:var(--tm);padding-top:12px;border-top:1px solid var(--bd)"><span class="i18n-ko">다른 도구: </span><span class="i18n-en">Other tools: </span><a href="pdf-editor.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a> · <a href="carousel.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a></p>
+    </div>
+  </div>
+<footer><p style="margin-bottom:6px;color:var(--tm);font-size:12px">a <strong style="color:var(--ac)">With Fuego</strong> product</p><p>© 2026 <a href="index.html">푸에고</a> (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html"><span class="i18n-ko">개인정보처리방침</span><span class="i18n-en">Privacy</span></a> · <a href="terms.html"><span class="i18n-ko">이용약관</span><span class="i18n-en">Terms</span></a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a> · <span class="i18n-ko">모든 파일은 브라우저에서만 처리됩니다.</span><span class="i18n-en">All files are processed in your browser only.</span></p></footer>
+<div class="mo" id="helpM"><div class="modal" style="max-width:620px"><div class="mh"><h3>📄 <span class="i18n-ko">JPG → PDF 변환 사용법</span><span class="i18n-en">How to use JPG → PDF</span></h3><button class="mc" onclick="closeM('helpM')" aria-label="닫기">✕</button></div><div class="mb">
+<p style="font-size:13px;color:var(--tm);line-height:1.7;margin-bottom:8px"><span class="i18n-ko">여러 장의 사진·이미지를 한 개의 PDF 문서로 합칩니다. 스캔 문서, 사진 모음, 서류 제출용으로 좋아요.</span><span class="i18n-en">Combine multiple photos or images into one PDF document. Great for scans, photo collections, and document submissions.</span></p>
+<div class="help-step"><div class="hs-num">1</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="2" y="2" width="60" height="44" rx="6" fill="none" stroke="#e23b3b" stroke-width="2" stroke-dasharray="5 4"/><path d="M32 30 V16 M26 22 L32 16 L38 22" stroke="#e23b3b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="32" width="9" height="7" rx="1" fill="#e23b3b" opacity=".5"/><rect x="35" y="32" width="9" height="7" rx="1" fill="#e23b3b" opacity=".5"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></h4><p><span class="i18n-ko">업로드 영역을 클릭하거나 파일을 끌어다 놓으세요. 여러 장을 한 번에 올릴 수 있어요.</span><span class="i18n-en">Click the upload area or drag your files in. You can add many at once.</span></p><p class="tip">💡 <span class="i18n-ko">파일 이름순으로 자동 정렬됩니다.</span><span class="i18n-en">Auto-sorted by file name.</span></p></div></div>
+<div class="help-step"><div class="hs-num">2</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="4" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".75"/><rect x="25" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".5"/><rect x="46" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".35"/><path d="M19 24 H24 M22 21 L25 24 L22 27" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">2. 순서 정리 &amp; 회전</span><span class="i18n-en">2. Arrange &amp; rotate</span></h4><p><span class="i18n-ko">드래그로 페이지 순서를 바꾸고, 각 이미지의 회전 버튼(↻)으로 방향을 바로잡으세요. 거꾸로 찍힌 사진도 정리할 수 있어요.</span><span class="i18n-en">Drag to reorder pages, and use each image's rotate button (↻) to fix the orientation. Sideways photos are easy to straighten.</span></p><p class="tip">💡 <span class="i18n-ko">Ctrl+Z로 되돌릴 수 있어요.</span><span class="i18n-en">Press Ctrl+Z to undo.</span></p></div></div>
+<div class="help-step"><div class="hs-num">3</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="14" y="8" width="36" height="32" rx="2" fill="none" stroke="#e23b3b" stroke-width="1.5"/><rect x="20" y="14" width="24" height="16" rx="1" fill="#e23b3b" opacity=".4"/><rect x="20" y="33" width="16" height="2.5" rx="1.25" fill="#e23b3b" opacity=".6"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">3. PDF 설정</span><span class="i18n-en">3. PDF settings</span></h4><p><span class="i18n-ko">페이지 크기(이미지맞춤·A4·Letter), 방향, 여백을 정하세요. 특정 페이지만 다르게 하려면 각 이미지의 설정 버튼(⚙)을 누르면 돼요.</span><span class="i18n-en">Set page size (Fit / A4 / Letter), orientation, and margins. To make one page different, press that image's settings button (⚙).</span></p></div></div>
+<div class="help-step"><div class="hs-num">4</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="20" y="6" width="24" height="30" rx="2" fill="#e23b3b" opacity=".25" stroke="#e23b3b" stroke-width="1.5"/><path d="M32 30 V18 M27 25 L32 30 L37 25" stroke="#e23b3b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="16" y="40" width="32" height="4" rx="2" fill="#e23b3b"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">4. 변환 &amp; 다운로드</span><span class="i18n-en">4. Convert &amp; download</span></h4><p><span class="i18n-ko">"PDF 다운로드"를 누르면 변환이 시작됩니다. 미리보기로 결과를 먼저 확인할 수도 있어요.</span><span class="i18n-en">Click "Download PDF" to start. You can also preview the result first.</span></p><p class="tip">💡 <span class="i18n-ko">사진이 많거나 크면, 품질을 낮추면 더 빠르고 안정적이에요.</span><span class="i18n-en">For many or large photos, lowering the quality is faster and more stable.</span></p></div></div>
+<div class="faq-section">
+<div class="faq-title"><span class="i18n-ko">자주 묻는 질문</span><span class="i18n-en">FAQ</span></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">"이미지 크기에 맞춤"과 "A4"는 뭐가 다른가요?</span><span class="i18n-en">What's the difference between "Fit to image" and "A4"?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">"이미지 크기에 맞춤"은 각 페이지가 사진 비율 그대로 만들어져 여백 없이 꽉 찹니다. "A4"·"Letter"는 정해진 규격 용지 위에 사진을 배치해요. 인쇄할 거라면 A4, 화면으로만 볼 거라면 이미지맞춤이 편해요.</span><span class="i18n-en">"Fit to image" makes each page match the photo's ratio, filling it with no margins. "A4"/"Letter" place the photo on a standard page. Use A4 for printing, Fit for on-screen viewing.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">사진이 거꾸로/옆으로 나와요.</span><span class="i18n-en">My photo is upside down or sideways.</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">각 이미지 카드의 회전 버튼(↻)을 눌러 90도씩 돌릴 수 있어요. 돌린 방향 그대로 PDF에 반영됩니다.</span><span class="i18n-en">Press the rotate button (↻) on each image to turn it 90° at a time. The rotation is applied to the PDF.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">제 사진이 서버에 올라가나요?</span><span class="i18n-en">Are my photos uploaded to a server?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">아니요. 모든 변환은 사용자의 브라우저 안에서만 이루어집니다. 사진이 인터넷 어디로도 전송되지 않으며, 페이지를 닫으면 즉시 사라져요.</span><span class="i18n-en">No. All conversion happens in your browser. Your photos are never sent anywhere and disappear the moment you close the page.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">변환이 멈추거나 너무 느려요.</span><span class="i18n-en">Conversion stalls or is very slow.</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">고화질 사진을 많이 올리면 시간이 걸릴 수 있어요. 설정에서 이미지 품질을 낮추면 훨씬 빠르고 안정적으로 변환됩니다. 사진이 아주 많다면 몇 번에 나눠 변환하는 것도 방법이에요.</span><span class="i18n-en">Many high-resolution photos can take time. Lowering the image quality in settings makes it much faster and more stable. For very many photos, converting in a few batches also helps.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">휴대폰에서도 되나요?</span><span class="i18n-en">Does it work on mobile?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">네. 스마트폰에서도 작동합니다. 이미지를 길게 눌러 드래그하면 순서를 바꿀 수 있어요.</span><span class="i18n-en">Yes. It works on phones too. Press and hold an image, then drag to reorder.</span></div></div>
+</div>
+<a class="help-cta" onclick="closeM('helpM')"><span class="i18n-ko">시작하기 →</span><span class="i18n-en">Get started →</span></a>
+</div></div></div>
+<div class="mo" id="pvM"><div class="modal"><div class="mh"><h3><span class="i18n-ko">PDF 미리보기</span><span class="i18n-en">PDF Preview</span></h3><button class="mc" onclick="closeM('pvM')" aria-label="닫기">✕</button></div><div class="mb"><iframe class="pf" id="pvF" title="PDF 미리보기"></iframe></div></div></div>
+<div class="mo" id="psM"><div class="modal" style="max-width:440px"><div class="mh"><h3 id="psTitle">페이지 설정</h3><button class="mc" onclick="closeM('psM')" aria-label="닫기">✕</button></div><div class="mb">
+<p style="font-size:12px;color:var(--tm);margin-bottom:14px;line-height:1.6"><span class="i18n-ko">선택한 페이지에만 다르게 적용할 설정입니다. <strong>"기본값"</strong>을 고르면 위쪽 공통 설정(3번 항목)을 그대로 따릅니다.</span><span class="i18n-en">Settings applied only to the selected pages. Choose <strong>"Default"</strong> to follow the common settings above (section 3).</span></p>
+<div class="field" style="margin-bottom:12px"><label><span class="i18n-ko">페이지 크기</span><span class="i18n-en">Page size</span></label><div class="seg" id="psSize"><button data-v="__g" class="active"><span class="i18n-ko">기본값</span><span class="i18n-en">Default</span></button><button data-v="fit"><span class="i18n-ko">이미지맞춤</span><span class="i18n-en">Fit</span></button><button data-v="a4">A4</button><button data-v="letter">Letter</button></div></div>
+<div class="field" style="margin-bottom:12px"><label><span class="i18n-ko">방향</span><span class="i18n-en">Orientation</span></label><div class="seg" id="psOrient"><button data-v="__g" class="active"><span class="i18n-ko">기본값</span><span class="i18n-en">Default</span></button><button data-v="auto"><span class="i18n-ko">자동</span><span class="i18n-en">Auto</span></button><button data-v="portrait"><span class="i18n-ko">세로</span><span class="i18n-en">Portrait</span></button><button data-v="landscape"><span class="i18n-ko">가로</span><span class="i18n-en">Landscape</span></button></div></div>
+<div class="field" style="margin-bottom:16px"><label><span class="i18n-ko">여백</span><span class="i18n-en">Margins</span></label><div class="seg" id="psMargin"><button data-v="__g" class="active"><span class="i18n-ko">기본값</span><span class="i18n-en">Default</span></button><button data-v="0"><span class="i18n-ko">없음</span><span class="i18n-en">None</span></button><button data-v="10"><span class="i18n-ko">좁게</span><span class="i18n-en">Small</span></button><button data-v="20"><span class="i18n-ko">보통</span><span class="i18n-en">Medium</span></button><button data-v="35"><span class="i18n-ko">넓게</span><span class="i18n-en">Large</span></button></div></div>
+<div class="pa"><button class="btn btn-secondary btn-sm" onclick="clearPageSettings()" style="padding:8px 14px;font-size:12px"><span class="i18n-ko">기본값으로 되돌리기</span><span class="i18n-en">Reset to default</span></button><button class="btn btn-primary btn-sm" onclick="savePageSettings()" style="padding:8px 14px;font-size:12px"><span class="i18n-ko">적용</span><span class="i18n-en">Apply</span></button></div>
+</div></div></div>
+<div class="lo" id="loO"><div class="spinner"></div><div class="lt" id="loT">처리 중...</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="ri" accept="image/*" style="display:none">
+<script>
+function trLang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'ko';}
+function tr(ko,en){return trLang()==='en'?en:ko;}
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l==='en'?'en':'ko');try{localStorage.setItem('fuego-lang',l)}catch(e){}}
+function applyLang(){try{setHintBar();render();updSelBar();updSize();}catch(e){}}
+function toggleLang(){setLang(trLang()==='ko'?'en':'ko');applyLang();}
+(function(){var s=null;try{s=localStorage.getItem('fuego-lang')}catch(e){}; if(s==='ko'||s==='en'){setLang(s)} else {var nv=(navigator.language||'').toLowerCase(); if(nv&&!nv.startsWith('ko'))setLang('en');}})();
+function setHintBar(){var h=document.getElementById('hintBar');if(!h)return;h.textContent=isTouch?tr(tr('💡 드래그로 순서 변경 · 체크박스로 선택','💡 Drag to reorder · tap the checkbox to select'),'💡 Drag to reorder · tap the checkbox to select'):tr('💡 드래그로 순서 변경 · Ctrl+클릭 개별 선택 · Shift+클릭 범위 선택 · Ctrl+Z 실행 취소','💡 Drag to reorder · Ctrl+click to select · Shift+click for a range · Ctrl+Z undo');}
+let imgs=[],selIds=new Set(),idc=0,lastClickIdx=null,sortableInst=null;
+let history=[];const MAX_HIST=10;
+let opt={size:'fit',orient:'auto',margin:0};
+const isTouch='ontouchstart'in window||navigator.maxTouchPoints>0;
+const THUMB_MAX=400;
+if(isTouch)document.body.classList.add('touch-device');
+window.addEventListener('DOMContentLoaded',()=>{setHintBar();});
+
+// Segmented controls
+function bindSeg(id,key){const c=document.getElementById(id);c.querySelectorAll('button').forEach(b=>{b.onclick=()=>{c.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active');opt[key]=b.dataset.v;updSize()}})}
+bindSeg('segSize','size');bindSeg('segOrient','orient');bindSeg('segMargin','margin');
+// Modal segs: just toggle active within group
+function bindToggle(id){const c=document.getElementById(id);c.querySelectorAll('button').forEach(b=>{b.onclick=()=>{c.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}})}
+['psSize','psOrient','psMargin'].forEach(bindToggle);
+document.getElementById('qs').addEventListener('input',function(){document.getElementById('qv').textContent=this.value+'%';updSize()});
+document.getElementById('fname').addEventListener('input',updSteps);
+
+function updSteps(){document.getElementById('step1').classList.toggle('done',imgs.length>0);document.getElementById('step2').classList.toggle('done',imgs.length>0);document.getElementById('step3').classList.toggle('done',document.getElementById('fname').value.length>0);}
+
+// Undo
+function pushHist(){history.push(imgs.map(i=>({...i})));if(history.length>MAX_HIST)history.shift()}
+function undo(){if(!history.length){toast(tr('되돌릴 작업이 없습니다','Nothing to undo'));return}imgs=history.pop();selIds.clear();lastClickIdx=null;updSelBar();render();updSize();toast(tr('실행 취소됨','Undone'))}
+
+// Thumbnails
+async function makeThumb(dataUrl){return new Promise(res=>{const i=new Image();i.onload=()=>{let w=i.naturalWidth,h=i.naturalHeight;if(w<=THUMB_MAX&&h<=THUMB_MAX){res(dataUrl);return}const sc=THUMB_MAX/Math.max(w,h);const c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(h*sc);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.8))};i.onerror=()=>res(dataUrl);i.src=dataUrl})}
+
+// Upload
+const uz=document.getElementById('uz'),fi=document.getElementById('fi');
+uz.addEventListener('click',()=>fi.click());
+uz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fi.click()}});
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('dragover'));
+uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('dragover');hFiles(e.dataTransfer.files)});
+fi.addEventListener('change',e=>{hFiles(e.target.files);fi.value=''});
+async function hFiles(files){const a=Array.from(files).filter(f=>f.type.startsWith('image/'));if(!a.length)return;a.sort((x,y)=>x.name.localeCompare(y.name,undefined,{numeric:true}));showLd(tr('이미지 불러오는 중...','Loading images...'));pushHist();const ni=[];for(let idx=0;idx<a.length;idx++){document.getElementById('loT').textContent=tr('이미지 불러오는 중... ','Loading images... ')+(idx+1)+'/'+a.length;const du=await readFile(a[idx]);const th=await makeThumb(du);ni.push({id:idc++,dataUrl:du,thumbUrl:th,name:a[idx].name,rotation:0,custom:null})}imgs=imgs.concat(ni);hideLd();render();showSec();updSize();updSteps()}
+function readFile(f){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f)})}
+function showSec(){['imgSec','setSec','actSec','deploySec'].forEach(id=>document.getElementById(id).style.display='')}
+
+// Replace
+const ri=document.getElementById('ri');let repId=null;
+ri.addEventListener('change',async function(e){if(!e.target.files.length||repId===null)return;pushHist();const du=await readFile(e.target.files[0]);const th=await makeThumb(du);const img=imgs.find(i=>i.id===repId);if(img){img.dataUrl=du;img.thumbUrl=th;img.name=e.target.files[0].name;render();updSize();toast(tr('이미지가 교체되었습니다','Image replaced'))}repId=null;this.value=''});
+function repImg(id){repId=id;ri.click()}
+
+// Selection
+function handleCardClick(e,img){if(e.target.closest('.cab')||e.target.closest('.mob-cb'))return;const ci=imgs.indexOf(img);if(e.shiftKey&&lastClickIdx!==null){const s=Math.min(lastClickIdx,ci),en=Math.max(lastClickIdx,ci);for(let i=s;i<=en;i++)selIds.add(imgs[i].id)}else if(e.ctrlKey||e.metaKey){if(selIds.has(img.id))selIds.delete(img.id);else selIds.add(img.id);lastClickIdx=ci}else{if(selIds.size<=1&&selIds.has(img.id)){selIds.clear();lastClickIdx=null}else{selIds.clear();selIds.add(img.id);lastClickIdx=ci}}updSelBar();render()}
+function handleMobCb(e,id){e.stopPropagation();if(selIds.has(id))selIds.delete(id);else selIds.add(id);updSelBar();render()}
+function clearSel(){selIds.clear();lastClickIdx=null;updSelBar();render()}
+function updSelBar(){const b=document.getElementById('selBar');if(selIds.size>0){b.classList.add('active');document.getElementById('selInfo').textContent=selIds.size+tr('개 선택',' selected')}else b.classList.remove('active')}
+
+// Render
+function render(){const g=document.getElementById('ig');g.innerHTML='';document.getElementById('ic').textContent=imgs.length;document.getElementById('resetAllRow').style.display=imgs.some(i=>i.custom)?'':'none';if(!imgs.length){g.innerHTML='<div class="empty">'+tr('이미지가 없습니다','No images')+'</div>';return}
+imgs.forEach((img,idx)=>{const c=document.createElement('div');c.className='image-card'+(selIds.has(img.id)?' selected':'');c.dataset.id=img.id;
+const badges=(img.rotation?'<span class="cbadge rot">'+img.rotation+'°</span>':'')+(img.custom?'<span class="cbadge cfg">'+tr('개별','Custom')+'</span>':'');
+c.innerHTML='<img src="'+img.thumbUrl+'" alt="'+esc(img.name)+'" loading="lazy"><div class="ob">'+(idx+1)+'</div><div class="card-badges">'+badges+'</div><div class="ca"><button class="cab rot" title="Rotate 90°" aria-label="Rotate" onclick="event.stopPropagation();rotateImg('+img.id+')">↻</button><button class="cab cfg" title="Per-page settings" aria-label="Per-page settings" onclick="event.stopPropagation();openPageSettings('+img.id+')">⚙</button><button class="cab del" title="Delete" aria-label="Delete" onclick="event.stopPropagation();delOne('+img.id+')">✕</button></div><div class="cm">✓</div><div class="mob-cb" onclick="handleMobCb(event,'+img.id+')" role="checkbox" aria-label="Select">'+(selIds.has(img.id)?'✓':'')+'</div><div class="fn">'+esc(img.name)+'</div>';
+c.addEventListener('click',e=>handleCardClick(e,img));g.appendChild(c)});
+initSortable()}
+function initSortable(){if(sortableInst){sortableInst.destroy();sortableInst=null}const g=document.getElementById('ig');if(!g.children.length||g.querySelector('.empty'))return;sortableInst=Sortable.create(g,{animation:160,ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',delay:isTouch?120:0,delayOnTouchOnly:true,onEnd:function(){const ids=Array.from(g.children).map(c=>parseInt(c.dataset.id));pushHist();const re=ids.map(id=>imgs.find(i=>i.id===id)).filter(Boolean);if(re.length===imgs.length){imgs=re;render()}}})}
+
+// Size estimate
+function updSize(){const el=document.getElementById('sizeEst');if(!imgs.length){el.innerHTML='';return}let tot=0;imgs.forEach(i=>tot+=i.dataUrl.length);const q=parseInt(document.getElementById('qs').value);const est=Math.round(tot*(q/100)*0.6);const mb=(est/1024/1024).toFixed(1);let html=tr('📄 예상 PDF 크기: <strong>약 '+mb+' MB</strong> ('+imgs.length+'페이지)','📄 Estimated PDF size: <strong>~'+mb+' MB</strong> ('+imgs.length+' pages)');if(imgs.length>40||mb>30){html+=' · <span style="color:var(--ac)">'+tr('⚠ 용량이 큽니다. 품질을 낮추면 더 빠르고 안정적으로 변환됩니다.','⚠ Large file. Lowering the quality makes it faster and more stable.')+'</span>'}el.innerHTML=html}
+
+// Delete
+function delSel(){if(!selIds.size)return;if(!confirm(tr(selIds.size+'장의 이미지를 삭제하시겠습니까?','Delete '+selIds.size+' image(s)?')))return;pushHist();imgs=imgs.filter(i=>!selIds.has(i.id));selIds.clear();lastClickIdx=null;updSelBar();render();updSize();toast('선택한 이미지가 삭제되었습니다')}
+function delOne(id){pushHist();imgs=imgs.filter(i=>i.id!==id);selIds.delete(id);updSelBar();render();updSize()}
+function clearAll(){if(!imgs.length)return;if(!confirm(tr('모든 이미지와 설정을 초기화하시겠습니까?','Reset all images and settings?')))return;pushHist();imgs=[];selIds.clear();lastClickIdx=null;updSelBar();render();updSize();updSteps();toast('초기화되었습니다')}
+
+// Load image to get dimensions
+function loadImg(du){return new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.src=du})}
+// Re-encode at quality
+function reencode(du,q){return new Promise(res=>{if(q>=100){res(du);return}const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d').drawImage(i,0,0);res(c.toDataURL('image/jpeg',q/100))};i.src=du})}
+
+// Rotate a dataURL by degrees (90/180/270), returns {dataUrl,w,h}
+function rotateDataUrl(du,deg,q){return new Promise(res=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');const swap=(deg===90||deg===270);c.width=swap?i.naturalHeight:i.naturalWidth;c.height=swap?i.naturalWidth:i.naturalHeight;const ctx=c.getContext('2d');ctx.translate(c.width/2,c.height/2);ctx.rotate(deg*Math.PI/180);ctx.drawImage(i,-i.naturalWidth/2,-i.naturalHeight/2);res({dataUrl:c.toDataURL('image/jpeg',(q||92)/100),w:c.width,h:c.height})};i.src=du})}
+
+// Process for PDF: rotate + downscale (memory safety) + encode. maxDim caps the longest side.
+function processForPdf(du,deg,q,maxDim){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>{try{
+  let nw=i.naturalWidth,nh=i.naturalHeight;
+  let scale=1;
+  if(Math.max(nw,nh)>maxDim) scale=maxDim/Math.max(nw,nh);
+  const dw=Math.round(nw*scale),dh=Math.round(nh*scale);
+  const swap=(deg===90||deg===270);
+  const c=document.createElement('canvas');
+  c.width=swap?dh:dw;c.height=swap?dw:dh;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+  ctx.translate(c.width/2,c.height/2);ctx.rotate(deg*Math.PI/180);
+  ctx.drawImage(i,-dw/2,-dh/2,dw,dh);
+  const out=c.toDataURL('image/jpeg',(q||92)/100);
+  c.width=c.height=0; // free canvas memory
+  if(!out||out.length<10){rej(new Error('encode_fail'));return}
+  res({dataUrl:out,w:swap?dh:dw,h:swap?dw:dh});
+}catch(err){rej(err)}};i.onerror=()=>rej(new Error('load_fail'));i.src=du})}
+
+// Rotate image (button): +90, regenerate thumbnail rotated
+async function rotateImg(id){const img=imgs.find(i=>i.id===id);if(!img)return;pushHist();img.rotation=(img.rotation+90)%360;const r=await rotateDataUrl(img.dataUrl,img.rotation,80);img.thumbUrl=await makeThumb(r.dataUrl);render();updSize()}
+
+// Per-page settings
+let editPageIds=[];
+function openPageSettings(id){editPageIds=[id];const img=imgs.find(i=>i.id===id);const s=img.custom||{};
+setSeg('psSize', s.size||'__g');setSeg('psOrient', s.orient||'__g');setSeg('psMargin', (s.margin!==undefined&&s.margin!==null)?String(s.margin):'__g');
+document.getElementById('psTitle').textContent=tr((imgs.indexOf(img)+1)+'번 페이지 설정','Page '+(imgs.indexOf(img)+1)+' settings');
+openM('psM')}
+function openPageSettingsForSelected(){
+if(!selIds.size){toast(tr('설정할 페이지를 먼저 선택해주세요','Select pages to configure first'));return}
+editPageIds=imgs.filter(i=>selIds.has(i.id)).map(i=>i.id);
+const customs=imgs.filter(i=>editPageIds.includes(i.id)).map(i=>JSON.stringify(i.custom||null));
+const allSame=customs.every(c=>c===customs[0]);
+const s=(allSame&&customs[0]!=='null')?JSON.parse(customs[0]):{};
+setSeg('psSize', s.size||'__g');setSeg('psOrient', s.orient||'__g');setSeg('psMargin', (s.margin!==undefined&&s.margin!==null)?String(s.margin):'__g');
+document.getElementById('psTitle').textContent=tr('선택한 '+editPageIds.length+'개 페이지 설정','Settings for '+editPageIds.length+' selected page(s)');
+openM('psM')}
+function setSeg(id,v){const c=document.getElementById(id);c.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.v===v))}
+function getSeg(id){const b=document.querySelector('#'+id+' button.active');return b?b.dataset.v:'__g'}
+function savePageSettings(){if(!editPageIds.length){closeM('psM');return}pushHist();const sz=getSeg('psSize'),or=getSeg('psOrient'),mg=getSeg('psMargin');
+const custom=(sz==='__g'&&or==='__g'&&mg==='__g')?null:{size:sz==='__g'?opt.size:sz,orient:or==='__g'?opt.orient:or,margin:mg==='__g'?parseInt(opt.margin):parseInt(mg)};
+imgs.forEach(i=>{if(editPageIds.includes(i.id))i.custom=custom?{...custom}:null});
+closeM('psM');render();updInfo();toast(custom?tr(editPageIds.length+'개 페이지에 개별 설정이 적용되었습니다','Applied custom settings to '+editPageIds.length+' page(s)'):tr(editPageIds.length+'개 페이지를 기본값으로 되돌렸습니다','Reset '+editPageIds.length+' page(s) to default'))}
+function clearPageSettings(){if(!editPageIds.length){closeM('psM');return}pushHist();imgs.forEach(i=>{if(editPageIds.includes(i.id))i.custom=null});closeM('psM');render();updInfo();toast(tr('기본값으로 되돌렸습니다','Reset to default'))}
+function clearSettingsSel(){if(!selIds.size){toast(tr('페이지를 먼저 선택해주세요','Select pages first'));return}if(!imgs.some(i=>selIds.has(i.id)&&i.custom)){toast(tr('선택한 페이지에 개별 설정이 없습니다','The selected pages have no custom settings'));return}pushHist();imgs.forEach(i=>{if(selIds.has(i.id))i.custom=null});render();updInfo();toast(tr('선택한 페이지의 개별 설정을 해제했습니다','Cleared custom settings on the selected pages'))}
+function clearAllSettings(){if(!imgs.some(i=>i.custom))return;if(!confirm(tr('모든 페이지의 개별 설정을 초기화하시겠습니까? (이미지는 유지됩니다)','Reset custom settings on all pages? (Images are kept)')))return;pushHist();imgs.forEach(i=>i.custom=null);render();updInfo();toast(tr('모든 개별 설정이 초기화되었습니다','All custom settings have been reset'))}
+
+// Make PDF
+async function makePDF(mode){
+  if(!imgs.length){toast(tr('이미지를 먼저 업로드해주세요','Upload images first'));return}
+  // For preview, open a tab now (within the click gesture) so popup blockers don't stop it
+  let pvWin=null;
+  if(mode==='preview'){try{pvWin=window.open('','_blank');}catch(e){pvWin=null}}
+  showLd(tr('PDF 생성 중...','Generating PDF...'));await new Promise(r=>setTimeout(r,50));
+  const q=parseInt(document.getElementById('qs').value);
+  // resolution cap tied to quality slider (prevents memory overload on large photos)
+  const maxDim = q>=95 ? 3200 : (q>=80 ? 2600 : 2000);
+  const {jsPDF}=window.jspdf;
+  let pdf=null;
+  try{
+    for(let idx=0;idx<imgs.length;idx++){
+      document.getElementById('loT').textContent=tr('페이지 생성 ','Generating page ')+(idx+1)+' / '+imgs.length;
+      // let the browser repaint progress (prevents "not responding")
+      await new Promise(r=>setTimeout(r,0));
+      // per-page settings (fallback to global)
+      const st = imgs[idx].custom || {size:opt.size, orient:opt.orient, margin:parseInt(opt.margin)};
+      const margin = st.margin;
+      // rotate + downscale + encode in one pass
+      const proc = await processForPdf(imgs[idx].dataUrl, imgs[idx].rotation||0, q, maxDim);
+      const data = proc.dataUrl, iw = proc.w, ih = proc.h;
+      let pw,ph,orientation;
+      if(st.size==='fit'){
+        pw=iw*25.4/96; ph=ih*25.4/96;
+        if(idx===0) pdf=new jsPDF({orientation:pw>=ph?'l':'p',unit:'mm',format:[pw,ph]});
+        else pdf.addPage([pw,ph], pw>=ph?'l':'p');
+        pdf.addImage(data,'JPEG',0,0,pw,ph,undefined,'FAST');
+      }else{
+        const fmt = st.size==='a4'?'a4':'letter';
+        if(st.orient==='auto') orientation = iw>=ih?'landscape':'portrait';
+        else orientation = st.orient;
+        if(idx===0) pdf=new jsPDF({orientation:orientation==='landscape'?'l':'p',unit:'mm',format:fmt});
+        else pdf.addPage(fmt, orientation==='landscape'?'l':'p');
+        pw=pdf.internal.pageSize.getWidth(); ph=pdf.internal.pageSize.getHeight();
+        const availW=pw-margin*2, availH=ph-margin*2;
+        const r=Math.min(availW/iw, availH/ih);
+        const dw=iw*r, dh=ih*r;
+        pdf.addImage(data,'JPEG',(pw-dw)/2,(ph-dh)/2,dw,dh,undefined,'FAST');
+      }
+    }
+    const name=(document.getElementById('fname').value||'fuego').replace(/[^a-zA-Z0-9\uAC00-\uD7A3_-]/g,'_');
+    hideLd();
+    if(mode==='preview'){
+      const blob=pdf.output('blob');
+      const url=URL.createObjectURL(blob);
+      if(pvWin&&!pvWin.closed){pvWin.location=url;}
+      else{document.getElementById('pvF').src=url;openM('pvM');}
+    }else{
+      // Try save picker
+      if(window.showSaveFilePicker){
+        try{
+          const handle=await window.showSaveFilePicker({suggestedName:name+'.pdf',types:[{description:'PDF',accept:{'application/pdf':['.pdf']}}]});
+          const w=await handle.createWritable();await w.write(pdf.output('blob'));await w.close();
+          toast(tr('✓ PDF 다운로드 완료 ('+imgs.length+'페이지)','✓ PDF downloaded ('+imgs.length+' pages)'));return;
+        }catch(e){if(e.name==='AbortError')return;}
+      }
+      pdf.save(name+'.pdf');
+      toast('✓ PDF 다운로드 완료 ('+imgs.length+'페이지)');
+    }
+  }catch(err){
+    hideLd();console.error(err);
+    if(pvWin&&!pvWin.closed){try{pvWin.close()}catch(e){}}
+    const msg=(err&&err.message)||'';
+    if(msg==='load_fail'){toast(tr('일부 이미지를 불러올 수 없습니다. 파일을 다시 추가해주세요','Some images could not be loaded. Please add them again.'))}
+    else if(msg==='encode_fail'||/memory|allocation|out of/i.test(msg)){toast(tr('파일이 너무 큽니다. 이미지 품질을 낮추거나 장수를 나눠서 시도해주세요','The file is too large. Lower the image quality or split into fewer pages.'))}
+    else{toast(tr('PDF 생성 중 오류가 발생했습니다. 품질을 낮춰 다시 시도해보세요','Something went wrong while generating the PDF. Try lowering the quality.'))}
+  }
+}
+
+// Utils
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function openM(id){document.getElementById(id).classList.add('active')}
+function closeM(id){document.getElementById(id).classList.remove('active');if(id==='pvM')document.getElementById('pvF').src=''}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+function showLd(m){document.getElementById('loT').textContent=m;document.getElementById('loO').classList.add('active')}
+function hideLd(){document.getElementById('loO').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM('pvM');closeM('psM');closeM('helpM');if(selIds.size)clearSel()}if((e.ctrlKey||e.metaKey)&&e.key==='a'&&imgs.length&&!document.querySelector('.mo.active')){e.preventDefault();imgs.forEach(i=>selIds.add(i.id));updSelBar();render()}if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!document.querySelector('.mo.active')){e.preventDefault();undo()}});
+['pvM','psM','helpM'].forEach(id=>document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeM(id)}));
+</script>
+
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+</script>
+</body>
+</html>

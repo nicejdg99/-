@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학회·행사 프로그램을 모바일 슬라이드로 만드는 법 | 푸에고</title>
+<meta name="description" content="긴 세로 이미지로 된 학회·세미나 프로그램을 휴대폰에서 좌우로 넘겨보는 슬라이드로 만드는 방법을 단계별로 설명합니다. 무료, 설치 없음.">
+<meta name="keywords" content="학회 프로그램 모바일, 행사 안내 슬라이드, 세미나 프로그램 슬라이드, 이미지 슬라이드 만들기, 프로그램 모바일 공유">
+<meta property="og:title" content="학회·행사 프로그램을 모바일 슬라이드로 만드는 법">
+<meta property="og:description" content="긴 이미지 프로그램을 휴대폰에서 넘겨보는 슬라이드로. 무료, 설치 없음.">
+<meta property="og:image" content="https://fuego.kr/og-carousel.png">
+<meta property="og:url" content="https://fuego.kr/guide-conference-slide.html">
+<meta property="og:type" content="article">
+<link rel="canonical" href="https://fuego.kr/guide-conference-slide.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"학회·행사 프로그램을 모바일 슬라이드로 만드는 법","description":"긴 세로 이미지로 된 학회·세미나 프로그램을 휴대폰에서 좌우로 넘겨보는 슬라이드로 만드는 방법","author":{"@type":"Organization","name":"With Fuego"},"publisher":{"@type":"Organization","name":"With Fuego"},"mainEntityOfPage":"https://fuego.kr/guide-conference-slide.html"}
+</script>
+<style>
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--bd:#262626;--tx:#f0f0f0;--tm:#888;--ac:#e23b3b;--ach:#e85a5a}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+body{background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.8}
+.site-nav{position:sticky;top:0;z-index:200;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,59,59,.1)}
+
+.nav-right{display:flex;align-items:center;gap:14px}
+.nlink{color:var(--tm);font-size:12px;font-weight:500;text-decoration:none;transition:color .2s}.nlink:hover{color:var(--ac)}
+.dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:2px}.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}.dd-panel a:hover{background:var(--sf2);color:var(--ac)}.dd-panel a.cur{color:var(--ac);background:rgba(226,59,59,.08)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}.dd-soon .bdg{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}.dd-all:hover{color:#fff!important}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr;gap:6px;padding:12px;max-height:72vh;overflow-y:auto}.dd-panel a{padding:7px 8px}}
+.site-nav .logo{font-size:18px;font-weight:800;color:var(--tx);text-decoration:none;letter-spacing:-1px;display:flex;align-items:center}
+.site-nav a.back{color:var(--tm);font-size:12px;text-decoration:none;transition:color .2s}
+.site-nav a.back:hover{color:var(--ac)}
+article{max-width:680px;margin:0 auto;padding:40px 24px 80px}
+.crumb{font-size:12px;color:var(--tm);margin-bottom:16px}
+.crumb a{color:var(--tm);text-decoration:none}
+.crumb a:hover{color:var(--ac)}
+h1{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.3;margin-bottom:14px}
+.lead{font-size:16px;color:var(--tm);font-weight:300;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--bd)}
+h2{font-size:21px;font-weight:700;letter-spacing:-.5px;margin:36px 0 14px}
+h3{font-size:16px;font-weight:700;margin:24px 0 8px;color:var(--ach)}
+p{font-size:15px;color:#cfcfcf;margin-bottom:16px}
+ul,ol{font-size:15px;color:#cfcfcf;margin:0 0 16px 0;padding-left:22px}
+li{margin-bottom:8px}
+strong{color:var(--tx);font-weight:600}
+.note{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;padding:14px 16px;font-size:14px;color:var(--tm);margin:20px 0}
+.cta-box{background:var(--sf);border:1px solid rgba(226,59,59,.25);border-radius:12px;padding:24px;text-align:center;margin:36px 0}
+.cta-box h3{color:var(--tx);margin-top:0;font-size:17px}
+.cta-box p{font-size:13px;margin-bottom:16px}
+.cta-btn{display:inline-block;background:var(--ac);color:#fff;padding:13px 28px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;transition:background .2s}
+.cta-btn:hover{background:var(--ach)}
+footer{border-top:1px solid var(--bd);padding:28px 24px;text-align:center}
+footer p{font-size:11px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}
+footer a:hover{color:var(--ac)}
+.related{margin-top:40px;padding-top:24px;border-top:1px solid var(--bd)}
+.related h3{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--tm)}
+.related a{color:var(--ac);text-decoration:none;font-size:14px}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+</head>
+<body>
+<div class="site-nav"><a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="fuego" style="height:26px;width:auto;vertical-align:middle"><span style="margin-left:6px;vertical-align:middle">fuego</span></a><div class="nav-right"><div class="dropdown" id="toolsDd"><button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button><div class="dd-panel"><div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF</span></div><a href="jpg-to-pdf.html"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a><a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a><a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a></div><div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image</span></div><a href="carousel.html"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a><a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a><a href="image-compress.html"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a></div><div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트</span><span class="i18n-en">AI prompt</span></div><div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="bdg"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div></div><a href="tools.html" class="dd-all"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a></div></div><div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html" class="cur"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div><button class="lang-btn" onclick="toggleLang()"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button></div></div>
+<article>
+<div class="i18n-ko">
+  <div class="crumb"><a href="index.html">푸에고</a> › 가이드</div>
+  <h1>학회·행사 프로그램을 모바일에서 넘겨보는 슬라이드로 만드는 법</h1>
+  <p class="lead">긴 세로 이미지 한 장으로 된 행사 프로그램, 휴대폰에서 보기 불편하셨죠? 좌우로 넘겨보는 슬라이드로 바꾸면 훨씬 보기 좋습니다. 설치나 회원가입 없이 무료로 만드는 방법을 정리했습니다.</p>
+
+  <h2>왜 슬라이드 형태가 더 좋을까</h2>
+  <p>학회나 세미나 프로그램은 보통 한 장의 긴 이미지나 PDF로 만들어집니다. 그런데 이걸 휴대폰으로 보면 글자가 너무 작아 계속 확대하고 스크롤해야 합니다. 참석자 입장에서 불편하죠.</p>
+  <p>프로그램을 <strong>섹션별로 나눠 좌우로 넘겨보는 슬라이드(캐러셀)</strong>로 만들면, 화면 하나에 한 부분씩 꽉 차게 보여 줄 수 있습니다. 손가락으로 넘기기만 하면 되니 직관적이고, 링크 하나로 공유할 수 있어 인쇄물도 필요 없습니다.</p>
+
+  <h2>준비물</h2>
+  <ul>
+    <li>프로그램 이미지 (한 장씩 나눠진 이미지면 가장 좋습니다)</li>
+    <li>인터넷 브라우저 (크롬, 엣지, 사파리 등)</li>
+  </ul>
+  <div class="note">💡 프로그램이 긴 이미지 한 장이라면, 먼저 섹션별로(예: 표지, 1일차, 2일차) 잘라 두면 결과가 더 깔끔합니다. 캡처 도구나 이미지 편집 앱으로 부분 캡처하면 됩니다.</div>
+
+  <h2>따라 하기</h2>
+  <h3>1. 이미지 업로드</h3>
+  <p>캐러셀 메이커를 열고, 나눠 둔 프로그램 이미지를 끌어다 놓거나 클릭해서 한 번에 올립니다. 파일 이름순(01, 02, 03…)으로 자동 정렬되니, 파일 이름에 순서를 붙여 두면 편합니다.</p>
+  <h3>2. 순서 정리</h3>
+  <p>이미지를 드래그해 원하는 순서로 배치합니다. 표지 → 인사말 → 1일차 → 2일차 같은 흐름으로요. 잘못 넣은 이미지는 삭제하고, 실수했다면 Ctrl+Z로 되돌릴 수 있습니다.</p>
+  <h3>3. 1일차·2일차로 나누기 (선택)</h3>
+  <p>프로그램이 여러 날이라면 "그룹" 기능으로 날짜별로 나눠, 각각 별도의 슬라이드 파일로 만들 수 있습니다. 전체를 하나로 만들 수도 있고요.</p>
+  <h3>4. 제목과 색상 설정</h3>
+  <p>행사 이름을 제목으로 넣고, 행사 분위기에 맞는 배경색·강조색을 고릅니다. 학회라면 차분한 네이비에 골드 강조가 잘 어울립니다.</p>
+  <h3>5. 다운로드</h3>
+  <p>"전체 다운로드"를 누르면 HTML 파일 하나가 저장됩니다. 이 파일을 열면 바로 슬라이드가 작동합니다. 모든 이미지가 파일 안에 포함되어 있어, 인터넷 없이도 열립니다.</p>
+
+  <div class="cta-box">
+    <h3>🐋 지금 바로 만들어 보세요</h3>
+    <p>캐러셀 메이커는 무료이며, 파일이 서버로 전송되지 않습니다. 모든 작업은 브라우저 안에서만 이루어집니다.</p>
+    <a href="carousel.html" class="cta-btn">캐러셀 메이커 열기 →</a>
+  </div>
+
+  <h2>참석자에게 링크로 공유하기</h2>
+  <p>다운로드한 HTML 파일을 그대로 카카오톡이나 이메일로 보내도 열립니다. 하지만 <strong>웹 링크(URL)로 공유</strong>하면 더 깔끔합니다. 무료 호스팅 서비스인 Netlify Drop(app.netlify.com/drop)에 파일을 올리면 인터넷 주소가 만들어지고, 그 링크를 안내문이나 단체 채팅방에 공유하면 됩니다.</p>
+  <p>참석자는 링크를 누르기만 하면 휴대폰에서 바로 프로그램을 넘겨볼 수 있습니다. 인쇄물 배포나 무거운 PDF 다운로드가 필요 없습니다.</p>
+
+  <h2>자주 묻는 질문</h2>
+  <h3>이미지가 서버에 올라가나요?</h3>
+  <p>아니요. 모든 작업은 사용자의 브라우저 안에서만 이루어집니다. 이미지가 외부로 전송되지 않으니 미공개 행사 자료도 안심하고 사용할 수 있습니다.</p>
+  <h3>휴대폰에서도 만들 수 있나요?</h3>
+  <p>네. 다만 여러 이미지를 올리고 순서를 정하는 작업은 PC가 더 편합니다. 만든 슬라이드를 보는 것은 휴대폰에서도 완벽하게 작동합니다.</p>
+  <h3>나중에 수정할 수 있나요?</h3>
+  <p>네. "기존 HTML 불러와서 편집" 기능으로 예전에 만든 파일을 다시 불러와 이미지나 색상을 바꿀 수 있습니다.</p>
+
+  <div class="related">
+    <h3>관련 도구</h3>
+    <p><a href="carousel.html">캐러셀 메이커</a> · <a href="jpg-to-pdf.html">JPG→PDF 변환</a> · <a href="pdf-editor.html">PDF 편집기</a></p>
+  </div>
+</div>
+<div class="i18n-en">
+  <div class="crumb"><a href="index.html">fuego</a> › Guide</div>
+  <h1>How to turn an event program into a swipeable mobile slideshow</h1>
+  <p class="lead">Is your event program a single long vertical image that's painful to read on a phone? Turning it into a left/right swipeable slideshow makes it far nicer. Here's how to make one for free, with no install or sign-up.</p>
+
+  <h2>Why a slideshow works better</h2>
+  <p>Conference and seminar programs are usually made as one long image or PDF. But on a phone, the text is tiny and you have to keep zooming and scrolling. That's frustrating for attendees.</p>
+  <p>If you split the program into sections and make a <strong>left/right swipeable slideshow (carousel)</strong>, each screen shows one part, filling the display. Swiping with a finger is intuitive, and you can share it with a single link — no printouts needed.</p>
+
+  <h2>What you'll need</h2>
+  <ul>
+    <li>Your program images (ideally split into separate images)</li>
+    <li>A web browser (Chrome, Edge, Safari, etc.)</li>
+  </ul>
+  <div class="note">💡 If your program is one long image, cropping it into sections first (e.g. cover, Day 1, Day 2) gives a cleaner result. Use a screenshot tool or image editor to crop the parts.</div>
+
+  <h2>Step by step</h2>
+  <h3>1. Upload images</h3>
+  <p>Open Carousel Maker and drag in your split program images, or click to upload them all at once. They're auto-sorted by file name (01, 02, 03…), so numbering your files makes it easy.</p>
+  <h3>2. Arrange the order</h3>
+  <p>Drag images into the order you want — for example, cover → greeting → Day 1 → Day 2. Delete any wrong images, and press Ctrl+Z to undo a mistake.</p>
+  <h3>3. Split into Day 1 / Day 2 (optional)</h3>
+  <p>If your program spans several days, use the "Groups" feature to split by date and create a separate slideshow file for each. You can also keep everything as one.</p>
+  <h3>4. Set the title and colors</h3>
+  <p>Enter the event name as the title and pick background and accent colors that fit the mood. For an academic event, a calm navy with gold accents works well.</p>
+  <h3>5. Download</h3>
+  <p>Click "Download all" to save a single HTML file. Open it and the slideshow works right away. All images are embedded in the file, so it even opens offline.</p>
+
+  <div class="cta-box">
+    <h3>🐋 Try it right now</h3>
+    <p>Carousel Maker is free, and your files are never sent to a server. Everything happens in your browser.</p>
+    <a href="carousel.html" class="cta-btn">Open Carousel Maker →</a>
+  </div>
+
+  <h2>Share a link with attendees</h2>
+  <p>You can send the downloaded HTML file directly via messenger or email and it will open. But sharing a <strong>web link (URL)</strong> is cleaner. Upload the file to the free hosting service Netlify Drop (app.netlify.com/drop) to get an internet address, then share that link in your announcement or group chat.</p>
+  <p>Attendees just tap the link to flip through the program on their phone. No printouts, no heavy PDF downloads.</p>
+
+  <h2>FAQ</h2>
+  <h3>Are the images uploaded to a server?</h3>
+  <p>No. Everything happens in your browser. Images are never sent anywhere, so you can safely use unreleased event materials.</p>
+  <h3>Can I make it on a phone?</h3>
+  <p>Yes, though uploading several images and arranging the order is easier on a PC. Viewing the finished slideshow works perfectly on a phone.</p>
+  <h3>Can I edit it later?</h3>
+  <p>Yes. Use "Import HTML" to load a file you made before and change the images or colors.</p>
+
+  <div class="related">
+    <h3>Related tools</h3>
+    <p><a href="carousel.html">Carousel Maker</a> · <a href="jpg-to-pdf.html">JPG→PDF</a> · <a href="pdf-editor.html">PDF Editor</a></p>
+  </div>
+</div>
+</article>
+<footer><p style="margin-bottom:6px;color:var(--tm);font-size:12px">a <strong style="color:var(--ac)">With Fuego</strong> product</p><p>© 2026 <a href="index.html">푸에고</a> (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a> · 모든 파일은 브라우저에서만 처리됩니다.</p></footer>
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+function trLang(){return document.documentElement.getAttribute("data-lang")==="en"?"en":"ko";}
+function setLang(l){document.documentElement.setAttribute("data-lang",l);document.documentElement.setAttribute("lang",l==="en"?"en":"ko");try{localStorage.setItem("fuego-lang",l)}catch(e){}}
+function toggleLang(){setLang(trLang()==="ko"?"en":"ko");}
+(function(){var s=null;try{s=localStorage.getItem("fuego-lang")}catch(e){}; if(s==="ko"||s==="en"){setLang(s)} else {var nv=(navigator.language||"").toLowerCase(); if(nv&&!nv.startsWith("ko"))setLang("en");}})();
+</script>
+<script>
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+</script>
+</body>
+</html>

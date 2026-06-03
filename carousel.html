@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="p52w74mCUqZMZuApk856yKlduaFd2I85WWiQ4NW9I4w" />
+<meta name="naver-site-verification" content="5ef4e68ca63bd29710ae64f43af42e21bc686d53" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>캐러셀 메이커 — 이미지로 슬라이드 만들기 | 푸에고</title>
+<meta name="description" content="이미지를 올리고 순서를 정하면 좌우로 넘기는 HTML 슬라이드가 만들어집니다. 무료, 설치 없음, 회원가입 없음.">
+<meta name="keywords" content="캐러셀 만들기, 이미지 슬라이드 제작, HTML 슬라이드, 좌우 넘기기, 무료 도구, 슬라이드쇼">
+<meta property="og:title" content="캐러셀 메이커 — 푸에고">
+<meta property="og:description" content="이미지를 올리면 좌우로 넘기는 HTML 슬라이드가 만들어집니다. 무료, 설치 없음.">
+<meta property="og:image" content="https://fuego.kr/og-carousel.png">
+<meta property="og:url" content="https://fuego.kr/carousel.html">
+<link rel="canonical" href="https://fuego.kr/carousel.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e23b3b">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<style>
+:root{--bg:#0a0a0a;--sf:#141414;--sf2:#1c1c1c;--sf3:#242424;--bd:#2a2a2a;--bd2:#3a3a3a;--tx:#e8e8e8;--tm:#777;--ac:#e23b3b;--ach:#e85a5a;--dg:#e05555;--sc:#4caf80;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--tx);font-family:'Plus Jakarta Sans',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.site-nav{position:sticky;top:0;z-index:200;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.08)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.site-nav .dropdown{position:relative}
+.dd-btn{background:transparent;border:none;color:var(--tm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px;padding:4px 2px}
+.dd-btn:hover{color:var(--ac)}
+.dd-btn .caret{font-size:9px;transition:transform .2s}
+.dropdown.open .dd-btn .caret{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 12px);right:0;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px;min-width:300px;box-shadow:0 12px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .18s;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:300}
+.dd-panel.single{grid-template-columns:1fr;min-width:240px}
+.dropdown.open .dd-panel{opacity:1;visibility:visible;transform:translateY(0)}
+.dd-cat.full{grid-column:1/-1}
+.dd-h{font-size:11px;font-weight:700;color:var(--ac);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.dd-panel a{display:block;color:var(--tx);font-size:13px;text-decoration:none;padding:5px 8px;border-radius:6px;transition:all .15s}
+.dd-panel a:hover{background:var(--sf2);color:var(--ac)}
+.dd-panel a.cur{color:var(--ac);background:rgba(226,59,59,.08)}
+.dd-soon{font-size:12px;color:var(--tm);padding:5px 8px}
+.dd-soon .badge{font-size:9px;background:var(--sf2);color:var(--tm);padding:1px 6px;border-radius:4px;margin-left:4px}
+.dd-all{grid-column:1/-1;display:block;text-align:center;margin-top:4px;padding:9px;border-top:1px solid var(--bd);color:var(--ac)!important;font-size:12px;font-weight:600;text-decoration:none;background:none!important}.dd-all:hover{color:#fff!important}
+.nlink{color:var(--tm);font-size:12px;font-weight:500;text-decoration:none;transition:color .2s}.nlink:hover{color:var(--ac)}
+@media(max-width:560px){.dd-panel{position:fixed;left:12px;right:12px;min-width:0;grid-template-columns:1fr}}
+.site-nav .logo{font-size:18px;font-weight:800;color:var(--tx);text-decoration:none;letter-spacing:-1px}
+.site-nav .logo span{color:var(--ac)}
+.site-nav a.back{color:var(--tm);font-size:12px;text-decoration:none;transition:color .2s}
+.site-nav a.back:hover{color:var(--ac)}
+.app{max-width:960px;margin:0 auto;padding:24px 24px 80px}
+.ad-slot{max-width:728px;margin:16px auto;padding:8px;text-align:center;min-height:90px;display:flex;align-items:center;justify-content:center}
+.header{text-align:center;margin-bottom:28px}
+.header h1{font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.header h1 em{font-style:normal;color:var(--ac)}
+.header p{font-size:13px;color:var(--tm);font-weight:300}
+/* Steps indicator */
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+.step-pill{font-size:11px;color:var(--tm);background:var(--sf);border:1px solid var(--bd);padding:5px 12px;border-radius:16px;transition:all .3s}
+.step-pill.done{color:var(--ac);border-color:rgba(201,168,76,.3)}
+.top-bar{display:flex;gap:8px;justify-content:flex-end;margin-bottom:20px;flex-wrap:wrap}
+[data-lang="en"] .i18n-ko{display:none}
+[data-lang="ko"] .i18n-en{display:none}
+.lang-btn{background:transparent;border:1px solid var(--bd);color:var(--tm);font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .2s}
+.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
+.help-step{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--bd)}
+.help-step:last-of-type{border-bottom:none}
+.help-step .hs-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.help-step .hs-ill{flex-shrink:0;width:96px;height:72px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.help-step .hs-body h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.help-step .hs-body p{font-size:12.5px;color:var(--tm);line-height:1.65}
+.help-step .hs-body .tip{color:var(--ac);font-size:11.5px;margin-top:4px}
+@media(max-width:520px){.help-step .hs-ill{display:none}}
+.faq-section{margin-top:24px}
+.faq-section .faq-title{font-size:13px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.faq-item{border:1px solid var(--bd);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.faq-q{padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--sf2);transition:background .15s}
+.faq-q:hover{background:var(--sf3)}
+.faq-q .ar{color:var(--ac);transition:transform .2s;font-size:11px}
+.faq-item.open .faq-q .ar{transform:rotate(90deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;font-size:12.5px;color:var(--tm);line-height:1.7}
+.faq-item.open .faq-a{max-height:300px;padding:12px 14px}
+.help-cta{display:block;text-align:center;background:var(--ac);color:#fff;padding:12px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px}
+.section{margin-bottom:28px}
+.section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--tm);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.badge{background:var(--ac);color:#000;font-size:10px;padding:1px 7px;border-radius:10px;font-weight:700}
+.upload-zone{border:2px dashed var(--bd);border-radius:var(--r);padding:44px 24px;text-align:center;cursor:pointer;transition:all .25s;background:var(--sf)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--ac);background:rgba(201,168,76,.04)}
+.upload-zone .icon{font-size:32px;margin-bottom:10px;opacity:.5}
+.upload-zone .label{font-size:15px;font-weight:500;margin-bottom:6px}
+.upload-zone .sub{font-size:12px;color:var(--tm);line-height:1.6}
+.groups-bar{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.group-chip{padding:4px 12px;border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;border:1px solid var(--bd);background:var(--sf2);color:var(--tm);user-select:none}
+.group-chip:hover{border-color:var(--ac);color:var(--ac)}
+.group-chip.active{background:var(--ac);color:#000;border-color:var(--ac);font-weight:600}
+.group-chip .rx{margin-left:5px;font-size:12px;opacity:.6;cursor:pointer}
+.group-chip .rx:hover{opacity:1}
+.group-chip .gcnt{opacity:.7;font-size:10px}
+.add-group-btn{padding:4px 10px;border-radius:16px;font-size:11px;border:1px dashed var(--bd);background:transparent;color:var(--tm);cursor:pointer;font-family:inherit;transition:all .2s}
+.add-group-btn:hover{border-color:var(--ac);color:var(--ac)}
+.hint-bar{font-size:10px;color:var(--tm);text-align:center;padding:6px;opacity:.6}
+.filter-notice{display:none;font-size:11px;color:var(--ac);background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);padding:6px 12px;border-radius:6px;margin-bottom:10px;text-align:center}
+.filter-notice.show{display:block}
+.sel-bar{display:none;align-items:center;gap:8px;padding:8px 14px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;margin-bottom:10px;flex-wrap:wrap}
+.sel-bar.active{display:flex}
+.sel-bar .sel-info{font-size:11px;color:var(--ac);font-weight:600;margin-right:4px}
+.image-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.image-card{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:var(--sf2);border:2px solid transparent;cursor:grab;transition:border-color .2s,box-shadow .2s}
+.image-card:active{cursor:grabbing}
+.image-card:hover{border-color:var(--bd2)}
+.image-card img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.image-card .ob{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.image-card .ca{position:absolute;top:5px;right:5px;display:flex;gap:3px;opacity:0;transition:opacity .15s}
+.image-card:hover .ca{opacity:1}
+.cab{width:24px;height:24px;border-radius:50%;border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.cab.rep{background:rgba(58,143,212,.85)}
+.cab.del{background:rgba(224,85,85,.85)}
+.image-card .fn{position:absolute;bottom:0;left:0;right:0;padding:3px 6px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:9px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.image-card .gt{position:absolute;bottom:20px;left:5px;background:rgba(201,168,76,.85);color:#000;font-size:10px;font-weight:600;padding:1px 5px;border-radius:3px}
+.image-card.selected{border-color:var(--ac);box-shadow:0 0 0 2px rgba(201,168,76,.2)}
+.image-card .cm{position:absolute;top:5px;left:5px;width:22px;height:22px;border-radius:50%;background:var(--ac);color:#000;font-size:12px;display:none;align-items:center;justify-content:center;font-weight:700;z-index:2}
+.image-card.selected .cm{display:flex}
+.image-card.selected .ob{display:none}
+.image-card .mob-cb{position:absolute;top:5px;right:5px;width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:12px;color:transparent;backdrop-filter:blur(4px)}
+.image-card.selected .mob-cb{color:#000;background:var(--ac);border-color:var(--ac)}
+.touch-device .image-card .mob-cb{display:flex}
+.touch-device .image-card .ca{display:none!important}
+.sortable-ghost{opacity:.35}
+.sortable-chosen{box-shadow:0 0 0 2px var(--ac)}
+.size-est{font-size:11px;color:var(--tm);margin-bottom:10px;padding:8px 12px;background:var(--sf);border:1px solid var(--bd);border-radius:6px}
+.size-est .warn{color:var(--ac)}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.settings-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;font-weight:500;color:var(--tm)}
+.field input[type="text"],.field select{background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:9px 11px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;transition:border-color .2s}
+.field input[type="text"]:focus,.field select:focus{border-color:var(--ac)}
+.cpw{display:flex;align-items:center;gap:8px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:5px 10px}
+.cpw input[type="color"]{-webkit-appearance:none;appearance:none;width:28px;height:28px;border:none;border-radius:4px;cursor:pointer;background:none;padding:0}
+.cpw input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.cpw input[type="color"]::-webkit-color-swatch{border:1px solid rgba(255,255,255,.15);border-radius:4px}
+.cpw .hex{font-size:12px;color:var(--tm);font-family:monospace}
+.presets{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.preset{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .15s}
+.preset:hover{transform:scale(1.2)}
+.preset.active{border-color:var(--tx)}
+.cr{display:flex;align-items:center;gap:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:8px 12px}
+.cr input[type="range"]{flex:1;accent-color:var(--ac);cursor:pointer}
+.cr .val{font-size:12px;color:var(--ac);font-weight:600;min-width:32px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:8px;border:none;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--ac);color:#000}
+.btn-primary:hover:not(:disabled){background:var(--ach)}
+.btn-secondary{background:var(--sf3);color:var(--tx);border:1px solid var(--bd)}
+.btn-secondary:hover:not(:disabled){background:var(--bd)}
+.btn-danger{background:transparent;color:var(--dg);border:1px solid var(--dg)}
+.btn-danger:hover:not(:disabled){background:rgba(224,85,85,.1)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.mo{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:1000;backdrop-filter:blur(4px)}
+.mo.active{display:flex;align-items:center;justify-content:center}
+.modal{background:var(--sf);border-radius:12px;width:90vw;max-width:800px;max-height:85vh;overflow:hidden;border:1px solid var(--bd)}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--bd)}
+.mh h3{font-size:14px;font-weight:600}
+.mc{width:30px;height:30px;border-radius:50%;border:none;background:var(--sf3);color:var(--tx);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mb{padding:18px;overflow-y:auto;max-height:calc(85vh - 56px)}
+.pf{width:100%;height:60vh;border:1px solid var(--bd);border-radius:8px;background:#000}
+.pi{width:100%;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;padding:9px 11px;font-size:13px;color:var(--tx);font-family:inherit;outline:none;margin-bottom:14px}
+.pi:focus{border-color:var(--ac)}
+.pa{display:flex;gap:8px;justify-content:flex-end}
+.agl{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.agi{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;transition:all .15s}
+.agi:hover{border-color:var(--ac)}
+.agi.checked{border-color:var(--ac);background:rgba(201,168,76,.08)}
+.agi input[type="checkbox"]{accent-color:var(--ac);width:14px;height:14px;cursor:pointer}
+.agi label{cursor:pointer;font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sc);color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:500;z-index:2000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:28px;color:var(--tm);font-size:12px}
+.lo{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:3000;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.lo.active{display:flex}
+.spinner{width:32px;height:32px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lt{color:var(--tm);font-size:13px}
+footer{border-top:1px solid var(--bd);padding:24px;text-align:center;margin-top:40px}
+footer p{font-size:11px;color:var(--tm)}
+footer a{color:var(--tm);text-decoration:none}
+footer a:hover{color:var(--ac)}
+body{word-break:keep-all;overflow-wrap:break-word}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"캐러셀 메이커","url":"https://fuego.kr/carousel.html","applicationCategory":"UtilitiesApplication","operatingSystem":"All","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"description":"이미지를 올리고 순서를 정하면 좌우로 넘기는 HTML 슬라이드가 만들어집니다. 무료, 설치 없음, 파일 서버 전송 없음.","publisher":{"@type":"Organization","name":"With Fuego"}}
+</script>
+</head>
+<body>
+<div class="site-nav"><a href="index.html" class="logo"><img src="data:image/png;base64,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" alt="fuego" style="height:26px;width:auto;vertical-align:middle"><span style="margin-left:6px;vertical-align:middle">fuego</span></a><div class="nav-right"><div class="dropdown" id="toolsDd"><button class="dd-btn" onclick="toggleDd(event,'toolsDd')" aria-haspopup="true"><span class="i18n-ko">도구</span><span class="i18n-en">Tools</span> <span class="caret">▾</span></button><div class="dd-panel"><div class="dd-cat"><div class="dd-h">📄 <span class="i18n-ko">PDF 도구</span><span class="i18n-en">PDF tools</span></div><a href="jpg-to-pdf.html"><span class="i18n-ko">JPG → PDF 변환</span><span class="i18n-en">JPG → PDF</span></a><a href="pdf-editor.html"><span class="i18n-ko">PDF 편집기</span><span class="i18n-en">PDF Editor</span></a><a href="pdf-compress.html"><span class="i18n-ko">PDF 압축</span><span class="i18n-en">PDF Compress</span></a></div><div class="dd-cat"><div class="dd-h">🖼️ <span class="i18n-ko">이미지 도구</span><span class="i18n-en">Image tools</span></div><a href="carousel.html" class="cur"><span class="i18n-ko">캐러셀 메이커</span><span class="i18n-en">Carousel Maker</span></a><a href="image-convert.html"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a><a href="image-compress.html"><span class="i18n-ko">이미지 압축</span><span class="i18n-en">Image Compress</span></a></div><div class="dd-cat full"><div class="dd-h">🤖 <span class="i18n-ko">AI 프롬프트 도구</span><span class="i18n-en">AI prompt tools</span></div><div class="dd-soon"><span class="i18n-ko">검토 프롬프트 생성기</span><span class="i18n-en">Review Prompt Generator</span><span class="badge"><span class="i18n-ko">준비 중</span><span class="i18n-en">Soon</span></span></div></div><a href="tools.html" class="dd-all"><span class="i18n-ko">전체 도구 보기</span><span class="i18n-en">Browse all tools</span></a></div></div><div class="dropdown" id="guidesDd"><button class="dd-btn" onclick="toggleDd(event,'guidesDd')" aria-haspopup="true"><span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span> <span class="caret">▾</span></button><div class="dd-panel single"><div class="dd-cat full"><div class="dd-h">📖 <span class="i18n-ko">가이드</span><span class="i18n-en">Guides</span></div><a href="guide-image-compress.html"><span class="i18n-ko">사진 용량 줄이는 법</span><span class="i18n-en">Reduce photo size</span></a><a href="guide-photos-to-pdf.html"><span class="i18n-ko">사진을 PDF로 합치는 법</span><span class="i18n-en">Combine photos into PDF</span></a><a href="guide-webp-to-jpg.html"><span class="i18n-ko">WEBP를 JPG로 바꾸는 법</span><span class="i18n-en">Convert WEBP to JPG</span></a><a href="guide-conference-slide.html"><span class="i18n-ko">학회 프로그램 슬라이드 만들기</span><span class="i18n-en">Event program slideshow</span></a></div><a href="guides.html" class="dd-all"><span class="i18n-ko">전체 가이드 보기</span><span class="i18n-en">Browse all guides</span></a></div></div><button class="lang-btn" onclick="toggleLang()" style="margin-left:0"><span class="i18n-ko">EN</span><span class="i18n-en">한국어</span></button></div></div>
+<div class="app">
+  <div class="header"><h1><span class="i18n-ko">캐러셀 <em>메이커</em></span><span class="i18n-en"><em>Carousel</em> Maker</span></h1><p><span class="i18n-ko">이미지를 올리고 순서를 정하면 HTML 슬라이드가 만들어집니다</span><span class="i18n-en">Upload images, set the order, and get an HTML slideshow</span></p></div>
+  <div class="steps" id="steps">
+    <span class="step-pill" id="step1"><span class="i18n-ko">1. 업로드</span><span class="i18n-en">1. Upload</span></span>
+    <span class="step-pill" id="step2"><span class="i18n-ko">2. 정리</span><span class="i18n-en">2. Arrange</span></span>
+    <span class="step-pill" id="step3"><span class="i18n-ko">3. 설정</span><span class="i18n-en">3. Settings</span></span>
+    <span class="step-pill" id="step4"><span class="i18n-ko">4. 다운로드</span><span class="i18n-en">4. Download</span></span>
+  </div>
+  <div class="top-bar"><button class="btn btn-secondary btn-sm" onclick="openM('helpM')" aria-label="Help">❓ <span class="i18n-ko">사용법</span><span class="i18n-en">Help</span></button><button class="btn btn-secondary btn-sm" onclick="document.getElementById('htmlImport').click()" aria-label="Import existing HTML">📝 <span class="i18n-ko">기존 HTML 불러오기</span><span class="i18n-en">Import HTML</span></button><input type="file" id="htmlImport" accept=".html,.htm" style="display:none" onchange="importHTML(event)"></div>
+  <div class="ad-slot"></div>
+  <div class="section">
+    <div class="section-title"><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></div>
+    <div class="upload-zone" id="uz" role="button" tabindex="0" aria-label="이미지 업로드 영역. 클릭하거나 파일을 끌어다 놓으세요."><div class="icon">📂</div><div class="label"><span class="i18n-ko">클릭하거나 파일을 여기에 끌어다 놓으세요</span><span class="i18n-en">Click or drag your files here</span></div><div class="sub"><span class="i18n-ko">PNG · JPG · WEBP 형식 지원 · 여러 장 동시 업로드 가능<br>파일 이름순으로 자동 정렬됩니다</span><span class="i18n-en">PNG · JPG · WEBP · upload many at once<br>Auto-sorted by file name</span></div></div>
+    <input type="file" id="fi" multiple accept="image/*" style="display:none">
+  </div>
+  <div class="section" id="imgSec" style="display:none">
+    <div class="section-title" style="justify-content:space-between"><span><span class="i18n-ko">2. 순서 정리 &amp; 관리</span><span class="i18n-en">2. Arrange &amp; manage</span> <span class="badge" id="ic">0</span></span><button class="btn btn-secondary btn-sm" onclick="document.getElementById('fi').click()" style="text-transform:none;letter-spacing:0">＋ <span class="i18n-ko">사진 추가</span><span class="i18n-en">Add photos</span></button></div>
+    <div class="groups-bar" id="gb"></div>
+    <div class="hint-bar" id="hintBar">💡 드래그로 순서 변경 · Ctrl+클릭 개별 선택 · Shift+클릭 범위 선택 · Ctrl+A 전체 선택 · Ctrl+Z 실행 취소</div>
+    <div class="filter-notice" id="filterNotice"><span class="i18n-ko">⚠ 그룹 필터가 적용된 상태에서는 순서 변경이 제한됩니다. "전체"에서 순서를 조정하세요.</span><span class="i18n-en">⚠ Reordering is disabled while a group filter is active. Switch to "All" to reorder.</span></div>
+    <div class="sel-bar" id="selBar"><span class="sel-info" id="selInfo">0개 선택</span><button class="btn btn-secondary btn-sm" onclick="showAssign()">📁 <span class="i18n-ko">그룹 지정</span><span class="i18n-en">Assign group</span></button><button class="btn btn-danger btn-sm" onclick="delSel()">🗑 <span class="i18n-ko">삭제</span><span class="i18n-en">Delete</span></button><button class="btn btn-secondary btn-sm" onclick="clearSel()"><span class="i18n-ko">선택 해제</span><span class="i18n-en">Clear selection</span></button></div>
+    <div class="image-grid" id="ig"></div>
+  </div>
+  <div class="section" id="setSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">3. 설정</span><span class="i18n-en">3. Settings</span></div>
+    <div class="settings-grid">
+      <div class="field full"><label for="ti"><span class="i18n-ko">제목</span><span class="i18n-en">Title</span></label><input type="text" id="ti" value="" placeholder="Enter a title"></div>
+      <div class="field"><label for="bgc"><span class="i18n-ko">배경 색상</span><span class="i18n-en">Background color</span></label><div class="cpw"><input type="color" id="bgc" value="#0a1628" aria-label="배경 색상 선택"><span class="hex" id="bgh">#0a1628</span></div><div class="presets" id="bgp"></div></div>
+      <div class="field"><label for="acc"><span class="i18n-ko">강조 색상</span><span class="i18n-en">Accent color</span></label><div class="cpw"><input type="color" id="acc" value="#c9a84c" aria-label="강조 색상 선택"><span class="hex" id="ach">#c9a84c</span></div><div class="presets" id="acp"></div></div>
+      <div class="field full"><label for="qs"><span class="i18n-ko">이미지 압축 품질</span><span class="i18n-en">Image quality</span></label><div class="cr"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">낮음</span><span class="i18n-en">Low</span></span><input type="range" id="qs" min="30" max="100" value="85" aria-label="이미지 압축 품질"><span style="font-size:11px;color:var(--tm)"><span class="i18n-ko">원본</span><span class="i18n-en">Original</span></span><span class="val" id="qv">85%</span></div></div>
+    </div>
+  </div>
+  <div class="ad-slot"></div>
+  <div class="section" id="actSec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">4. 생성 &amp; 다운로드</span><span class="i18n-en">4. Generate &amp; download</span></div>
+    <div class="size-est" id="sizeEst"></div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="dlHTML('all')">⬇ <span class="i18n-ko">전체 다운로드</span><span class="i18n-en">Download all</span></button>
+      <button class="btn btn-secondary" id="grpDlBtn" style="display:none" onclick="dlHTML('each')">📦 <span class="i18n-ko">그룹별 각각 다운로드 (ZIP)</span><span class="i18n-en">Download per group (ZIP)</span></button>
+      <button class="btn btn-secondary" onclick="pvHTML()">👁 <span class="i18n-ko">미리보기</span><span class="i18n-en">Preview</span></button>
+      <button class="btn btn-danger" onclick="clearAll()"><span class="i18n-ko">전체 초기화</span><span class="i18n-en">Reset all</span></button>
+    </div>
+  </div>
+  <div class="section" id="deploySec" style="display:none">
+    <div class="section-title"><span class="i18n-ko">5. URL로 공유하기 (선택)</span><span class="i18n-en">5. Share as a URL (optional)</span></div>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:20px;">
+      <p style="font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:16px;"><span class="i18n-ko">다운로드한 HTML 파일을 URL로 만들면 링크 하나로 누구에게든 공유할 수 있습니다. 무료이며 30초면 완료됩니다.</span><span class="i18n-en">Turn your downloaded HTML file into a URL to share with a single link. Free, and takes about 30 seconds.</span></p>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="background:var(--ac);color:#000;font-size:11px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</span><span style="font-size:13px;color:var(--tx);line-height:1.6;"><span class="i18n-en">Rename your downloaded HTML file to </span><span class="i18n-ko">다운로드한 HTML 파일의 이름을 </span><strong style="color:var(--ac);">index.html</strong><span class="i18n-ko">로 변경합니다.</span><span class="i18n-en"> (rename the downloaded file to this).</span></span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="background:var(--ac);color:#000;font-size:11px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</span><span style="font-size:13px;color:var(--tx);line-height:1.6;"><span class="i18n-ko">해당 파일을 새 폴더에 넣습니다.</span><span class="i18n-en">Put the file into a new folder.</span></span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="background:var(--ac);color:#000;font-size:11px;font-weight:700;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</span><span style="font-size:13px;color:var(--tx);line-height:1.6;"><span class="i18n-ko">아래 버튼을 클릭하고, 폴더를 드래그하여 업로드하면 URL이 생성됩니다.</span><span class="i18n-en">Click the button below and drag the folder in to get a URL.</span></span></div>
+      </div>
+      <a href="https://app.netlify.com/drop" target="_blank" rel="noopener" class="btn btn-primary" style="text-decoration:none;display:inline-flex;">🚀 <span class="i18n-ko">Netlify Drop 열기 (무료)</span><span class="i18n-en">Open Netlify Drop (free)</span></a>
+      <p style="font-size:11px;color:var(--tm);margin-top:12px;"><span class="i18n-ko">회원가입 없이도 가능합니다. 가입하면 URL 이름을 변경할 수 있습니다.</span><span class="i18n-en">No sign-up required. Signing up lets you customize the URL name.</span></p>
+    </div>
+  </div>
+</div>
+  <div class="section" style="margin-top:8px">
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:22px 20px">
+      <h2 style="font-size:17px;font-weight:700;margin-bottom:12px;color:var(--tx)"><span class="i18n-ko">이미지 슬라이드(캐러셀)를 무료로 만드는 방법</span><span class="i18n-en">How to make an image slideshow (carousel) for free</span></h2>
+      <p style="font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:12px"><span class="i18n-ko">캐러셀 메이커는 여러 장의 이미지를 좌우로 넘겨보는 슬라이드(슬라이드쇼)로 만들어 주는 무료 온라인 도구입니다. 사진이나 포스터를 업로드하고 순서만 정하면, 화살표나 손가락으로 넘길 수 있는 HTML 슬라이드가 자동으로 완성됩니다. 별도의 프로그램 설치나 회원가입이 필요 없습니다.</span><span class="i18n-en">Carousel Maker is a free online tool that turns multiple images into a swipeable slideshow. Upload your photos or posters, set the order, and you get an HTML slideshow you can flip through with arrows or your finger. No installation or sign-up required.</span></p><p style="font-size:13px;color:var(--tm);line-height:1.8;margin-bottom:12px"><span class="i18n-ko">만들어진 슬라이드는 하나의 HTML 파일로 저장되어, 카카오톡·이메일로 보내거나 웹사이트에 올려 링크 하나로 공유할 수 있습니다. 모든 작업은 사용자의 브라우저 안에서만 이루어지므로 이미지가 외부 서버로 전송되지 않습니다.</span><span class="i18n-en">The result is saved as a single HTML file you can send by email or messenger, or host on a website to share with one link. Everything runs in your browser, so your images are never sent to any server.</span></p>
+      <p style="font-size:12px;font-weight:600;color:var(--tm);margin:14px 0 6px"><span class="i18n-ko">이럴 때 좋아요</span><span class="i18n-en">Great for</span></p>
+      <ul style="font-size:13px;color:var(--tm);line-height:1.7;padding-left:18px;margin-bottom:14px"><li style="margin-bottom:4px"><span class="i18n-ko">학회·행사·세미나 프로그램을 모바일에서 넘겨보게 만들 때</span><span class="i18n-en">Conference, event, or seminar programs for mobile</span></li><li style="margin-bottom:4px"><span class="i18n-ko">제품·서비스 소개를 슬라이드로 보여줄 때</span><span class="i18n-en">Product or service introductions as a slideshow</span></li><li style="margin-bottom:4px"><span class="i18n-ko">포트폴리오나 작품을 한 장씩 넘기며 보여줄 때</span><span class="i18n-en">Portfolios or artwork, one image at a time</span></li><li style="margin-bottom:4px"><span class="i18n-ko">식당 메뉴판, 전시 안내를 디지털로 만들 때</span><span class="i18n-en">Digital menus or exhibition guides</span></li></ul>
+      <p style="font-size:12px;color:var(--tm);padding-top:12px;border-top:1px solid var(--bd)"><span class="i18n-ko">다른 도구: </span><span class="i18n-en">Other tools: </span><a href="jpg-to-pdf.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">JPG→PDF 변환</span><span class="i18n-en">JPG→PDF</span></a> · <a href="image-convert.html" style="color:var(--ac);text-decoration:none"><span class="i18n-ko">이미지 포맷 변환</span><span class="i18n-en">Image Converter</span></a></p>
+    </div>
+  </div>
+<footer><p style="margin-bottom:6px;color:var(--tm);font-size:12px">a <strong style="color:var(--ac)">With Fuego</strong> product</p><p>© 2026 <a href="index.html">푸에고</a> (fuego.kr) · <a href="about.html"><span class="i18n-ko">소개</span><span class="i18n-en">About</span></a> · <a href="privacy.html"><span class="i18n-ko">개인정보처리방침</span><span class="i18n-en">Privacy</span></a> · <a href="terms.html"><span class="i18n-ko">이용약관</span><span class="i18n-en">Terms</span></a> · <a href="https://forms.gle/bbQWnsa5aQoHJ6FW8" target="_blank" rel="noopener" style="color:var(--ac);text-decoration:none">💬 <span class="i18n-ko">의견 보내기</span><span class="i18n-en">Send feedback</span></a> · <span class="i18n-ko">모든 파일은 브라우저에서만 처리됩니다.</span><span class="i18n-en">All files are processed in your browser only.</span></p></footer>
+<div class="mo" id="helpM"><div class="modal" style="max-width:620px"><div class="mh"><h3>🎠 <span class="i18n-ko">캐러셀 메이커 사용법</span><span class="i18n-en">How to use Carousel Maker</span></h3><button class="mc" onclick="closeM('helpM')" aria-label="닫기">✕</button></div><div class="mb">
+<p style="font-size:13px;color:var(--tm);line-height:1.7;margin-bottom:8px"><span class="i18n-ko">이미지를 올리고 순서를 정하면, 좌우로 넘겨보는 슬라이드(캐러셀) HTML 파일이 만들어집니다. 학회 프로그램, 포트폴리오, 메뉴판 등에 좋아요.</span><span class="i18n-en">Upload images and set the order to get a swipeable slideshow (carousel) HTML file. Great for event programs, portfolios, menus, and more.</span></p>
+<div class="help-step"><div class="hs-num">1</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="2" y="2" width="60" height="44" rx="6" fill="none" stroke="#e23b3b" stroke-width="2" stroke-dasharray="5 4"/><path d="M32 30 V16 M26 22 L32 16 L38 22" stroke="#e23b3b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="20" y="32" width="9" height="7" rx="1" fill="#e23b3b" opacity=".5"/><rect x="35" y="32" width="9" height="7" rx="1" fill="#e23b3b" opacity=".5"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">1. 이미지 업로드</span><span class="i18n-en">1. Upload images</span></h4><p><span class="i18n-ko">업로드 영역을 클릭하거나 파일을 끌어다 놓으세요. 여러 장을 한 번에 올릴 수 있어요.</span><span class="i18n-en">Click the upload area or drag your files in. You can add many at once.</span></p><p class="tip">💡 <span class="i18n-ko">파일 이름순(01, 02, 03…)으로 자동 정렬됩니다.</span><span class="i18n-en">Auto-sorted by file name (01, 02, 03…).</span></p></div></div>
+<div class="help-step"><div class="hs-num">2</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="4" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".75"/><rect x="25" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".5"/><rect x="46" y="16" width="14" height="16" rx="2" fill="#e23b3b" opacity=".35"/><path d="M19 24 H24 M22 21 L25 24 L22 27" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">2. 순서 정리</span><span class="i18n-en">2. Arrange</span></h4><p><span class="i18n-ko">이미지를 드래그해서 원하는 순서로 배치하세요. 필요 없는 이미지는 삭제할 수 있어요.</span><span class="i18n-en">Drag images into the order you want. Delete any you don't need.</span></p><p class="tip">💡 <span class="i18n-ko">잘못했다면 Ctrl+Z로 되돌릴 수 있어요.</span><span class="i18n-en">Made a mistake? Press Ctrl+Z to undo.</span></p></div></div>
+<div class="help-step"><div class="hs-num">3</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="8" y="10" width="20" height="12" rx="2" fill="#e23b3b" opacity=".6"/><rect x="8" y="26" width="20" height="12" rx="2" fill="#5a78c8" opacity=".7"/><rect x="34" y="13" width="16" height="5" rx="2.5" fill="#e23b3b"/><rect x="34" y="29" width="16" height="5" rx="2.5" fill="#5a78c8"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">3. 그룹 나누기</span><span class="i18n-en">3. Split into groups</span> <span style="font-weight:400;color:var(--tm)">(<span class="i18n-ko">선택</span><span class="i18n-en">optional</span>)</span></h4><p><span class="i18n-ko">여러 슬라이드로 나누고 싶다면 그룹을 만들어 이미지를 분류하세요. 예: "1일차", "2일차". 그룹별로 따로 다운로드할 수 있어요.</span><span class="i18n-en">To split into several slideshows, create groups and sort images into them (e.g. "Day 1", "Day 2"). You can download each group separately.</span></p></div></div>
+<div class="help-step"><div class="hs-num">4</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="8" y="12" width="48" height="7" rx="2" fill="#e23b3b" opacity=".3"/><circle cx="14" cy="32" r="6" fill="#0a1628" stroke="#555" stroke-width="1"/><circle cx="30" cy="32" r="6" fill="#e23b3b"/><circle cx="46" cy="32" r="6" fill="#5a9bd5"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">4. 제목 &amp; 색상 설정</span><span class="i18n-en">4. Title &amp; colors</span></h4><p><span class="i18n-ko">슬라이드 제목을 입력하고, 배경색과 강조색을 골라 분위기를 맞추세요. 이미지 품질도 조절할 수 있어요.</span><span class="i18n-en">Enter a title and pick background and accent colors to set the mood. You can also adjust image quality.</span></p></div></div>
+<div class="help-step"><div class="hs-num">5</div><div class="hs-ill"><svg width="64" height="48" viewBox="0 0 64 48"><rect x="20" y="6" width="24" height="30" rx="2" fill="#e23b3b" opacity=".25" stroke="#e23b3b" stroke-width="1.5"/><path d="M32 30 V18 M27 25 L32 30 L37 25" stroke="#e23b3b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="16" y="40" width="32" height="4" rx="2" fill="#e23b3b"/></svg></div><div class="hs-body"><h4><span class="i18n-ko">5. 다운로드 &amp; 공유</span><span class="i18n-en">5. Download &amp; share</span></h4><p><span class="i18n-ko">"전체 다운로드"를 누르면 HTML 파일이 저장됩니다. 이 파일을 열면 바로 슬라이드가 작동해요. 링크로 공유하려면 아래 5번 안내(URL로 공유하기)를 참고하세요.</span><span class="i18n-en">Click "Download all" to save the HTML file. Open it and the slideshow just works. To share via a link, see "Share as a URL" (section 5) below.</span></p></div></div>
+<div class="faq-section">
+<div class="faq-title"><span class="i18n-ko">자주 묻는 질문</span><span class="i18n-en">FAQ</span></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">캐러셀이 뭔가요?</span><span class="i18n-en">What is a carousel?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">좌우로 넘겨보는 이미지 슬라이드를 말해요. 사진을 한 장씩 화살표나 손가락으로 넘겨볼 수 있는 형태입니다. 발표 자료나 프로그램 안내를 깔끔하게 보여줄 때 좋아요.</span><span class="i18n-en">It's a swipeable image slideshow. You flip through photos one at a time with arrows or your finger. Great for clean presentations or program guides.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">만든 파일을 어떻게 공유하나요?</span><span class="i18n-en">How do I share what I make?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">다운로드한 HTML 파일을 카톡이나 이메일로 그대로 보내면 상대방이 열어볼 수 있어요. 웹 링크(URL)로 공유하고 싶다면, 화면 아래 "URL로 공유하기" 안내를 따라 무료로 인터넷 주소를 만들 수 있습니다.</span><span class="i18n-en">Send the downloaded HTML file by email or messenger and the recipient can open it. To share via a web link, follow "Share as a URL" below to create a free address.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">제 사진이 서버에 올라가나요?</span><span class="i18n-en">Are my photos uploaded to a server?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">아니요. 모든 작업은 사용자의 브라우저 안에서만 이루어집니다. 사진이 인터넷 어디로도 전송되지 않으며, 페이지를 닫으면 즉시 사라져요. 안심하고 사용하셔도 됩니다.</span><span class="i18n-en">No. Everything happens in your browser. Your photos are never sent anywhere and disappear the moment you close the page.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">휴대폰에서도 되나요?</span><span class="i18n-en">Does it work on mobile?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">네. PC, 태블릿, 스마트폰 모두에서 작동합니다. 모바일에서는 이미지를 길게 눌러 드래그하면 순서를 바꿀 수 있어요.</span><span class="i18n-en">Yes. It works on desktop, tablet, and phone. On mobile, press and hold an image, then drag to reorder.</span></div></div>
+<div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span class="i18n-ko">이미 만든 슬라이드를 수정할 수 있나요?</span><span class="i18n-en">Can I edit a slideshow I already made?</span><span class="ar">▶</span></div><div class="faq-a"><span class="i18n-ko">네. 상단의 "기존 HTML 불러오기" 버튼으로 예전에 만든 HTML 파일을 불러와 수정할 수 있어요. 여러 파일을 잇따라 불러오면 이미지가 이어붙어서, 여러 슬라이드를 하나로 합칠 수도 있어요.</span><span class="i18n-en">Yes. Use "Import HTML" at the top to load a file you made before and edit it. Import several files in a row and the images are appended, so you can merge multiple slideshows into one.</span></div></div>
+</div>
+<a class="help-cta" onclick="closeM('helpM')" style="cursor:pointer"><span class="i18n-ko">시작하기 →</span><span class="i18n-en">Get started →</span></a>
+</div></div></div>
+<div class="mo" id="pvM"><div class="modal"><div class="mh"><h3><span class="i18n-ko">미리보기</span><span class="i18n-en">Preview</span></h3><button class="mc" onclick="closeM('pvM')" aria-label="닫기">✕</button></div><div class="mb"><iframe class="pf" id="pvF" title="슬라이드 미리보기"></iframe></div></div></div>
+<div class="mo" id="prM"><div class="modal" style="max-width:400px"><div class="mh"><h3><span class="i18n-ko">그룹 추가</span><span class="i18n-en">Add group</span></h3><button class="mc" onclick="closeM('prM')" aria-label="닫기">✕</button></div><div class="mb"><input type="text" class="pi" id="prI" placeholder="Group name (e.g. Day 1)" onkeydown="if(event.key==='Enter')confirmPr()"><div class="pa"><button class="btn btn-secondary btn-sm" onclick="closeM('prM')"><span class="i18n-ko">취소</span><span class="i18n-en">Cancel</span></button><button class="btn btn-primary btn-sm" onclick="confirmPr()"><span class="i18n-ko">확인</span><span class="i18n-en">OK</span></button></div></div></div></div>
+<div class="mo" id="asM"><div class="modal" style="max-width:400px"><div class="mh"><h3><span class="i18n-ko">그룹 지정</span><span class="i18n-en">Assign group</span></h3><button class="mc" onclick="closeM('asM')" aria-label="닫기">✕</button></div><div class="mb"><p style="font-size:12px;color:var(--tm);margin-bottom:10px"><span class="i18n-ko">선택한 이미지에 지정할 그룹을 선택하세요</span><span class="i18n-en">Choose a group to assign to the selected images</span></p><div class="agl" id="agl"></div><div style="display:flex;gap:6px;margin-bottom:14px"><input type="text" class="pi" id="newGrpInAssign" placeholder="New group name" style="margin-bottom:0;flex:1" onkeydown="if(event.key==='Enter')addGrpInAssign()"><button class="btn btn-secondary btn-sm" onclick="addGrpInAssign()">+ <span class="i18n-ko">추가</span><span class="i18n-en">Add</span></button></div><div class="pa"><button class="btn btn-secondary btn-sm" onclick="closeM('asM')"><span class="i18n-ko">취소</span><span class="i18n-en">Cancel</span></button><button class="btn btn-primary btn-sm" onclick="confirmAs()"><span class="i18n-ko">적용</span><span class="i18n-en">Apply</span></button></div></div></div></div>
+<div class="lo" id="loO"><div class="spinner"></div><div class="lt" id="loT">처리 중...</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="ri" accept="image/*" style="display:none">
+<script>
+function trLang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'ko';}
+function tr(ko,en){return trLang()==='en'?en:ko;}
+function setLang(l){document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l==='en'?'en':'ko');try{localStorage.setItem('fuego-lang',l)}catch(e){}}
+function applyLang(){try{setHintBar();render();renderGb();updSize();updSelBar();updSteps();}catch(e){}}
+function toggleLang(){setLang(trLang()==='ko'?'en':'ko');applyLang();}
+(function(){var s=null;try{s=localStorage.getItem('fuego-lang')}catch(e){}; if(s==='ko'||s==='en'){setLang(s)} else {var nv=(navigator.language||'').toLowerCase(); if(nv&&!nv.startsWith('ko'))setLang('en');}})();
+function setHintBar(){var h=document.getElementById('hintBar');if(!h)return;h.textContent=isTouch?tr('💡 드래그로 순서 변경 · 체크박스로 선택','💡 Drag to reorder · tap the checkbox to select'):tr('💡 드래그로 순서 변경 · Ctrl+클릭 개별 선택 · Shift+클릭 범위 선택 · Ctrl+A 전체 선택 · Ctrl+Z 실행 취소','💡 Drag to reorder · Ctrl+click to select · Shift+click for a range · Ctrl+A select all · Ctrl+Z undo');}
+let imgs=[],groups=[],selIds=new Set(),filter='all',idc=0,repId=null,lastClickIdx=null;
+let history=[];const MAX_HIST=10;let sortableInst=null;
+const isTouch='ontouchstart'in window||navigator.maxTouchPoints>0;
+const THUMB_MAX=400;
+if(isTouch)document.body.classList.add('touch-device');
+window.addEventListener('DOMContentLoaded',()=>{setHintBar()});
+
+const bgPr=[{c:'#0a1628',l:'네이비',le:'Navy'},{c:'#1a1a2e',l:'다크블루',le:'Dark blue'},{c:'#0d1b2a',l:'딥네이비',le:'Deep navy'},{c:'#000000',l:'블랙',le:'Black'},{c:'#1b1b1b',l:'차콜',le:'Charcoal'},{c:'#0d1117',l:'깃허브 다크',le:'GitHub dark'},{c:'#1a0a2e',l:'다크퍼플',le:'Dark purple'},{c:'#0a1a0a',l:'다크그린',le:'Dark green'},{c:'#2d1810',l:'다크브라운',le:'Dark brown'},{c:'#1a1a1a',l:'앤트러사이트',le:'Anthracite'},{c:'#ffffff',l:'화이트',le:'White'},{c:'#f5f0e8',l:'크림',le:'Cream'},{c:'#f0f4f8',l:'라이트블루',le:'Light blue'},{c:'#f5f5f5',l:'라이트그레이',le:'Light gray'}];
+const acPr=[{c:'#c9a84c',l:'골드',le:'Gold'},{c:'#e0c06a',l:'라이트골드',le:'Light gold'},{c:'#3a6ea5',l:'블루',le:'Blue'},{c:'#5b9bd5',l:'스카이블루',le:'Sky blue'},{c:'#2196f3',l:'브라이트블루',le:'Bright blue'},{c:'#e05555',l:'레드',le:'Red'},{c:'#ff7043',l:'코랄',le:'Coral'},{c:'#e67e22',l:'오렌지',le:'Orange'},{c:'#f5c542',l:'옐로우',le:'Yellow'},{c:'#4caf80',l:'그린',le:'Green'},{c:'#26a69a',l:'틸',le:'Teal'},{c:'#1abc9c',l:'민트',le:'Mint'},{c:'#8bc34a',l:'라임',le:'Lime'},{c:'#9b59b6',l:'퍼플',le:'Purple'},{c:'#e91e8f',l:'핑크',le:'Pink'},{c:'#607d8b',l:'슬레이트',le:'Slate'}];
+function initPr(){bPr('bgp','bgc','bgh','#0a1628',bgPr);bPr('acp','acc','ach','#c9a84c',acPr)}
+function bPr(ci,ii,hi,dv,pr){const c=document.getElementById(ci);pr.forEach(p=>{const d=document.createElement('div');d.className='preset'+(p.c===dv?' active':'');d.style.background=p.c;if(['#ffffff','#f5f0e8','#f0f4f8','#f5f5f5'].includes(p.c))d.style.border='2px solid #555';d.title=tr(p.l,p.le||p.l);d.setAttribute('role','button');d.setAttribute('aria-label',tr(p.l+' 색상',(p.le||p.l)+' color'));d.onclick=()=>{document.getElementById(ii).value=p.c;document.getElementById(hi).textContent=p.c;c.querySelectorAll('.preset').forEach(x=>x.classList.remove('active'));d.classList.add('active');if(ci==='bgp'||ci==='acp')updSteps()};c.appendChild(d)})}
+initPr();
+document.getElementById('bgc').addEventListener('input',function(){document.getElementById('bgh').textContent=this.value;document.getElementById('bgp').querySelectorAll('.preset').forEach(x=>x.classList.remove('active'))});
+document.getElementById('acc').addEventListener('input',function(){document.getElementById('ach').textContent=this.value;document.getElementById('acp').querySelectorAll('.preset').forEach(x=>x.classList.remove('active'))});
+document.getElementById('qs').addEventListener('input',function(){document.getElementById('qv').textContent=this.value+'%';updSize()});
+
+// Steps indicator
+function updSteps(){
+  document.getElementById('step1').classList.toggle('done',imgs.length>0);
+  document.getElementById('step2').classList.toggle('done',imgs.length>0);
+  document.getElementById('step3').classList.toggle('done',document.getElementById('ti').value.length>0);
+  document.getElementById('step4').classList.toggle('done',false);
+}
+document.getElementById('ti').addEventListener('input',updSteps);
+
+// Undo
+function pushHist(){history.push(imgs.map(i=>({...i,groups:new Set(i.groups)})));if(history.length>MAX_HIST)history.shift()}
+function undo(){if(!history.length){toast(tr('되돌릴 작업이 없습니다','Nothing to undo'));return}imgs=history.pop();selIds.clear();lastClickIdx=null;updSelBar();render();renderGb();updSize();toast(tr('실행 취소됨','Undone'))}
+
+// Thumbnail generation
+async function makeThumb(dataUrl){return new Promise(res=>{const i=new Image();i.onload=()=>{let w=i.naturalWidth,h=i.naturalHeight;if(w<=THUMB_MAX&&h<=THUMB_MAX){res(dataUrl);return}const sc=THUMB_MAX/Math.max(w,h);const c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(h*sc);c.getContext('2d').drawImage(i,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.8))};i.onerror=()=>res(dataUrl);i.src=dataUrl})}
+
+// Upload
+const uz=document.getElementById('uz'),fi=document.getElementById('fi');
+uz.addEventListener('click',()=>fi.click());
+uz.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fi.click()}});
+uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover')});
+uz.addEventListener('dragleave',()=>uz.classList.remove('dragover'));
+uz.addEventListener('drop',e=>{e.preventDefault();uz.classList.remove('dragover');hFiles(e.dataTransfer.files)});
+fi.addEventListener('change',e=>{hFiles(e.target.files);fi.value=''});
+async function hFiles(files){const a=Array.from(files).filter(f=>f.type.startsWith('image/'));if(!a.length)return;a.sort((x,y)=>x.name.localeCompare(y.name,undefined,{numeric:true}));showLd(tr('이미지 불러오는 중...','Loading images...'));pushHist();const ni=[];for(let idx=0;idx<a.length;idx++){document.getElementById('loT').textContent=tr('이미지 불러오는 중... ','Loading images... ')+(idx+1)+'/'+a.length;const dataUrl=await readFile(a[idx]);const thumb=await makeThumb(dataUrl);ni.push({id:idc++,dataUrl,thumbUrl:thumb,name:a[idx].name,groups:new Set()})}imgs=imgs.concat(ni);hideLd();render();showSec();updGrpBtn();updSize();updSteps()}
+function readFile(file){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(file)})}
+function showSec(){['imgSec','setSec','actSec','deploySec'].forEach(id=>document.getElementById(id).style.display='')}
+
+// Import HTML
+async function importHTML(e){const file=e.target.files[0];if(!file)return;showLd(tr('HTML 분석 중...','Analyzing HTML...'));const html=await readTextFile(file);try{const doc=new DOMParser().parseFromString(html,'text/html');const slideImgs=doc.querySelectorAll('.slide img');const srcs=[];slideImgs.forEach(img=>{const src=img.getAttribute('src')||'';if(src.startsWith('data:'))srcs.push(src)});
+if(!srcs.length){hideLd();toast(tr('이 HTML에서 이미지를 찾지 못했습니다. 캐러셀 메이커로 만든 파일인지 확인해주세요.','No images found in this HTML. Make sure it was created with Carousel Maker.'));e.target.value='';return}
+const wasEmpty=imgs.length===0;
+pushHist();filter='all';
+// 첫 불러오기일 때만 제목/색상을 가져옴 (이어붙이기 시 기존 설정 유지)
+if(wasEmpty){const navTitle=doc.querySelector('.nav-title');document.getElementById('ti').value=navTitle?navTitle.textContent:doc.title||'';const sty=doc.querySelector('style');if(sty){const css=sty.textContent;const bgM=css.match(/html,body\{[^}]*background:\s*(#[0-9a-fA-F]{3,8})/);if(bgM){document.getElementById('bgc').value=bgM[1];document.getElementById('bgh').textContent=bgM[1]}const acM=css.match(/\.nav-title\{[^}]*color:\s*(#[0-9a-fA-F]{3,8})/);if(acM){document.getElementById('acc').value=acM[1];document.getElementById('ach').textContent=acM[1]}}}
+for(let i=0;i<srcs.length;i++){document.getElementById('loT').textContent=tr('이미지 처리 ','Processing image ')+(i+1)+'/'+srcs.length;const thumb=await makeThumb(srcs[i]);imgs.push({id:idc++,dataUrl:srcs[i],thumbUrl:thumb,name:'slide_'+(idc),groups:new Set()})}
+renderGb();render();updGrpBtn();updSize();updSteps();showSec();hideLd();toast(wasEmpty?tr('HTML에서 '+srcs.length+'장을 불러왔습니다. 다른 HTML을 또 불러오면 이어붙습니다','Loaded '+srcs.length+' image(s). Import another HTML to append more.'):tr(srcs.length+'장을 기존 작업에 이어붙였습니다','Appended '+srcs.length+' image(s) to your current work.'))}catch(err){hideLd();toast(tr('HTML 파일을 분석할 수 없습니다. 올바른 캐러셀 파일인지 확인해주세요.','Could not read the HTML file. Make sure it is a valid carousel file.'))}e.target.value=''}
+function readTextFile(file){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsText(file)})}
+
+// Replace
+const ri=document.getElementById('ri');
+ri.addEventListener('change',async function(e){if(!e.target.files.length||repId===null)return;const f=e.target.files[0];pushHist();const dataUrl=await readFile(f);const thumb=await makeThumb(dataUrl);const img=imgs.find(i=>i.id===repId);if(img){img.dataUrl=dataUrl;img.thumbUrl=thumb;img.name=f.name;render();updSize();toast(tr('이미지가 교체되었습니다','Image replaced'))}repId=null;this.value=''});
+function repImg(id){repId=id;ri.click()}
+
+// Groups
+function showAddGroup(){document.getElementById('prI').value='';openM('prM');setTimeout(()=>document.getElementById('prI').focus(),100)}
+function confirmPr(){const n=document.getElementById('prI').value.trim();if(!n)return;if(groups.includes(n)){toast(tr('이미 존재하는 그룹 이름입니다','That group name already exists'));return}groups.push(n);renderGb();updGrpBtn();closeM('prM');toast(tr('"'+n+'" 그룹이 추가되었습니다','Group "'+n+'" added'))}
+function rmGroup(n){if(!confirm(tr('"'+n+'" 그룹을 삭제하시겠습니까? 이미지는 유지됩니다.','Delete the group "'+n+'"? Images will be kept.')))return;groups=groups.filter(g=>g!==n);imgs.forEach(i=>i.groups.delete(n));if(filter===n)filter='all';renderGb();render();updGrpBtn()}
+function filterGroup(n){filter=n;renderGb();render();document.getElementById('filterNotice').classList.toggle('show',n!=='all')}
+function renderGb(){const b=document.getElementById('gb');b.innerHTML='';const mk=(txt,f)=>{const c=document.createElement('div');c.className='group-chip'+(filter===f?' active':'');c.innerHTML=txt;c.onclick=()=>filterGroup(f);b.appendChild(c)};
+mk(tr('전체','All'),'all');
+groups.forEach(g=>{const cnt=imgs.filter(i=>i.groups.has(g)).length;const c=document.createElement('div');c.className='group-chip'+(filter===g?' active':'');c.innerHTML=esc(g)+' <span class="gcnt">('+cnt+')</span> <span class="rx" onclick="event.stopPropagation();rmGroup(\''+g.replace(/'/g,"\\'")+'\')" aria-label="그룹 삭제">✕</span>';c.onclick=()=>filterGroup(g);b.appendChild(c)});
+if(groups.length>0){const u=imgs.filter(i=>i.groups.size===0).length;if(u>0)mk(tr('미분류','Ungrouped')+' <span class="gcnt">('+u+')</span>','__un')}
+const ab=document.createElement('button');ab.className='add-group-btn';ab.textContent='+ 그룹 추가';ab.onclick=showAddGroup;b.appendChild(ab)}
+function updGrpBtn(){document.getElementById('grpDlBtn').style.display=groups.length?'':'none'}
+function showAssign(){if(!selIds.size){toast(tr('이미지를 먼저 선택해주세요 (Ctrl+클릭)','Select images first (Ctrl+click)'));return}const l=document.getElementById('agl');l.innerHTML='';groups.forEach(g=>{const it=document.createElement('div');it.className='agi';it.innerHTML='<input type="checkbox" value="'+esc(g)+'"><label>'+esc(g)+'</label>';it.onclick=e=>{if(e.target.tagName!=='INPUT'){it.querySelector('input').checked=!it.querySelector('input').checked}it.classList.toggle('checked',it.querySelector('input').checked)};l.appendChild(it)});document.getElementById('newGrpInAssign').value='';openM('asM')}
+function addGrpInAssign(){const inp=document.getElementById('newGrpInAssign');const n=inp.value.trim();if(!n)return;if(groups.includes(n)){toast(tr('이미 존재하는 그룹 이름입니다','That group name already exists'));return}groups.push(n);renderGb();updGrpBtn();inp.value='';const l=document.getElementById('agl');const it=document.createElement('div');it.className='agi checked';it.innerHTML='<input type="checkbox" value="'+esc(n)+'" checked><label>'+esc(n)+'</label>';it.onclick=e=>{if(e.target.tagName!=='INPUT'){it.querySelector('input').checked=!it.querySelector('input').checked}it.classList.toggle('checked',it.querySelector('input').checked)};l.appendChild(it);toast(tr('"'+n+'" 그룹이 추가되었습니다','Group "'+n+'" added'))}
+function confirmAs(){const ck=Array.from(document.querySelectorAll('#agl input:checked')).map(c=>c.value);if(!ck.length){toast(tr('지정할 그룹을 선택해주세요','Choose a group to assign'));closeM('asM');return}pushHist();imgs.forEach(i=>{if(selIds.has(i.id))ck.forEach(g=>i.groups.add(g))});closeM('asM');render();renderGb();toast(tr(selIds.size+'장의 이미지에 그룹이 지정되었습니다',selIds.size+' image(s) assigned to the group'))}
+
+// Selection
+function handleCardClick(e,img){if(e.target.closest('.cab')||e.target.closest('.mob-cb'))return;const fl=getFl();const ci=fl.indexOf(img);if(e.shiftKey&&lastClickIdx!==null){const s=Math.min(lastClickIdx,ci),en=Math.max(lastClickIdx,ci);for(let i=s;i<=en;i++)selIds.add(fl[i].id)}else if(e.ctrlKey||e.metaKey){if(selIds.has(img.id))selIds.delete(img.id);else selIds.add(img.id);lastClickIdx=ci}else{if(selIds.size<=1&&selIds.has(img.id)){selIds.clear();lastClickIdx=null}else{selIds.clear();selIds.add(img.id);lastClickIdx=ci}}updSelBar();render()}
+function handleMobCb(e,id){e.stopPropagation();if(selIds.has(id))selIds.delete(id);else selIds.add(id);updSelBar();render()}
+function clearSel(){selIds.clear();lastClickIdx=null;updSelBar();render()}
+function updSelBar(){const bar=document.getElementById('selBar');if(selIds.size>0){bar.classList.add('active');document.getElementById('selInfo').textContent=selIds.size+tr('개 선택',' selected')}else bar.classList.remove('active')}
+
+// Render with thumbnails + SortableJS
+function render(){const g=document.getElementById('ig');g.innerHTML='';const fl=getFl();document.getElementById('ic').textContent=imgs.length+(filter!=='all'?(' ('+fl.length+tr('개 표시',' shown')+')'):'');if(!fl.length){g.innerHTML='<div class="empty">'+tr('표시할 이미지가 없습니다','No images to show')+'</div>';return}
+fl.forEach(img=>{const c=document.createElement('div');c.className='image-card'+(selIds.has(img.id)?' selected':'');c.dataset.id=img.id;const gt=img.groups.size?Array.from(img.groups).join(', '):'';
+c.innerHTML='<img src="'+img.thumbUrl+'" alt="'+esc(img.name)+'" loading="lazy"><div class="ob">'+(imgs.indexOf(img)+1)+'</div><div class="ca"><button class="cab rep" title="이미지 교체" aria-label="이미지 교체" onclick="event.stopPropagation();repImg('+img.id+')">↻</button><button class="cab del" title="삭제" aria-label="이미지 삭제" onclick="event.stopPropagation();delOne('+img.id+')">✕</button></div><div class="cm">✓</div><div class="mob-cb" onclick="handleMobCb(event,'+img.id+')" role="checkbox" aria-label="선택">'+(selIds.has(img.id)?'✓':'')+'</div>'+(gt?'<div class="gt">'+esc(gt)+'</div>':'')+'<div class="fn">'+esc(img.name)+'</div>';
+c.addEventListener('click',e=>handleCardClick(e,img));
+g.appendChild(c)});
+initSortable()}
+function getFl(){if(filter==='all')return[...imgs];if(filter==='__un')return imgs.filter(i=>i.groups.size===0);return imgs.filter(i=>i.groups.has(filter))}
+
+// SortableJS (mouse + touch)
+function initSortable(){if(sortableInst){sortableInst.destroy();sortableInst=null}const g=document.getElementById('ig');if(!g.children.length||g.querySelector('.empty'))return;
+sortableInst=Sortable.create(g,{animation:160,ghostClass:'sortable-ghost',chosenClass:'sortable-chosen',disabled:filter!=='all',delay:isTouch?120:0,delayOnTouchOnly:true,onEnd:function(evt){if(filter!=='all')return;const ids=Array.from(g.children).map(c=>parseInt(c.dataset.id));pushHist();const reordered=ids.map(id=>imgs.find(i=>i.id===id)).filter(Boolean);if(reordered.length===imgs.length){imgs=reordered;render()}}})}
+
+// Size estimate
+function updSize(){const el=document.getElementById('sizeEst');if(!imgs.length){el.innerHTML='';return}let tot=0;imgs.forEach(i=>tot+=i.dataUrl.length);const q=parseInt(document.getElementById('qs').value);const est=q>=100?tot:Math.round(tot*(q/100)*0.8);const mb=(est/1024/1024).toFixed(1);el.innerHTML=tr('📊 예상 파일 크기: <strong>약 '+mb+' MB</strong> (이미지 '+imgs.length+'장)','📊 Estimated file size: <strong>~'+mb+' MB</strong> ('+imgs.length+' images)')+(mb>10?(' · <span class="warn">'+tr('⚠ 파일이 큽니다. 압축 품질을 낮추면 크기가 줄어듭니다.','⚠ Large file. Lower the quality to reduce size.')+'</span>'):'')}
+
+// Delete
+function delSel(){if(!selIds.size)return;if(!confirm(tr(selIds.size+'장의 이미지를 삭제하시겠습니까?','Delete '+selIds.size+' image(s)?')))return;pushHist();imgs=imgs.filter(i=>!selIds.has(i.id));selIds.clear();lastClickIdx=null;updSelBar();render();renderGb();updSize();toast(tr('선택한 이미지가 삭제되었습니다','Selected images deleted'))}
+function delOne(id){pushHist();imgs=imgs.filter(i=>i.id!==id);selIds.delete(id);updSelBar();render();renderGb();updSize()}
+function clearAll(){if(!imgs.length)return;if(!confirm(tr('모든 이미지와 설정을 초기화하시겠습니까?','Reset all images and settings?')))return;pushHist();imgs=[];groups=[];selIds.clear();lastClickIdx=null;filter='all';updSelBar();render();renderGb();updGrpBtn();updSize();updSteps();toast(tr('모든 이미지와 설정이 초기화되었습니다','All images and settings have been reset'))}
+
+// Compress
+async function comp(du,q){return new Promise(r=>{if(q>=100){r(du);return}const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;c.getContext('2d').drawImage(i,0,0);r(c.toDataURL('image/jpeg',q/100))};i.src=du})}
+
+// Save
+async function saveFile(blob,filename){if(window.showSaveFilePicker){try{const ext=filename.endsWith('.zip')?[{description:'ZIP',accept:{'application/zip':['.zip']}}]:[{description:'HTML',accept:{'text/html':['.html']}}];const handle=await window.showSaveFilePicker({suggestedName:filename,types:ext});const wr=await handle.createWritable();await wr.write(blob);await wr.close();return true}catch(e){if(e.name==='AbortError')return false}}const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);return true}
+
+// Generate
+function genHTML(title,bg,ac,data){const n=data.length;const r=parseInt(ac.slice(1,3),16),g=parseInt(ac.slice(3,5),16),b=parseInt(ac.slice(5,7),16);const ar=a=>'rgba('+r+','+g+','+b+','+a+')';const lr=Math.min(255,r+30),lg=Math.min(255,g+30),lb=Math.min(255,b+30);const al='#'+lr.toString(16).padStart(2,'0')+lg.toString(16).padStart(2,'0')+lb.toString(16).padStart(2,'0');const bR=parseInt(bg.slice(1,3),16),bG=parseInt(bg.slice(3,5),16),bB=parseInt(bg.slice(5,7),16);const mc=(bR+bG+bB)/3>128?'#666':'#8a9bb5';let sl=data.map(d=>'\n<div class="slide"><img src="'+d+'"></div>').join('');let dt='';for(let i=0;i<n;i++)dt+='<div class="dot'+(i===0?' active':'')+'" onclick="goTo('+i+')"></div>';return'<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<title>'+esc(title)+'</title>\n<style>\n*{margin:0;padding:0;box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;background:'+bg+';font-family:-apple-system,BlinkMacSystemFont,sans-serif}.nav-bar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba('+bR+','+bG+','+bB+',0.95);backdrop-filter:blur(12px);border-bottom:1px solid '+ar(0.15)+'}.nav-title{font-size:13px;font-weight:600;color:'+ac+';letter-spacing:1px;text-transform:uppercase}.nav-controls{display:flex;align-items:center;gap:10px}.nav-btn{width:36px;height:36px;border:1px solid '+ar(0.4)+';border-radius:50%;background:transparent;color:'+ac+';font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;user-select:none}.nav-btn:hover{background:'+ar(0.15)+'}.nav-btn:disabled{opacity:.25;cursor:default}.nav-counter{font-size:12px;color:'+mc+';min-width:46px;text-align:center}.progress-bar{position:fixed;top:56px;left:0;right:0;height:2px;background:rgba(255,255,255,0.06);z-index:100}.progress-fill{height:100%;background:linear-gradient(90deg,'+ac+','+al+');transition:width .4s ease}.slides-wrapper{position:fixed;top:58px;bottom:0;left:0;right:0;display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1)}.slide{min-width:100vw;height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:16px}.slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 4px 24px rgba(0,0,0,0.4)}.dots{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:100;background:rgba('+bR+','+bG+','+bB+',0.85);padding:6px 12px;border-radius:20px;backdrop-filter:blur(8px)}.dot{width:6px;height:6px;border-radius:50%;background:'+ar(0.25)+';transition:all .3s;cursor:pointer}.dot.active{background:'+ac+';width:20px;border-radius:3px}.hint{position:fixed;bottom:48px;left:50%;transform:translateX(-50%);font-size:11px;color:'+mc+';letter-spacing:1px;animation:fo 3s ease-in-out forwards;pointer-events:none;z-index:100}@keyframes fo{0%{opacity:0}15%{opacity:.7}75%{opacity:.7}100%{opacity:0}}.kh{position:fixed;bottom:48px;right:20px;font-size:10px;color:'+mc+';opacity:.4;z-index:100}.kh kbd{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:1px 5px;font-family:inherit;font-size:10px}@media(max-width:600px){.nav-title{font-size:10px}.slide{padding:8px}.kh{display:none}}\n</style>\n</head>\n<body>\n<div class="nav-bar"><div class="nav-title">'+esc(title)+'</div><div class="nav-controls"><button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button><span class="nav-counter" id="counter">1 / '+n+'</span><button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button></div></div>\n<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>\n<div class="slides-wrapper" id="sw">'+sl+'\n</div>\n<div class="dots" id="dots">'+dt+'</div>\n<div class="kh" id="kh"><kbd>\u2190</kbd> <kbd>\u2192</kbd></div>\n<div class="hint">\u25c0 \uc88c\uc6b0\ub85c \ub118\uaca8\ubcf4\uc138\uc694 \u25b6</div>\n<script>\nvar w=document.getElementById("sw"),n='+n+',c=0;function goTo(i){c=Math.max(0,Math.min(n-1,i));w.style.transform="translateX(-"+(c*100)+"vw)";document.getElementById("counter").textContent=(c+1)+" / "+n;document.getElementById("progress").style.width=(((c+1)/n)*100)+"%";document.getElementById("prevBtn").disabled=c===0;document.getElementById("nextBtn").disabled=c===n-1;document.querySelectorAll(".dot").forEach(function(d,j){d.className="dot"+(j===c?" active":"")});}function navigate(d){goTo(c+d);}document.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key==="ArrowDown")navigate(1);if(e.key==="ArrowLeft"||e.key==="ArrowUp")navigate(-1);});var tx=0,ty=0,sw=false;w.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;sw=false;},{passive:true});w.addEventListener("touchmove",function(e){var dx=e.touches[0].clientX-tx,dy=e.touches[0].clientY-ty;if(!sw&&Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>10)sw=true;},{passive:true});w.addEventListener("touchend",function(e){if(!sw)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)navigate(dx<0?1:-1);});if("ontouchstart" in window)document.getElementById("kh").style.display="none";goTo(0);\n<\/script>\n</body>\n</html>'}
+
+// Download
+async function dlHTML(mode){const title=document.getElementById('ti').value||'Carousel';const bg=document.getElementById('bgc').value,ac=document.getElementById('acc').value;const q=parseInt(document.getElementById('qs').value);
+if(mode==='each'&&groups.length>0){showLd(tr('그룹별 파일 생성 중...','Generating files per group...'));await new Promise(r=>setTimeout(r,50));const zip=new JSZip();let cnt=0;for(const grp of groups){const gi=imgs.filter(i=>i.groups.has(grp));if(!gi.length)continue;document.getElementById('loT').textContent=tr('"'+grp+'" 처리 중...','Processing "'+grp+'"...');const cd=[];for(const img of gi)cd.push(await comp(img.dataUrl,q));zip.file(title.replace(/[^a-zA-Z0-9\uAC00-\uD7A3]/g,'_')+'_'+grp.replace(/[^a-zA-Z0-9\uAC00-\uD7A3]/g,'_')+'.html',genHTML(title+' - '+grp,bg,ac,cd));cnt++}if(cnt===0){hideLd();toast(tr('그룹에 지정된 이미지가 없습니다','No images are assigned to any group'));return}document.getElementById('loT').textContent=tr('ZIP 생성 중...','Creating ZIP...');const zipBlob=await zip.generateAsync({type:'blob'});hideLd();if(await saveFile(zipBlob,title.replace(/[^a-zA-Z0-9\uAC00-\uD7A3]/g,'_')+'_groups.zip'))toast(tr('\u2713 '+cnt+'개 그룹 ZIP 다운로드 완료','\u2713 Downloaded ZIP with '+cnt+' groups'))}
+else{const ex=[...imgs];if(!ex.length){toast(tr('이미지를 먼저 업로드해주세요','Upload images first'));return}showLd(tr('HTML 생성 중...','Generating HTML...'));await new Promise(r=>setTimeout(r,50));const cd=[];for(let i=0;i<ex.length;i++){document.getElementById('loT').textContent=tr('이미지 처리 ','Processing image ')+(i+1)+'/'+ex.length;cd.push(await comp(ex[i].dataUrl,q))}const html=genHTML(title,bg,ac,cd);const blob=new Blob([html],{type:'text/html'});hideLd();if(await saveFile(blob,title.replace(/[^a-zA-Z0-9\uAC00-\uD7A3]/g,'_')+'.html'))toast(tr('\u2713 다운로드 완료 ('+ex.length+'장)','\u2713 Downloaded ('+ex.length+' images)'))}}
+async function pvHTML(){const ex=[...imgs];if(!ex.length){toast(tr('이미지를 먼저 업로드해주세요','Upload images first'));return}showLd(tr('미리보기 생성 중...','Generating preview...'));await new Promise(r=>setTimeout(r,50));const q=parseInt(document.getElementById('qs').value),cd=[];for(const i of ex)cd.push(await comp(i.dataUrl,q));const html=genHTML(document.getElementById('ti').value||'Carousel',document.getElementById('bgc').value,document.getElementById('acc').value,cd);document.getElementById('pvF').src=URL.createObjectURL(new Blob([html],{type:'text/html'}));hideLd();openM('pvM')}
+
+// Utils
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function openM(id){document.getElementById(id).classList.add('active')}
+function closeM(id){document.getElementById(id).classList.remove('active');if(id==='pvM')document.getElementById('pvF').src=''}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+function showLd(m){document.getElementById('loT').textContent=m;document.getElementById('loO').classList.add('active')}
+function hideLd(){document.getElementById('loO').classList.remove('active')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeM('pvM');closeM('prM');closeM('asM');closeM('helpM');if(selIds.size)clearSel()}if((e.ctrlKey||e.metaKey)&&e.key==='a'&&imgs.length&&!document.querySelector('.mo.active')){e.preventDefault();getFl().forEach(i=>selIds.add(i.id));updSelBar();render()}if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!document.querySelector('.mo.active')){e.preventDefault();undo()}});
+['pvM','prM','asM','helpM'].forEach(id=>{document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeM(id)})});
+</script>
+
+<script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script data-goatcounter="https://fuego.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+function toggleDd(e,id){e.stopPropagation();var cur=document.getElementById(id);var open=cur.classList.contains('open');document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});if(!open)cur.classList.add('open');}
+document.addEventListener('click',function(e){document.querySelectorAll('.dropdown').forEach(function(d){if(!d.contains(e.target))d.classList.remove('open');});});
+window.addEventListener('scroll',function(){document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open');});},{passive:true});
+window.addEventListener('touchmove',function(){document.querySelectorAll('.dropdown.open').forEach(function(d){d.classList.remove('open');});},{passive:true});
+</script>
+</body>
+</html>
